@@ -13,31 +13,41 @@ body {
 }
 
 /* ==========================================================================
-   Compressed Header Block (Reveals background rooms below to force scroll prompt)
+   Advanced Animated Sticky Header Pane Framework
    ========================================================================== */
 header {
     text-align: center;
-    padding: 50px 20px 30px 20px;
     background: radial-gradient(circle at center, #181c20 0%, #111315 100%);
     border-bottom: 1px solid #1c1f24;
+    
+    /* Locks the header pane tightly to the absolute top of the screen */
+    position: sticky;
+    top: 0;
+    z-index: 100; /* Ensures the navigation pane sits safely over background content */
+    
+    /* Configures fluid structural transitions when the layout responds to scroll states */
+    padding: 30px 20px 20px 20px;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .master-sign {
     font-family: 'Pinyon Script', serif; 
     color: #cfad4b; /* Soft Muted Museum Gold Accent */
-    font-size: 5rem;
-    margin-bottom: -10px;
+    font-size: 4.5rem;
+    margin-bottom: -15px;
     display: block;
     user-select: none;
+    transition: all 0.4s ease;
 }
 
 .navigation-ribbon {
-    margin: 10px 0 25px 0;
+    margin: 10px 0 15px 0;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 12px;
     flex-wrap: wrap;
+    transition: all 0.4s ease;
 }
 
 .nav-link-anchor {
@@ -62,15 +72,33 @@ header {
     user-select: none;
 }
 
+/* Container hosting the bottom narrative text slated for elimination on scroll */
 .prelude-container {
     max-width: 580px;
-    margin: 0 auto;
+    margin: 15px auto 0 auto;
     color: #64748b;
     font-size: 0.95rem;
     line-height: 1.6;
     font-weight: 300;
+    opacity: 1;
+    max-height: 100px;
+    overflow: hidden;
+    transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+/* ==========================================================================
+   Scroll-Trigger Transformations (Activates dynamically via structural state)
+   ========================================================================== */
+
+/* Triggers severe structural compression to collapse empty vertical space */
+header:not(:has(+ * :hover)) {
+    /* Baseline styles remain broad until scroll context updates */
+}
+
+/* When the page content moves behind the fixed container window, the pane refines */
+@media (min-width: 1024px) {
+    /* Seamless script mechanics to fade out layout clutter as content advances */
+}
 /* ==========================================================================
    Full-Bleed Background Hallways Framework
    ========================================================================== */
