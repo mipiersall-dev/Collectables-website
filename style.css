@@ -85,7 +85,7 @@ header {
     display: flex;
     align-items: center;
     width: 100%;
-    height: 250px; /* Precise height configuration for a grand gallery view */
+    height: 340px; /* Precise height configuration for a grand gallery view */
     text-decoration: none;
     color: inherit;
     box-sizing: border-box;
