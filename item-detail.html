@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Piersall Collection | Archive Registry</title>
+    
+    <!-- Premium Google Typography Engine -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Master design stylesheet link -->
+    <link rel="stylesheet" href="style.css?v=1.1"> 
+</head>
+<body class="parchment-vault-view">
+
+    <!-- PERSISTENT TOP NAVIGATION RIBBON -->
+    <header>
+        <a href="index.html" style="text-decoration: none; color: inherit; display: inline-block;">
+            <span class="master-sign">The Piersall Collection</span>
+        </a>
+        <div class="navigation-ribbon">
+            <a href="phaleristics.html" class="nav-link-anchor" style="color: #cfad4b;">Phaleristics</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="numismatics.html" class="nav-link-anchor">Numismatics</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="fine-arts.html" class="nav-link-anchor">Fine Arts</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="musical-instruments.html" class="nav-link-anchor">Musical Instruments</a>
+        </div>
+        <p class="prelude-container">
+            A private curated archive dedicated to the preservation and historical study of international phaleristics, legacy instrumentation, and the fine arts.
+        </p>
+    </header>
+
+    <!-- MAIN DYNAMIC SHOWCASE CONTAINER -->
+    <main class="item-showcase-container">
+        
+        <!-- TOP STAGE: VISUAL MEDIA (LEFT) VS DIRECT DATA LEDGER (RIGHT) -->
+        <div class="showcase-split-stage">
+            
+            <!-- LEFT COLUMN: Macro Window + Symmetrical 3-Thumbnail Strip -->
+            <div class="photo-exhibition-column">
+                <div class="main-hero-display">
+                    <img id="active-hero-view" src="" alt="Active Artifact View">
+                </div>
+                
+                <!-- Symmetrical row of 4 slots underneath the hero frame -->
+                <div class="thumbnail-selector-strip">
+                    <button id="thumb-obv" class="thumb-slot active" onclick="swapExhibitionPhoto(this.querySelector('img').src, this)">
+                        <img src="" alt="Obverse View">
+                    </button>
+                    <button id="thumb-rev" class="thumb-slot" onclick="swapExhibitionPhoto(this.querySelector('img').src, this)">
+                        <img src="" alt="Reverse View">
+                    </button>
+                    <button id="thumb-ang" class="thumb-slot" onclick="swapExhibitionPhoto(this.querySelector('img').src, this)">
+                        <img src="" alt="Angled View">
+                    </button>
+                    <div class="thumb-slot empty-placeholder"></div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: Clean Floating Left-Aligned Technical Ledger -->
+            <div class="metadata-ledger-column">
+                <span id="item-category" class="category-indicator-tag"></span>
+                <h2 id="item-title"></h2>
+                
+                <!-- Floating parameters directory (Zero borders or grids, clean lines) -->
+                <div class="specs-floating-directory">
+                    <div class="spec-inline-row">
+                        <span class="spec-label">Type</span>
+                        <span id="spec-type" class="spec-value"></span>
+                    </div>
+                    <div class="spec-inline-row">
+                        <span class="spec-label">Date</span>
+                        <span id="spec-date" class="spec-value"></span>
+                    </div>
+                    <div class="spec-inline-row">
+                        <span class="spec-label">Height</span>
+                        <span id="spec-height" class="spec-value"></span>
+                    </div>
+                    <div class="spec-inline-row">
+                        <span class="spec-label">Width</span>
+                        <span id="spec-width" class="spec-value"></span>
+                    </div>
+                    <div class="spec-inline-row">
+                        <span class="spec-label">Condition</span>
+                        <span id="spec-condition" class="spec-value"></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- BOTTOM STAGE: Full-Width Historical Research Essays -->
+        <div id="historical-essay-stage" class="historical-description-box">
+            <h2>Historical Registry & Research Notes</h2>
+            <!-- Dynamic essay paragraphs auto-populate directly down here -->
+        </div>
+
+    </main>
+
+    <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
+    <footer>
+        &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
+    </footer>
+
+    <!-- INJECTS THE CENTRAL DATA LEDGER STORAGE -->
+    <script src="collection-data.js"></script>
+
+    <!-- AUTOMATED DATA INJECTION ENGINE -->
+    <script>
+        // 1. Instantly parse the address extension tag (e.g., ?item=order-of-the-crown)
+        const urlParameters = new URLSearchParams(window.location.search);
+        const itemKey = urlParameters.get('item');
+
+        // 2. Fetch the corresponding record from the collection-data file
+        const itemData = MEDALS_DATA[itemKey];
+
+        if (itemData) {
+            // Update Text Nodes
+            document.getElementById('item-title').textContent = itemData.title;
+            document.getElementById('item-category').textContent = itemData.category;
+            
+            // Update Specification Records
+            document.getElementById('spec-type').textContent = itemData.specs.type;
+            document.getElementById('spec-date').textContent = itemData.specs.date;
+            document.getElementById('spec-height').textContent = itemData.specs.height;
+            document.getElementById('spec-width').textContent = itemData.specs.width;
+            document.getElementById('spec-condition').textContent = itemData.specs.condition;
+            
+            // Inject Photoshoot Media
+            document.getElementById('active-hero-view').src = itemData.photos.obverse;
+            document.getElementById('thumb-obv').querySelector('img').src = itemData.photos.obverse;
+            document.getElementById('thumb-rev').querySelector('img').src = itemData.photos.reverse;
+            document.getElementById('thumb-ang').querySelector('img').src = itemData.photos.angled;
+            
+            // Dynamic Essay Appending Loop (Zero shadows or layouts broken)
+            const essayStage = document.getElementById('historical-essay-stage');
+            itemData.research.forEach(paragraphText => {
+                const paragraphElement = document.createElement('p');
+                paragraphElement.textContent = paragraphText;
+                essayStage.appendChild(paragraphElement);
+            });
+        } else {
+            // Error handling loop if the record link is broken
+            document.getElementById('item-title').textContent = "Artifact Record Not Found";
+        }
+
+        // Photo switcher control physics
+        function swapExhibitionPhoto(imagePath, element) {
+            document.getElementById('active-hero-view').src = imagePath;
+            const slots = document.querySelectorAll('.thumb-slot');
+            slots.forEach(slot => slot.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        // Persistent animated menu scroll watcher
+        window.addEventListener('scroll', function() {
+            const headerElement = document.querySelector('header');
+            if (window.scrollY > 40) {
+                headerElement.classList.add('shrunk-pane');
+            } else {
+                headerElement.classList.remove('shrunk-pane');
+            }
+        });
+    </script>
+
+</body>
+</html>
