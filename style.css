@@ -252,19 +252,18 @@ footer {
 }
 
 .vertical-pillar-box {
-    background-color: rgba(23, 27, 31, 0.45); /* Semi-translucent casing lets backdrop reveal softly */
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background-color: #eae3cb; /* Rich antique museum ivory parchment tone */
+    border: 1px solid #d4cbb3;
     border-radius: 4px;
     text-decoration: none;
-    color: inherit;
+    color: #1c1e21; /* Flips baseline text to dark charcoal for sharp print contrast */
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 30px;
+    padding: 24px 20px; /* Reduced vertical and horizontal internal padding */
     box-sizing: border-box;
     text-align: center;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(4px); /* Immersive museum glass blur effect */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
     transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
@@ -279,42 +278,42 @@ footer {
 /* Bold Roman Style, Mixed-Case Typography Configuration */
 .vertical-pillar-box h2 {
     font-family: 'Cinzel', serif;
-    font-weight: 600; /* Distinctly bold structural thickness */
-    font-size: 1.8rem;
-    color: #ffffff;
-    margin: 0 0 15px 0;
+    font-weight: 700; /* Distinctly bold structural thickness */
+    font-size: 1.6rem; /* Scaled down slightly to balance the smaller panel scale */
+    color: #1c1e21; /* High-contrast print color matches parchment page format */
+    margin: 0 0 12px 0;
     letter-spacing: 1px;
-    text-transform: none; /* Mixed-case preservation loop overrides global uppercase defaults */
+    text-transform: none; 
     transition: color 0.25s ease;
 }
 
 .vertical-pillar-box p {
     font-family: 'Inter', sans-serif;
-    color: #64748b; /* Subdued default state text contrast color */
-    font-size: 0.9rem;
-    font-weight: 300;
-    line-height: 1.6;
+    color: #4e5866; /* Subdued dark slate color reads sharply on the light paper background */
+    font-size: 0.88rem;
+    font-weight: 400;
+    line-height: 1.5;
     margin: 0;
-    max-width: 240px;
+    max-width: 210px; /* Snug width bounds keep text blocks beautifully proportioned */
     transition: color 0.25s ease;
 }
 
 /* ==========================================================================
-   Step 2: Interactive Focus Doorway Highlights
+   Step 2: Interactive Focus Doorway Highlights (Parchment Variants)
    ========================================================================== */
 .vertical-pillar-box:hover {
-    transform: translateY(-8px); /* Subtle panel lift */
-    border-color: #cfad4b; /* Gold frame boundary activate */
-    background-color: rgba(23, 27, 31, 0.75); /* Deeper clarity focus background */
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 20px rgba(207, 173, 75, 0.1);
+    transform: translateY(-6px); /* Clean, slightly smaller upward panel hover lift */
+    border-color: #cfad4b; 
+    background-color: #f4f1ea; /* Refines to a slightly lighter, clean ivory page on focus approach */
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(207, 173, 75, 0.2);
 }
 
 .vertical-pillar-box:hover h2 {
-    color: #cfad4b; /* Shifts smoothly to Museum Gold */
+    color: #cfad4b; /* Main header text smoothly glows into brand Museum Gold */
 }
 
 .vertical-pillar-box:hover p {
-    color: #cbd5e1; /* Brightens subtext description text for legibility */
+    color: #1c1e21; /* Text sharpens directly to pure dark black on approach clarity */
 }
 
 /* 1. Compresses the empty vertical padding space inside the header bar */
