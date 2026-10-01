@@ -120,7 +120,7 @@ main,
 .vault-container,
 .item-showcase-container,
 .gallery-walk-container {
-    padding-top: 220px; /* Provides the perfect structural buffer for the open header */
+    padding-top: 250px; /* Provides the perfect structural buffer for the open header */
     transition: padding-top 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
@@ -130,7 +130,7 @@ header.scrolled ~ .vault-container,
 header.scrolled ~ .item-showcase-container,
 header.scrolled ~ .gallery-walk-container,
 header.scrolled + * .item-showcase-container {
-    padding-top: 140px; /* Snug fit tailored precisely for the collapsed header view */
+    padding-top: 170px; /* Snug fit tailored precisely for the collapsed header view */
 }
 
 /* ==========================================================================
