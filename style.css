@@ -1,6 +1,8 @@
-/* Global Reset & Base Architecture */
+/* ==========================================================================
+   Core Layout Canvas Base
+   ========================================================================== */
 body {
-    background-color: #111315;
+    background-color: #111315; /* Soft, warm matte charcoal canvas base */
     color: #e2e8f0;
     font-family: 'Inter', sans-serif;
     margin: 0;
@@ -10,7 +12,9 @@ body {
     min-height: 100vh;
 }
 
-/* Compressed Header Box */
+/* ==========================================================================
+   Compressed Header Block (Reveals background rooms below to force scroll prompt)
+   ========================================================================== */
 header {
     text-align: center;
     padding: 50px 20px 30px 20px;
@@ -20,7 +24,7 @@ header {
 
 .master-sign {
     font-family: 'Pinyon Script', serif; 
-    color: #cfad4b;
+    color: #cfad4b; /* Soft Muted Museum Gold Accent */
     font-size: 5rem;
     margin-bottom: -10px;
     display: block;
@@ -67,7 +71,9 @@ header {
     font-weight: 300;
 }
 
-/* Full-Width Gallery Walk Layout Engine */
+/* ==========================================================================
+   Full-Bleed Background Hallways Framework
+   ========================================================================== */
 .gallery-walk-container {
     width: 100%;
     margin: 0;
@@ -76,94 +82,97 @@ header {
 }
 
 .gallery-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    text-decoration: none;
-    color: inherit;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 30px 60px;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-    transition: background-color 0.25s ease;
-}
-
-/* Alternating Tones */
-.gallery-row.light-room { background-color: #f4f1ea; }
-.gallery-row.dark-room { background-color: #14171a; }
-
-/* Panoramic Image Containers */
-.display-box {
-    width: 100%;
-    height: 240px;
-    border-radius: 4px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-    transition: border-color 0.25s ease, box-shadow 0.25s ease;
-}
-
-.light-room .display-box {
-    background-color: #e5dec9;
-    border: 1px solid #d4cbb3;
-}
-.dark-room .display-box {
-    background-color: #0b0d0f;
-    border: 1px solid #23292e;
-}
-
-.display-box img {
-    max-width: 100%;
-    max-height: 100%;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.65;
-    transition: all 0.3s ease;
+    height: 250px; /* Precise height configuration for a grand gallery view */
+    text-decoration: none;
+    color: inherit;
+    box-sizing: border-box;
+    padding: 0 10%; /* Generous edge margins to balance spacing layout */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.25s ease;
 }
 
-/* Centered Over Blank Space Info Columns */
+/* --- Alternating Canvas Background Tones & Photoshoots --- */
+
+/* Light Rooms (Rich Antique Museum Ivory Parchment) */
+.gallery-row.light-room {
+    background-color: #eae3cb; /* Deeper amber values replace bright paper white */
+}
+/* Dark Rooms (Deep Matte Charcoal Arang) */
+.gallery-row.dark-room {
+    background-color: #14171a;
+}
+
+/* Pre-linking placeholder background photoshoot graphics with safe overlays */
+.gallery-row:nth-child(1) { background-image: linear-gradient(to right, rgba(234,227,203,0.95), rgba(234,227,203,0.3)), url('images/phaleristics_hub.jpg'); }
+.gallery-row:nth-child(2) { background-image: linear-gradient(to left, rgba(20,23,26,0.95), rgba(20,23,26,0.3)), url('images/numismatics_hub.jpg'); }
+.gallery-row:nth-child(3) { background-image: linear-gradient(to right, rgba(234,227,203,0.95), rgba(234,227,203,0.3)), url('images/fine_arts_hub.jpg'); }
+.gallery-row:nth-child(4) { background-image: linear-gradient(to left, rgba(20,23,26,0.95), rgba(20,23,26,0.3)), url('images/instruments_hub.jpg'); }
+
+/* ==========================================================================
+   Text Column Alignment & Spatial Correction (Relieves Central Pinched Feel)
+   ========================================================================== */
 .info-column {
     display: flex;
     flex-direction: column;
-    box-sizing: border-box;
-    max-width: 360px;
+    max-width: 380px;
+    z-index: 2;
+    position: relative;
 }
 
-.gallery-row.img-left .info-column { justify-self: center; padding-left: 20px; }
-.gallery-row.img-right .info-column { justify-self: center; padding-right: 20px; }
+/* Left/Right alignment logic maps description cleanly over the center of its half */
+.gallery-row.text-right {
+    justify-content: flex-end; /* Pushes text smoothly over to balance right half space */
+    text-align: left;
+}
 
+.gallery-row.text-left {
+    justify-content: flex-start; /* Pushes text smoothly over to balance left half space */
+    text-align: left;
+}
+
+/* Traditional Serif Typography Headings */
 .info-column h2 {
     font-family: 'Cinzel', serif;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-weight: 400;
-    margin: 0 0 10px 0;
+    margin: 0 0 8px 0;
     letter-spacing: 0.5px;
-    transition: color 0.25s ease;
+    transition: color 0.25s ease, transform 0.25s ease;
 }
 
-.light-room .info-column h2 { color: #1c1e21; }
-.dark-room .info-column h2 { color: #f1f5f9; }
+/* Dynamic contrast values matching room canvas floor */
+.light-room .info-column h2 { color: #1c1e21; } /* Dark charcoal print on ivory */
+.dark-room .info-column h2 { color: #f1f5f9; }  /* Clean off-white print on charcoal */
 
 .info-column p {
     margin: 0;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     font-weight: 300;
     line-height: 1.5;
+    letter-spacing: 0.5px;
 }
-.light-room .info-column p { color: #576375; }
-.dark-room .info-column p { color: #64748b; }
+.light-room .info-column p { color: #4e5866; }
+.dark-room .info-column p { color: #8292a6; }
 
-/* Hover Responses */
-.gallery-row:hover h2 { color: #cfad4b !important; }
-.gallery-row:hover .display-box { border-color: #cfad4b; }
-.gallery-row:hover .display-box img { transform: scale(1.03); opacity: 1; }
+/* ==========================================================================
+   Interactive Focus Transitions
+   ========================================================================== */
+.gallery-row:hover h2 {
+    color: #cfad4b !important; /* Both hallway states turn gold on focus approach */
+    transform: translateX(4px); /* Whispering layout shift highlights active doorway */
+}
 
-.gallery-row.img-left { justify-items: start; }
-.gallery-row.img-right { justify-items: end; }
-
+/* ==========================================================================
+   Estate Archive Footer
+   ========================================================================== */
 footer {
     margin-top: auto;
     background-color: #090b0c;
@@ -174,4 +183,4 @@ footer {
     color: #475569;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-}
+    }
