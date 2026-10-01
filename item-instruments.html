@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Piersall Collection | Instrument Vault Registry</title>
+    
+    <!-- Premium Google Typography Engine -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Master design stylesheet framework -->
+    <link rel="stylesheet" href="style.css?v=1.1"> 
+</head>
+<body class="parchment-vault-view">
+
+    <!-- PERSISTENT TOP NAVIGATION RIBBON -->
+    <header>
+        <a href="index.html" style="text-decoration: none; color: inherit; display: inline-block;">
+            <span class="master-sign">The Piersall Collection</span>
+        </a>
+        <div class="navigation-ribbon">
+            <a href="phaleristics.html" class="nav-link-anchor">Phaleristics</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="numismatics.html" class="nav-link-anchor">Numismatics</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="fine-arts.html" class="nav-link-anchor">Fine Arts</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="musical-instruments.html" class="nav-link-anchor" style="color: #cfad4b;">Musical Instruments</a>
+        </div>
+        <p class="prelude-container">
+            A private curated archive dedicated to the preservation and historical study of international phaleristics, legacy instrumentation, and the fine arts.
+        </p>
+    </header>
+
+    <!-- DYNAMIC INSTRUMENT SHOWCASE CONTAINER -->
+    <main class="item-showcase-container">
+        
+        <!-- TOP STAGE: VISUAL MEDIA (LEFT) VS DIRECT DATA LEDGER (RIGHT) -->
+        <div class="showcase-split-stage">
+            
+            <!-- LEFT COLUMN: Image Window + Underneath Thumbnail Strip -->
+            <div class="photo-exhibition-column">
+                <div class="main-hero-display">
+                    <img id="guitar-hero-view" src="" alt="Active Instrument View">
+                </div>
+                
+                <div class="thumbnail-selector-strip">
+                    <button id="thumb-g1" class="thumb-slot active" onclick="swapGuitarPhoto(this.querySelector('img').src, this)">
+                        <img src="" alt="Front View">
+                    </button>
+                    <button id="thumb-g2" class="thumb-slot" onclick="swapGuitarPhoto(this.querySelector('img').src, this)">
+                        <img src="" alt="Back View">
+                    </button>
+                    <button id="thumb-g3" class="thumb-slot" onclick="swapGuitarPhoto(this.querySelector('img').src, this)">
+                        <img src="" alt="Angled/Headstock View">
+                    </button>
+                    <div class="thumb-slot empty-placeholder"></div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: Tailored Left-Aligned Instrument Directory -->
+            <div class="metadata-ledger-column">
+                <!-- Fixed: Small text tag is now a direct active link back to the instrument list -->
+                <a href="musical-instruments.html" class="category-indicator-tag" style="text-decoration: none; display: inline-block;">
+                    Instruments &bull; Acoustic Vault
+                </a>
+                <h2 id="guitar-title"></h2>
+                
+                <!-- Customized Guitar Specific Specifications Matrix -->
+                <div class="specs-floating-directory">
+                    <div class="spec-inline-row">
+                        <span class="spec-label">Brand & Model</span>
+                        <span id="spec-brand" class="spec-value"></span>
+                    </div>
+                    <div class="spec-inline-row">
+                        <span class="spec-label">Year / Era</span>
+                        <span id="spec-year" class="spec-value"></span>
+                    </div>
+                    <div class="spec-inline-row">
+                        <span class="spec-label">Top Wood</span>
+                        <span id="spec-top" class="spec-value"></span>
+                    </div>
+                    <div class="spec-inline-row">
+                        <span class="spec-label">Back & Sides</span>
+                        <span id="spec-back" class="spec-value"></span>
+                    </div>
+                    <div class="spec-inline-row">
+                        <span class="spec-label">Hardware & Finish</span>
+                        <span id="spec-hardware" class="spec-value"></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- LOWER STAGE: Full-Width Luthier Narrative Essays -->
+        <div id="guitar-essay-stage" class="historical-description-box">
+            <h2>Luthier Registry & Archival Notes</h2>
+        </div>
+
+    </main>
+
+    <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
+    <footer>
+        &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
+    </footer>
+
+    <!-- INJECTS YOUR VERIFIED CENTRAL DATA LEDGER -->
+    <script src="collection-data.js"></script>
+
+    <!-- SPECIALIZED GUITAR DATA INJECTION ENGINE -->
+    <script>
+        const urlParameters = new URLSearchParams(window.location.search);
+        const instrumentKey = urlParameters.get('item');
+
+        const guitarData = MEDALS_DATA[instrumentKey];
+
+        if (guitarData) {
+            document.getElementById('guitar-title').textContent = guitarData.title;
+            
+            // Mapping your exact lowercase guitar database parameters to the instrument slots
+            document.getElementById('spec-brand').textContent = guitarData.specs.brand;
+            document.getElementById('spec-year').textContent = guitarData.specs.model;
+            document.getElementById('spec-top').textContent = guitarData.specs.type;
+            document.getElementById('spec-back').textContent = guitarData.specs.finish;
+            document.getElementById('spec-hardware').textContent = guitarData.specs.hardware;
+            
+            // Load custom photography files
+            document.getElementById('guitar-hero-view').src = guitarData.photos.obverse;
+            document.getElementById('thumb-g1').querySelector('img').src = guitarData.photos.obverse;
+            document.getElementById('thumb-g2').querySelector('img').src = guitarData.photos.reverse;
+            document.getElementById('thumb-g3').querySelector('img').src = guitarData.photos.angled;
+            
+            // Build the multi-paragraph luthier history text
+            const essayStage = document.getElementById('guitar-essay-stage');
+            guitarData.research.forEach(paragraphText => {
+                const paragraphElement = document.createElement('p');
+                paragraphElement.textContent = paragraphText;
+                essayStage.appendChild(paragraphElement);
+            });
+        } else {
+            document.getElementById('guitar-title').textContent = "Instrument Record Not Found";
+        }
+
+        function swapGuitarPhoto(imagePath, element) {
+            document.getElementById('guitar-hero-view').src = imagePath;
+            const slots = document.querySelectorAll('.thumb-slot');
+            slots.forEach(slot => slot.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        window.addEventListener('scroll', function() {
+            const headerElement = document.querySelector('header');
+            if (window.scrollY > 40) {
+                headerElement.classList.add('shrunk-pane');
+            } else {
+                headerElement.classList.remove('shrunk-pane');
+            }
+        });
+    </script>
+
+</body>
+</html>
