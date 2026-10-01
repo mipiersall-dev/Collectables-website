@@ -316,3 +316,26 @@ footer {
 .vertical-pillar-box:hover p {
     color: #cbd5e1; /* Brightens subtext description text for legibility */
 }
+
+/* 1. Compresses the empty vertical padding space inside the header bar */
+header.shrunk-pane {
+    padding: 15px 20px 15px 20px !important;
+}
+
+/* 2. Neatly scales down your signature script title size so it takes up less room */
+header.shrunk-pane .master-sign {
+    font-size: 3rem !important; 
+    margin-bottom: -5px !important;
+}
+
+/* 3. Draws the remaining text links up tightly to center them perfectly vertically */
+header.shrunk-pane .navigation-ribbon {
+    margin: 5px 0 0 0 !important; 
+}
+
+/* 4. Fades out the long prelude description text and shrinks its vertical footprint to 0 */
+header.shrunk-pane .prelude-container {
+    opacity: 0 !important; 
+    max-height: 0 !important; 
+    margin: 0 !important;
+}
