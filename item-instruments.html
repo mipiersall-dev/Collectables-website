@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Piersall Collection | Instruments </title>
+    <title>The Piersall Collection | Instrument Vault Registry</title>
     
-    <!-- Premium Google Typography Engine -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Premium Google Typography Engine (VERIFIED SUBDOMAIN PATHS) -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     
-    <!-- Master design stylesheet link -->
-    <link rel="stylesheet" href="style.css?v=1.1"> 
+    <!-- Master design stylesheet framework -->
+    <link rel="stylesheet" href="style.css?v=1.5"> 
 </head>
 <body class="parchment-vault-view">
 
@@ -62,7 +62,6 @@
 
             <!-- RIGHT COLUMN: Tailored Left-Aligned Instrument Directory -->
             <div class="metadata-ledger-column">
-                <!-- Fixed: Small text tag is now a direct active link back to the instrument list -->
                 <a href="musical-instruments.html" class="category-indicator-tag" style="text-decoration: none; display: inline-block;">
                     Instruments &bull; Acoustic Vault
                 </a>
@@ -76,15 +75,15 @@
                     </div>
                     <div class="spec-inline-row">
                         <span class="spec-label">Model</span>
-                        <span id="spec-year" class="spec-value"></span>
+                        <span id="spec-model" class="spec-value"></span>
                     </div>
                     <div class="spec-inline-row">
                         <span class="spec-label">Type</span>
-                        <span id="spec-top" class="spec-value"></span>
+                        <span id="spec-type" class="spec-value"></span>
                     </div>
                     <div class="spec-inline-row">
                         <span class="spec-label">Finish</span>
-                        <span id="spec-back" class="spec-value"></span>
+                        <span id="spec-finish" class="spec-value"></span>
                     </div>
                     <div class="spec-inline-row">
                         <span class="spec-label">Hardware</span>
@@ -94,10 +93,10 @@
             </div>
 
         </div>
-
-        <!-- LOWER STAGE: Full-Width Luthier Narrative Essays -->
+        
+<!-- LOWER STAGE: Full-Width Luthier Narrative Essays -->
         <div id="guitar-essay-stage" class="historical-description-box">
-            <h2>About this Model</h2>
+            <h2>Luthier Registry & Archival Notes</h2>
         </div>
 
     </main>
@@ -107,24 +106,25 @@
         &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
     </footer>
 
-    <!-- INJECTS YOUR VERIFIED CENTRAL DATA LEDGER -->
-    <script src="collection-data.js"></script>
+    <!-- INJECTS YOUR DECOUPLED INSTRUMENTS DATABASE MODULE -->
+    <script src="data-instruments.js"></script>
 
     <!-- SPECIALIZED GUITAR DATA INJECTION ENGINE -->
     <script>
         const urlParameters = new URLSearchParams(window.location.search);
         const instrumentKey = urlParameters.get('item');
 
-        const guitarData = MEDALS_DATA[instrumentKey];
+        // FIXED: Now maps directly to the decoupled INSTRUMENTS_DATA global array object
+        const guitarData = INSTRUMENTS_DATA[instrumentKey];
 
         if (guitarData) {
             document.getElementById('guitar-title').textContent = guitarData.title;
             
             // Mapping your exact lowercase guitar database parameters to the instrument slots
             document.getElementById('spec-brand').textContent = guitarData.specs.brand;
-            document.getElementById('spec-year').textContent = guitarData.specs.model;
-            document.getElementById('spec-top').textContent = guitarData.specs.type;
-            document.getElementById('spec-back').textContent = guitarData.specs.finish;
+            document.getElementById('spec-model').textContent = guitarData.specs.model;
+            document.getElementById('spec-type').textContent = guitarData.specs.type;
+            document.getElementById('spec-finish').textContent = guitarData.specs.finish;
             document.getElementById('spec-hardware').textContent = guitarData.specs.hardware;
             
             // Load custom photography files
@@ -135,7 +135,7 @@
             
             // Build the multi-paragraph luthier history text
             const essayStage = document.getElementById('guitar-essay-stage');
-            guitarData.research.forEach(paragraphText => {
+            guitarData.description.forEach(paragraphText => {
                 const paragraphElement = document.createElement('p');
                 paragraphElement.textContent = paragraphText;
                 essayStage.appendChild(paragraphElement);
@@ -151,13 +151,13 @@
             element.classList.add('active');
         }
 
-        // FIXED: Now maps perfectly to the .scrolled CSS engine transitions
+        // Native scroll monitor to toggle the condensed header pane
         window.addEventListener('scroll', function() {
             const headerElement = document.querySelector('header');
             if (window.scrollY > 40) {
-                headerElement.classList.add('scrolled');
+                headerElement.classList.add('shrunk-pane');
             } else {
-                headerElement.classList.remove('scrolled');
+                headerElement.classList.remove('shrunk-pane');
             }
         });
     </script>
