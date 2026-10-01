@@ -86,5 +86,27 @@ const MEDALS_DATA = {
             "The Loyal Service Cross was introduced as a versatile reward for both military bravery and meritorious civil administration.",
             "This 1st Class specimen includes the crossed swords attachment, indicating wartime action, and retains its incredibly fragile cobalt-blue and white moiré silk ribbon drape perfectly intact."
         ]
-    }
+    },
+   
+    "Yamaha C90": {
+        title: "Yamaha C90",
+        category: "Musical Instruments",
+        specs: {
+            Brand: "Yamaha",
+            Model: "c90",
+            Type: "Classical",
+            Finish: "glossy factory finish",
+            Hardware: " "
+        },
+        photos: {
+            obverse: "images/c90-f.jpg",
+            reverse: "images/c90-b.jpg",
+            angled: "images/c90-a.jpg"
+        },
+        research: [
+            "The Yamaha C90 is a full-size classical nylon-string guitar built primarily as an entry-level student instrument within Yamaha’s long-running C Series line. It was engineered specifically to offer reliable build quality and accessible playability for beginners."
+            "This guitar features an all-laminate construction that typically utilizes a layered spruce top paired with laminate back and sides, alongside a traditional wide, flat classical neck profile and a rosewood fingerboard. This design delivers a warm, soft, and rounded tone characteristic of nylon strings."
+            "The C90 is built to withstand the physical demands of daily practice. Its sturdy finish and robust structural design make it highly resilient against minor bumps and shifting humidity levels, ensuring long-lasting durability."
+        ]
+    }   
 };
