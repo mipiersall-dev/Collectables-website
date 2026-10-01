@@ -19,12 +19,11 @@ header {
 }
 
 .master-sign {
-    font-family: 'Monsieur La Doulaise', cursive;
-    color: #cfad4b; /* Soft Muted Museum Gold */
-    font-size: 4.5rem;
-    margin-bottom: -22px;
+    font-family: 'Pinyon Script', serif; /* Swapped to stately Pinyon Script with safe serif fallback */
+    color: #cfad4b;
+    font-size: 4.8rem;
+    margin-bottom: -15px;
     display: block;
-    user-select: none;
 }
 
 /* Sub-Header Interactive Ribbon Framework */
