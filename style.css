@@ -461,3 +461,174 @@ body.parchment-vault-view {
     transform: scale(1.03);
     opacity: 1;
 }
+
+/* ==========================================================================
+   Step 4: Individual Item Detail Showcase Engine (No Overlays or Shadows)
+   ========================================================================== */
+.item-showcase-container {
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 40px 40px 100px 40px;
+    box-sizing: border-box;
+}
+
+.showcase-split-stage {
+    display: grid;
+    grid-template-columns: 50% 50%; /* Locks a strict, clean side-by-side split */
+    gap: 50px;
+    margin-bottom: 60px;
+    align-items: start;
+}
+
+/* --- Left Column: Photo Exhibition System --- */
+.photo-exhibition-column {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 400px; /* Holds the spatial frame open even when images are empty */
+}
+
+.main-hero-display {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: #f4f1ea; /* Clean, matching interior matting tone */
+    border: 1px solid #d4cbb3;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.main-hero-display img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+}
+
+/* Symmetrical 4-Column Thumbnail Selector Strip Below Hero Box */
+.thumbnail-selector-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Exactly 4 slots across the row */
+    gap: 15px;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.thumb-slot {
+    aspect-ratio: 1 / 1;
+    background-color: #f4f1ea;
+    border: 1px solid #d4cbb3;
+    border-radius: 4px;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.thumb-slot img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+}
+
+.thumb-slot.active {
+    border-color: #cfad4b; /* Gold highlights only the active choice */
+    background-color: #ffffff;
+}
+
+.thumb-slot.empty-placeholder {
+    border: 1px dashed rgba(0, 0, 0, 0.1);
+    background-color: transparent;
+    pointer-events: none;
+}
+
+/* --- Right Column: Clean, Floating Left-Aligned Directory --- */
+.metadata-ledger-column {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.category-indicator-tag {
+    font-family: 'Inter', sans-serif;
+    color: #64748b;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.metadata-ledger-column h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 2.2rem;
+    font-weight: 500;
+    color: #1c1e21;
+    margin: 0 0 30px 0;
+    letter-spacing: 0.5px;
+}
+
+.specs-floating-directory {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.spec-inline-row {
+    display: flex;
+    flex-direction: column;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08); /* Clean dividers */
+    text-align: left;
+}
+
+.spec-inline-row:last-child {
+    border-bottom: none;
+}
+
+.spec-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    font-weight: 700; /* Bold Roman Style text for spec title labels */
+    color: #1c1e21;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+}
+
+.spec-value {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: #4e5866; /* Clean floating values aligned left */
+}
+
+/* --- Lower Stage: Full-Width Historical Description Essay Box --- */
+.historical-description-box {
+    width: 80%;
+    padding-top: 40px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.historical-description-box h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #1c1e21;
+    margin: 0 0 20px 0;
+    letter-spacing: 0.5px;
+}
+
+.historical-description-box p {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #4e5866;
+    margin: 0 0 20px 0;
+    font-weight: 400;
+}
