@@ -252,16 +252,16 @@ footer {
 }
 
 .vertical-pillar-box {
-    /* Fixed: Now loads your master image full-bleed inside the panel with a protective dark text overlay mask */
-    background-image: linear-gradient(rgba(17, 19, 21, 0.75), rgba(17, 19, 21, 0.75)), url('images/panel-texture.jpg');
+    /* Fixed: Removed the dark tint gradient to let your raw image display at 100% full brightness */
+    background-image: url('images/panel-texture.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     
-    border: 1px solid rgba(255, 255, 255, 0.1); /* Swapped to a subtle light border that frames the dark picture elegantly */
+    border: 1px solid rgba(255, 255, 255, 0.2); 
     border-radius: 4px;
     text-decoration: none;
-    color: #ffffff; /* Flips text back to crisp white so it pops sharply over the dark picture background */
+    color: #ffffff; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -283,23 +283,26 @@ footer {
 /* Bold Roman Style, Mixed-Case Typography Configuration */
 .vertical-pillar-box h2 {
     font-family: 'Cinzel', serif;
-    font-weight: 700; /* Distinctly bold structural thickness */
-    font-size: 1.6rem; /* Scaled down slightly to balance the smaller panel scale */
-    color: #1c1e21; /* High-contrast print color matches parchment page format */
+    font-weight: 700;
+    font-size: 1.6rem;
+    color: #ffffff; 
     margin: 0 0 12px 0;
     letter-spacing: 1px;
     text-transform: none; 
+    /* Added: A subtle drop-shadow behind the letters so they pop over bright parts of the photo */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
     transition: color 0.25s ease;
 }
 
 .vertical-pillar-box p {
     font-family: 'Inter', sans-serif;
-    color: #4e5866; /* Subdued dark slate color reads sharply on the light paper background */
+    color: #cbd5e1; /* Brightened slightly to contrast sharply over the raw image colors */
     font-size: 0.88rem;
     font-weight: 400;
     line-height: 1.5;
     margin: 0;
-    max-width: 210px; /* Snug width bounds keep text blocks beautifully proportioned */
+    max-width: 210px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
     transition: color 0.25s ease;
 }
 
