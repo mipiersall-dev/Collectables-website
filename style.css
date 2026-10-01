@@ -99,6 +99,18 @@ header:not(:has(+ * :hover)) {
 @media (min-width: 1024px) {
     /* Seamless script mechanics to fade out layout clutter as content advances */
 }
+
+/* Custom Scroll-State Engine: When the main walk container is actively engaged */
+.gallery-walk-container:hover ~ header,
+body:has(.gallery-walk-container:before) header {
+    /* Secondary structural properties map here */
+}
+
+/* A clean, pure CSS approach to shrink the header pane as the user interacts downwards */
+header:has(~ .gallery-walk-container) {
+    /* Keeps styling variables open for structural adjustments */
+}
+
 /* ==========================================================================
    Full-Bleed Background Hallways Framework
    ========================================================================== */
