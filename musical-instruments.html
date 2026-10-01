@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Piersall Collection | Instrument Vault Archive</title>
     
-    <!-- Premium Google Typography Engine -->
+    <!-- Premium Google Typography Engine (VERIFIED SUBDOMAIN PATHS) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     
-    <!-- Pulls from your master design stylesheet framework -->
-    <link rel="stylesheet" href="style.css?v=1.1"> 
+    <!-- FIXED: Pointed directly to the freshly updated master stylesheet version -->
+    <link rel="stylesheet" href="style.css?v=1.5"> 
 </head>
 <body class="parchment-vault-view">
 
@@ -35,11 +35,11 @@
         </p>
     </header>
 
-    <!-- MAIN TWO-ROW ARCHIVE EXHABITION SURFACE -->
+    <!-- MAIN TWO-ROW ARCHIVE EXHIBITION SURFACE -->
     <main class="vault-container">
         
-       <!-- ROW 1: Single Unified Historical & Generational Narrative Block -->
-        <section class="vault-narrative-row">
+        <!-- ROW 1: Single Unified Historical & Generational Narrative Block -->
+        <section class="archive-narrative-block">
             <h1>The Instrument Vault</h1>
             <p>
                 A curated survey of historical acoustic luthiery, classical string designs, and legacy instrumentation. Beyond their technical engineering, these objects represent a living generational bond—built from a family's shared love of music, where father and son grew up playing together on these very instruments. This archive preserves both the physical craftsmanship of these legacy stringed art forms and the timeless resonance of the songs passed down between them.
@@ -47,94 +47,104 @@
         </section>
 
         <!-- ROW 2: Symmetrical 8-Instrument Widescreen Matrix (2 Rows of 4 Tiles) -->
-        <section class="vault-matrix-row">
+        <!-- FIXED: Class name matched to the master 4-column display matrix rules -->
+        <section class="specimen-grid-matrix">
             
             <!-- Instrument Tile 1: Mapped to your dynamic template engine -->
-            <a href="item-instruments.html?item=Yamaha C90" class="medal-card-link">
-                <div class="medal-photo-box">
+            <a href="item-instruments.html?item=Yamaha C90" class="specimen-tile-card">
+                <div class="tile-photo-window">
                     <img src="images/c90-f.jpg" alt="Yamaha C90 Classical">
                 </div>
-                <div class="medal-meta-label">
-                    <h3>Yamaha C90</h3>
-                    <p>Classical Nylon-String</p>
-                </div>
+                <h3>Yamaha C90</h3>
+                <!-- Optional placeholder inline spec directory layout, matches your ledger structure -->
+                <ul class="tile-data-ledger">
+                    <li><strong>Type:</strong> <span>Classical Nylon</span></li>
+                    <li><strong>Era:</strong> <span>Legacy Survey</span></li>
+                </ul>
             </a>
 
             <!-- Instrument Tile 2 -->
-            <a href="item-detail.html?item=instrument-2" class="medal-card-link">
-                <div class="medal-photo-box">
+            <a href="item-instruments.html?item=instrument-2" class="specimen-tile-card">
+                <div class="tile-photo-window">
                     <img src="images/guitar-2.jpg" alt="Instrument Entry 2">
                 </div>
-                <div class="medal-meta-label">
-                    <h3>Instrument Entry 2</h3>
-                    <p>Acoustic Specification</p>
-                </div>
+                <h3>Instrument Entry 2</h3>
+                <ul class="tile-data-ledger">
+                    <li><strong>Type:</strong> <span>Acoustic Spec</span></li>
+                    <li><strong>Era:</strong> <span>Legacy Survey</span></li>
+                </ul>
             </a>
 
             <!-- Instrument Tile 3 -->
-            <a href="item-detail.html?item=instrument-3" class="medal-card-link">
-                <div class="medal-photo-box">
+            <a href="item-instruments.html?item=instrument-3" class="specimen-tile-card">
+                <div class="tile-photo-window">
                     <img src="images/guitar-3.jpg" alt="Instrument Entry 3">
                 </div>
-                <div class="medal-meta-label">
-                    <h3>Instrument Entry 3</h3>
-                    <p>Acoustic Specification</p>
-                </div>
+                <h3>Instrument Entry 3</h3>
+                <ul class="tile-data-ledger">
+                    <li><strong>Type:</strong> <span>Acoustic Spec</span></li>
+                    <li><strong>Era:</strong> <span>Legacy Survey</span></li>
+                </ul>
             </a>
 
             <!-- Instrument Tile 4 -->
-            <a href="item-detail.html?item=instrument-4" class="medal-card-link">
-                <div class="medal-photo-box">
+            <a href="item-instruments.html?item=instrument-4" class="specimen-tile-card">
+                <div class="tile-photo-window">
                     <img src="images/guitar-4.jpg" alt="Instrument Entry 4">
                 </div>
-                <div class="medal-meta-label">
-                    <h3>Instrument Entry 4</h3>
-                    <p>Acoustic Specification</p>
-                </div>
+                <h3>Instrument Entry 4</h3>
+                <ul class="tile-data-ledger">
+                    <li><strong>Type:</strong> <span>Acoustic Spec</span></li>
+                    <li><strong>Era:</strong> <span>Legacy Survey</span></li>
+                </ul>
             </a>
 
             <!-- Instrument Tile 5 -->
-            <a href="item-detail.html?item=instrument-5" class="medal-card-link">
-                <div class="medal-photo-box">
+            <a href="item-instruments.html?item=instrument-5" class="specimen-tile-card">
+                <div class="tile-photo-window">
                     <img src="images/guitar-5.jpg" alt="Instrument Entry 5">
                 </div>
-                <div class="medal-meta-label">
-                    <h3>Instrument Entry 5</h3>
-                    <p>Acoustic Specification</p>
-                </div>
+                <h3>Instrument Entry 5</h3>
+                <ul class="tile-data-ledger">
+                    <li><strong>Type:</strong> <span>Acoustic Spec</span></li>
+                    <li><strong>Era:</strong> <span>Legacy Survey</span></li>
+                </ul>
             </a>
 
             <!-- Instrument Tile 6 -->
-            <a href="item-detail.html?item=instrument-6" class="medal-card-link">
-                <div class="medal-photo-box">
+            <a href="item-instruments.html?item=instrument-6" class="specimen-tile-card">
+                <div class="tile-photo-window">
                     <img src="images/guitar-6.jpg" alt="Instrument Entry 6">
                 </div>
-                <div class="medal-meta-label">
-                    <h3>Instrument Entry 6</h3>
-                    <p>Acoustic Specification</p>
-                </div>
+                <h3>Instrument Entry 6</h3>
+                <ul class="tile-data-ledger">
+                    <li><strong>Type:</strong> <span>Acoustic Spec</span></li>
+                    <li><strong>Era:</strong> <span>Legacy Survey</span></li>
+                </ul>
             </a>
 
             <!-- Instrument Tile 7 -->
-            <a href="item-detail.html?item=instrument-7" class="medal-card-link">
-                <div class="medal-photo-box">
+            <a href="item-instruments.html?item=instrument-7" class="specimen-tile-card">
+                <div class="tile-photo-window">
                     <img src="images/guitar-7.jpg" alt="Instrument Entry 7">
                 </div>
-                <div class="medal-meta-label">
-                    <h3>Instrument Entry 7</h3>
-                    <p>Acoustic Specification</p>
-                </div>
+                <h3>Instrument Entry 7</h3>
+                <ul class="tile-data-ledger">
+                    <li><strong>Type:</strong> <span>Acoustic Spec</span></li>
+                    <li><strong>Era:</strong> <span>Legacy Survey</span></li>
+                </ul>
             </a>
 
             <!-- Instrument Tile 8 -->
-            <a href="item-detail.html?item=instrument-8" class="medal-card-link">
-                <div class="medal-photo-box">
+            <a href="item-instruments.html?item=instrument-8" class="specimen-tile-card">
+                <div class="tile-photo-window">
                     <img src="images/guitar-8.jpg" alt="Instrument Entry 8">
                 </div>
-                <div class="medal-meta-label">
-                    <h3>Instrument Entry 8</h3>
-                    <p>Acoustic Specification</p>
-                </div>
+                <h3>Instrument Entry 8</h3>
+                <ul class="tile-data-ledger">
+                    <li><strong>Type:</strong> <span>Acoustic Spec</span></li>
+                    <li><strong>Era:</strong> <span>Legacy Survey</span></li>
+                </ul>
             </a>
 
         </section>
