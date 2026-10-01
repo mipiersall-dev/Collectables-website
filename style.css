@@ -302,9 +302,9 @@ footer {
    Step 2: Interactive Focus Doorway Highlights (Parchment Variants)
    ========================================================================== */
 .vertical-pillar-box:hover {
-    transform: translateY(-6px); /* Clean, slightly smaller upward panel hover lift */
-    border-color: #cfad4b; 
-    background-color: #f4f1ea; /* Refines to a slightly lighter, clean ivory page on focus approach */
+    transform: translateY(-6px); /* Clean upward panel hover lift */
+    border-color: #cfad4b; /* Gold frame boundary activates */
+    /* Fixed: Removed the lighter background color shift to keep parchment tone completely stable */
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(207, 173, 75, 0.2);
 }
 
@@ -313,9 +313,8 @@ footer {
 }
 
 .vertical-pillar-box:hover p {
-    color: #1c1e21; /* Text sharpens directly to pure dark black on approach clarity */
+    color: #1c1e21; /* Text remains pure dark black on approach clarity */
 }
-
 /* 1. Compresses the empty vertical padding space inside the header bar */
 header.shrunk-pane {
     padding: 15px 20px 15px 20px !important;
