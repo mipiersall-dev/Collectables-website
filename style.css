@@ -89,14 +89,13 @@ header {
     text-decoration: none;
     color: inherit;
     box-sizing: border-box;
-    padding: 0 10%; /* Generous edge margins to balance spacing layout */
+    padding: 0 15%; /* Spaced elegantly outward to fix center pinch */
     border-bottom: 1px solid rgba(0, 0, 0, 0.15);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     position: relative;
     z-index: 1;
-    transition: transform 0.25s ease;
 }
 
 /* --- Alternating Canvas Background Tones & Photoshoots --- */
@@ -110,11 +109,11 @@ header {
     background-color: #14171a;
 }
 
-/* Pre-linking placeholder background photoshoot graphics with safe overlays */
-.gallery-row:nth-child(1) { background-image: linear-gradient(to right, rgba(234,227,203,0.95), rgba(234,227,203,0.3)), url('images/phaleristics_hub.jpg'); }
-.gallery-row:nth-child(2) { background-image: linear-gradient(to left, rgba(20,23,26,0.95), rgba(20,23,26,0.3)), url('images/numismatics_hub.jpg'); }
-.gallery-row:nth-child(3) { background-image: linear-gradient(to right, rgba(234,227,203,0.95), rgba(234,227,203,0.3)), url('images/fine_arts_hub.jpg'); }
-.gallery-row:nth-child(4) { background-image: linear-gradient(to left, rgba(20,23,26,0.95), rgba(20,23,26,0.3)), url('images/instruments_hub.jpg'); }
+/* Placeholder background photoshoot graphic layers with safe overlays */
+.gallery-row:nth-child(1) { background-image: linear-gradient(to right, rgba(234,227,203,0.95), rgba(234,227,203,0.35)), url('images/phaleristics_hub.jpg'); }
+.gallery-row:nth-child(2) { background-image: linear-gradient(to left, rgba(20,23,26,0.95), rgba(20,23,26,0.35)), url('images/numismatics_hub.jpg'); }
+.gallery-row:nth-child(3) { background-image: linear-gradient(to right, rgba(234,227,203,0.95), rgba(234,227,203,0.35)), url('images/fine_arts_hub.jpg'); }
+.gallery-row:nth-child(4) { background-image: linear-gradient(to left, rgba(20,23,26,0.95), rgba(20,23,26,0.35)), url('images/instruments_hub.jpg'); }
 
 /* ==========================================================================
    Text Column Alignment & Spatial Correction (Relieves Central Pinched Feel)
@@ -122,20 +121,19 @@ header {
 .info-column {
     display: flex;
     flex-direction: column;
-    max-width: 380px;
+    width: 100%;
+    max-width: 400px;
     z-index: 2;
     position: relative;
 }
 
-/* Left/Right alignment logic maps description cleanly over the center of its half */
+/* Alternating alignment maps description cleanly over the center of its half */
 .gallery-row.text-right {
     justify-content: flex-end; /* Pushes text smoothly over to balance right half space */
-    text-align: left;
 }
 
 .gallery-row.text-left {
     justify-content: flex-start; /* Pushes text smoothly over to balance left half space */
-    text-align: left;
 }
 
 /* Traditional Serif Typography Headings */
@@ -183,4 +181,4 @@ footer {
     color: #475569;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    }
+}
