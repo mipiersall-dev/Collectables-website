@@ -45,5 +45,27 @@ const INSTRUMENTS_DATA = {
             "Despite its bold design, the Warrior arrived as musical tastes were shifting. With the rise of grunge and alternative rock, sales were low, and Jackson discontinued the model in 1991.",
             "As extreme metal regained its footing, the company brought the guitar back, officially relaunching the Warrior line in 2001."
         ]
-    }   
+    },
+   
+    "Seagull Entourage Rustic": {
+        title: "Seagull Entourage",
+        category: "Musical Instruments",
+        specs: {
+            brand: "Seagull",
+            model: "Entourage",
+            type: "Acoustic",
+            finish: "Semi-gloss Rustic Burst",
+            hardware: "Stock"
+        },
+        photos: {
+            obverse: "images/seagull-f.png",
+            reverse: "images/seagull-b.png",
+            angled: "images/seagull-a.png"
+        },
+        description: [
+            "The Seagull Entourage Rustic is a highly regarded, North American-made acoustic guitar series crafted in La Patrie, Quebec, by Godin Guitars. Building on the architectural foundation of the iconic Seagull S6, the Entourage series is specifically tailored for players who prefer a traditional, narrower fretboard and a distinctive dark aesthetic.",
+            "The Entourage Rustic relies on high-quality, indigenous Canadian tonewoods that deliver exceptional structural integrity and acoustic projection.",
+            "This guitar was received as a gift from Michael R. Piersall."
+        ]
+    },   
 };
