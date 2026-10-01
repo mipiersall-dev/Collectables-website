@@ -36,9 +36,9 @@ const INSTRUMENTS_DATA = {
             hardware: "EMG 81 bridge, EMG 60 neck, Floyd Rose Special bridge"
         },
         photos: {
-            obverse: "images/warrior-f.jpg",
-            reverse: "images/warrior-b.jpg",
-            angled: "images/warrior-a.jpg"
+            obverse: "images/warrior-f.png",
+            reverse: "images/warrior-b.png",
+            angled: "images/warrior-a.png"
         },
         description: [
             "The Jackson Warrior is an aggressive, X-shaped electric guitar designed in 1989 by Jackson R&D designer Mikey Wright and released for production in 1990. Among the most extreme and sharp-angled body shapes Jackson has produced, it features four distinct horns and a matching pointed headstock. The original run carried neck profiles similar to those of the USA Soloists of that era.",
