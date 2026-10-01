@@ -47,14 +47,15 @@
                 </div>
                 
                 <div class="thumbnail-selector-strip">
+                    <!-- FIXED: Hardcoded image paths removed so the JS injection handles dynamic swapping -->
                     <button id="thumb-g1" class="thumb-slot active" onclick="swapGuitarPhoto(this.querySelector('img').src, this)">
-                        <img src="images/warrior-f.png" alt="Front View">
+                        <img id="thumb-img-1" src="" alt="Front View">
                     </button>
                     <button id="thumb-g2" class="thumb-slot" onclick="swapGuitarPhoto(this.querySelector('img').src, this)">
-                        <img src="images/warrior-b.png" alt="Back View">
+                        <img id="thumb-img-2" src="" alt="Back View">
                     </button>
                     <button id="thumb-g3" class="thumb-slot" onclick="swapGuitarPhoto(this.querySelector('img').src, this)">
-                        <img src="images/warrior-a.png" alt="Angled/Headstock View">
+                        <img id="thumb-img-3" src="" alt="Angled/Headstock View">
                     </button>
                     <div class="thumb-slot empty-placeholder"></div>
                 </div>
@@ -92,9 +93,7 @@
                 </div>
             </div>
 
-        </div>
-        
-<!-- LOWER STAGE: Full-Width Luthier Narrative Essays -->
+              <!-- LOWER STAGE: Full-Width Luthier Narrative Essays -->
         <div id="guitar-essay-stage" class="historical-description-box">
             <h2>About this Model</h2>
         </div>
@@ -114,26 +113,26 @@
         const urlParameters = new URLSearchParams(window.location.search);
         const instrumentKey = urlParameters.get('item');
 
-        // FIXED: Now maps directly to the decoupled INSTRUMENTS_DATA global array object
+        // Maps directly to the decoupled INSTRUMENTS_DATA global array object
         const guitarData = INSTRUMENTS_DATA[instrumentKey];
 
         if (guitarData) {
             document.getElementById('guitar-title').textContent = guitarData.title;
             
-            // Mapping your exact lowercase guitar database parameters to the instrument slots
+            // Mapping your exact lowercase guitar database parameters to the slots
             document.getElementById('spec-brand').textContent = guitarData.specs.brand;
             document.getElementById('spec-model').textContent = guitarData.specs.model;
             document.getElementById('spec-type').textContent = guitarData.specs.type;
             document.getElementById('spec-finish').textContent = guitarData.specs.finish;
             document.getElementById('spec-hardware').textContent = guitarData.specs.hardware;
             
-            // Load custom photography files
+            // Load custom photography files dynamically into hero and thumbnail slots
             document.getElementById('guitar-hero-view').src = guitarData.photos.obverse;
-            document.getElementById('thumb-g1').querySelector('img').src = guitarData.photos.obverse;
-            document.getElementById('thumb-g2').querySelector('img').src = guitarData.photos.reverse;
-            document.getElementById('thumb-g3').querySelector('img').src = guitarData.photos.angled;
+            document.getElementById('thumb-img-1').src = guitarData.photos.obverse;
+            document.getElementById('thumb-img-2').src = guitarData.photos.reverse;
+            document.getElementById('thumb-img-3').src = guitarData.photos.angled;
             
-            // Build the multi-paragraph luthier history text
+            // Build the multi-paragraph history text block
             const essayStage = document.getElementById('guitar-essay-stage');
             guitarData.description.forEach(paragraphText => {
                 const paragraphElement = document.createElement('p');
@@ -164,3 +163,5 @@
 
 </body>
 </html>
+
+        </div>
