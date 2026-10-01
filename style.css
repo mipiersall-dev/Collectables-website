@@ -261,7 +261,7 @@ footer {
     border: 1px solid rgba(255, 255, 255, 0.2); 
     border-radius: 4px;
     text-decoration: none;
-    color: #ffffff; 
+    color: #1c1e21; /* Dark charcoal black */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -285,7 +285,7 @@ footer {
     font-family: 'Cinzel', serif;
     font-weight: 700;
     font-size: 1.6rem;
-    color: #ffffff; 
+    color: #1c1e21; /* Dark charcoal black */ 
     margin: 0 0 12px 0;
     letter-spacing: 1px;
     text-transform: none; 
@@ -296,7 +296,7 @@ footer {
 
 .vertical-pillar-box p {
     font-family: 'Inter', sans-serif;
-    color: #cbd5e1; /* Brightened slightly to contrast sharply over the raw image colors */
+    color: #1c1e21; /* Dark charcoal black */
     font-size: 0.88rem;
     font-weight: 400;
     line-height: 1.5;
