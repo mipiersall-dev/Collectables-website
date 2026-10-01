@@ -111,12 +111,25 @@ header.scrolled .prelude-container {
     margin-top: 0;
 }
 
-/* 3. The Glitch Killer: Prevents content from jumping up behind the fixed header */
-header + main,
-header + .gallery-walk-container,
-header + .vault-container { 
-    margin-top: 230px; /* Provides the perfect structural buffer for the raw header */
-    transition: margin-top 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+/* ==========================================================================
+   Layout Offset Buffer (Fixes Content Cutoff Behind Fixed Header)
+   ========================================================================== */
+
+/* Automatically injects spacing above the first main content block on every page */
+body > main,
+body > .vault-container,
+body > .item-showcase-container,
+body > .gallery-walk-container {
+    padding-top: 220px; /* Provides the perfect structural buffer for the open header */
+    transition: padding-top 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Dynamically lifts the content floor smoothly when the header collapses down */
+header.scrolled ~ main,
+header.scrolled ~ .vault-container,
+header.scrolled ~ .item-showcase-container,
+header.scrolled ~ .gallery-walk-container {
+    padding-top: 140px; /* Snug fit tailored precisely for the collapsed header view */
 }
 
 /* ==========================================================================
