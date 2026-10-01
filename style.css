@@ -1,16 +1,17 @@
 /* ==========================================================================
-   THE PIERSALL COLLECTION: MASTER STYLESHEET FRAMEWORK (v1.2)
+   THE PIERSALL COLLECTION: MASTER STYLESHEET FRAMEWORK (PRODUCTION v1.3)
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   1. GLOBAL RESET & BASE CANVAS LAYOUT
+   1. GLOBAL ENGINE DEFAULTS & BOX RESET
    -------------------------------------------------------------------------- */
 html, body {
     margin: 0;
     padding: 0;
     width: 100%;
-    background-color: #111315; /* Dark Matte Charcoal entryway canvas floor */
+    background-color: #111315; /* Matte Charcoal Theme Canvas */
     box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 *, *:before, *:after {
@@ -18,30 +19,29 @@ html, body {
 }
 
 /* --------------------------------------------------------------------------
-   2. TYPOGRAPHY SUBSYSTEM (VERIFIED STRUCTURAL MATCHES)
+   2. TYPOGRAPHY SUBSYSTEM (VERIFIED DIRECT SUBDOMAIN PATH MANDATE)
    -------------------------------------------------------------------------- */
 h1, h2, h3, .nav-link-anchor {
     font-family: 'Cinzel', serif;
 }
 
-p, span, li, td, .spec-label, .spec-value {
+p, span, li, td, th, .spec-label, .spec-value {
     font-family: 'Inter', sans-serif;
 }
 
 /* --------------------------------------------------------------------------
-   3. ADVANCED ANIMATED FIXED HEADER PANE FRAMEWORK
+   3. ANIMATED FIXED NAVIGATION PORTICO PANELS
    -------------------------------------------------------------------------- */
 header {
     text-align: center;
-    background-color: #111315; /* DESIGN COMPLIANCE: Pure matte canvas. Zero gradients. */
+    background-color: #111315; /* DESIGN COMPLIANCE: Flat matte background. No gradients. */
     border-bottom: 1px solid #1c1f24;
     
-    /* Strict fixed positioning prevents document layout flow jitters */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000; 
+    z-index: 1000;
     
     padding: 30px 20px 20px 20px;
     box-sizing: border-box;
@@ -50,7 +50,7 @@ header {
 
 .master-sign {
     font-family: 'Pinyon Script', serif; 
-    color: #cfad4b; /* Soft Muted Museum Gold Accent */
+    color: #cfad4b; /* Soft Muted Museum Gold */
     font-size: 4.5rem;
     margin-bottom: -15px;
     display: block;
@@ -78,7 +78,7 @@ header {
 }
 
 .nav-link-anchor:hover {
-    color: #cfad4b; /* Clean shift without glow masks */
+    color: #cfad4b;
 }
 
 .nav-bullet-divider {
@@ -97,11 +97,11 @@ header {
     opacity: 1;
     max-height: 100px;
     overflow: hidden;
-    transition: opacity 0.35s ease, max-height 0.35s ease, margin-top 0.35s ease;
+    transition: opacity 0.35s ease, max-height 0.35s ease;
 }
 
 /* --------------------------------------------------------------------------
-   4. ACTIVE SCROLL STATE ENGINE (CONTROLLED VIA JS ENGINE STATE)
+   4. CLIENT-SIDE SCROLL COMPRESSION ENGINE STATES
    -------------------------------------------------------------------------- */
 header.scrolled {
     padding: 15px 20px 15px 20px;
@@ -115,40 +115,107 @@ header.scrolled .master-sign {
 header.scrolled .prelude-container {
     opacity: 0;
     max-height: 0;
-    margin-top: 0;
 }
 
 /* --------------------------------------------------------------------------
-   5. UNIFIED LAYOUT OFFSET BUFFER (FIXES SHIFTING AND CUTOFF ERROR)
+   5. DYNAMIC FIELD OFFSET PADDING ENGINE (DIALS VISUAL DISTANCE BALANCE)
    -------------------------------------------------------------------------- */
-/* Targets direct document level containers to avoid nested double-padding errors */
-body > main,
-body > .vault-container,
-body > .gallery-walk-container,
-body > .item-showcase-container {
-    padding-top: 250px; /* Base distance calibrated precisely against high header layout */
+/* Universal targeting across all templates handles layouts seamlessly without double-bounding */
+.gallery-walk-container,
+.portal-widescreen-stage,
+.item-showcase-container,
+.vault-container {
+    padding-top: 260px !important; /* Base distance buffer beneath top open portico */
     transition: padding-top 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* Structural offset reduction when the navigation pane collapses down */
-header.scrolled ~ main,
-header.scrolled ~ .vault-container,
+/* Reduces structural vertical spacing dynamically when header pane shrinks */
 header.scrolled ~ .gallery-walk-container,
-header.scrolled ~ .item-showcase-container {
-    padding-top: 170px; /* Snug layout padding maintaining perfect distance asset balances */
+header.scrolled ~ .portal-widescreen-stage,
+header.scrolled ~ .item-showcase-container,
+header.scrolled ~ .vault-container {
+    padding-top: 175px !important; /* Perfect snug alignment tracking for content scaling */
 }
 
 /* --------------------------------------------------------------------------
-   6. WIDESCREEN VAULT GALLERIES & FULL-BLEED SECTIONS
+   6. STEP 1 — MASTER INDEX PANELS (GALLERY ROW ROWS)
    -------------------------------------------------------------------------- */
 .gallery-walk-container {
     width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
+.gallery-row {
+    width: 100%;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    padding: 60px 10%;
+    text-decoration: none;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
+}
+
+.gallery-row.light-room {
+    background-color: #eae3cb; /* Historic Museum Ivory Parchment */
+}
+
+.gallery-row.light-room:hover {
+    background-color: #e2dac0;
+}
+
+.gallery-row.dark-room {
+    background-color: #111315; /* Matte Charcoal Theme Canvas */
+    border-bottom: 1px solid #1c1f24;
+}
+
+.gallery-row.dark-room:hover {
+    background-color: #181b1e;
+}
+
+.gallery-row .info-column {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.text-right .info-column {
+    text-align: right;
+    align-items: flex-end;
+}
+
+.text-left .info-column {
+    text-align: left;
+    align-items: flex-start;
+}
+
+.gallery-row h2 {
+    font-size: 2.5rem;
+    margin: 0 0 10px 0;
+    letter-spacing: 2px;
+}
+
+.light-room h2 { color: #1c1e21; }
+.dark-room h2 { color: #eae3cb; }
+
+.gallery-row p {
+    font-size: 1.1rem;
+    margin: 0;
+    font-weight: 300;
+}
+
+.light-room p { color: #57657a; }
+.dark-room p { color: #64748b; }
+
+/* --------------------------------------------------------------------------
+   7. STEP 2 — PHALERISTICS LEDGER PILLAR ROOMS
+   -------------------------------------------------------------------------- */
 .portal-widescreen-stage {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .portal-horizontal-row {
@@ -160,30 +227,27 @@ header.scrolled ~ .item-showcase-container {
     width: 100%;
 }
 
-/* --------------------------------------------------------------------------
-   7. PHALERISTICS GATEWAY MATRIX (IVORY LEDGER CARD CONFIGURATION)
-   -------------------------------------------------------------------------- */
 .vertical-pillar-box {
     display: block;
     text-decoration: none;
     width: 100%;
-    max-width: 380px; 
-    aspect-ratio: 7 / 12; /* Locks framing to the geometric bounds of the background sheet */
+    max-width: 360px;
+    aspect-ratio: 7 / 12; /* Locks framework scale to layout sheets geometry */
     
-    background-image: url('assets/phaleristics/ledger-bg.png'); 
-    background-size: 100% 100%; /* Spans design frame neatly along edge limits */
+    background-image: url('assets/phaleristics/ledger-bg.png');
+    background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
-    background-color: #eae3cb; /* Museum Ivory Parchment canvas floor */
+    background-color: #eae3cb;
     
     border: 1px solid #d4cbb3;
-    box-sizing: border-box;
     box-shadow: none; /* DESIGN COMPLIANCE: Zero drop shadows */
+    box-sizing: border-box;
     transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.3s ease;
 }
 
 .vertical-pillar-box:hover {
-    transform: translateY(-4px);
+    transform: translateY(-5px);
     border-color: #cfad4b;
 }
 
@@ -193,30 +257,31 @@ header.scrolled ~ .item-showcase-container {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 40px;
-    box-sizing: border-box;
+    padding: 35px;
     text-align: center;
+    box-sizing: border-box;
 }
 
 .pillar-content-center h2 {
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 700;
-    color: #1c1e21; /* Dark charcoal black ink */
+    color: #1c1e21;
     letter-spacing: 2px;
-    margin-bottom: 15px;
+    margin: 0 0 15px 0;
     transition: color 0.25s ease;
 }
 
 .pillar-content-center p {
     font-size: 0.9rem;
-    line-weight: 1.5;
+    line-height: 1.6;
     color: #57657a;
+    margin: 0;
     max-width: 240px;
     transition: color 0.25s ease;
 }
 
 .vertical-pillar-box:hover .pillar-content-center h2 {
-    color: #cfad4b; /* Accent shift on target engagement */
+    color: #cfad4b;
 }
 
 .vertical-pillar-box:hover .pillar-content-center p {
@@ -224,19 +289,23 @@ header.scrolled ~ .item-showcase-container {
 }
 
 /* --------------------------------------------------------------------------
-   8. DYNAMIC ITEM TEMPLATE ENGINE LAYOUT (DECOUPLED WINDOW MECHANICS)
+   8. STEP 3 & 4 — VAULT SPECIMEN DETAILS & GRID MATRICES
    -------------------------------------------------------------------------- */
-.item-showcase-container {
-    width: 100%;
+.item-showcase-container, .vault-container {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 40px 20px;
-    background-color: #eae3cb; /* Historic Vault Ivory canvas floor */
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: #eae3cb; /* Historic Parchment Background Floor */
+}
+
+/* Forces background match on individual display layout sheets if toggled */
+body.parchment-vault-view {
+    background-color: #eae3cb;
 }
 
 .showcase-split-stage {
     display: flex;
-    flex-direction: row;
     gap: 50px;
     width: 100%;
 }
@@ -247,13 +316,13 @@ header.scrolled ~ .item-showcase-container {
     }
 }
 
-.photo-exhibition-column {
+.photo-exhibition-column, .metadata-ledger-column {
     flex: 1;
     width: 50%;
 }
 
 @media (max-width: 968px) {
-    .photo-exhibition-column {
+    .photo-exhibition-column, .metadata-ledger-column {
         width: 100%;
     }
 }
@@ -262,7 +331,7 @@ header.scrolled ~ .item-showcase-container {
     width: 100%;
     aspect-ratio: 1 / 1;
     border: 1px solid #d4cbb3;
-    background-color: #eae3cb;
+    background-color: #f4eee1;
     overflow: hidden;
 }
 
@@ -276,18 +345,16 @@ header.scrolled ~ .item-showcase-container {
     display: flex;
     gap: 15px;
     margin-top: 15px;
-    width: 100%;
 }
 
 .thumb-slot {
     flex: 1;
     aspect-ratio: 1 / 1;
     border: 1px solid #d4cbb3;
-    background-color: #eae3cb;
+    background-color: #f4eee1;
     cursor: pointer;
     padding: 0;
     overflow: hidden;
-    transition: border-color 0.2s ease;
 }
 
 .thumb-slot img {
@@ -307,18 +374,10 @@ header.scrolled ~ .item-showcase-container {
 }
 
 .metadata-ledger-column {
-    flex: 1;
-    width: 50%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
-}
-
-@media (max-width: 968px) {
-    .metadata-ledger-column {
-        width: 100%;
-    }
 }
 
 .category-indicator-tag {
@@ -331,9 +390,10 @@ header.scrolled ~ .item-showcase-container {
 }
 
 .metadata-ledger-column h2 {
-    font-size: 2.5rem;
+    font-size: 2.6rem;
     color: #1c1e21;
     margin: 0 0 25px 0;
+    letter-spacing: 1px;
 }
 
 .specs-floating-directory {
@@ -344,7 +404,7 @@ header.scrolled ~ .item-showcase-container {
 .spec-inline-row {
     display: flex;
     justify-content: space-between;
-    padding: 15px 0;
+    padding: 16px 0;
     border-bottom: 1px solid #d4cbb3;
     font-size: 0.95rem;
 }
@@ -362,34 +422,3 @@ header.scrolled ~ .item-showcase-container {
 
 .historical-description-box {
     width: 100%;
-    margin-top: 60px;
-    padding-top: 40px;
-    border-top: 1px solid #d4cbb3;
-    text-align: left;
-}
-
-.historical-description-box h2 {
-    font-size: 1.8rem;
-    color: #1c1e21;
-    margin-bottom: 20px;
-}
-
-.historical-description-box p {
-    font-size: 1.05rem;
-    line-height: 1.7;
-    color: #2e3238;
-    margin-bottom: 20px;
-}
-
-/* --------------------------------------------------------------------------
-   9. MUSEUM REPOSITORY FOOTER SETUPS
-   -------------------------------------------------------------------------- */
-footer {
-    text-align: center;
-    padding: 40px 20px;
-    font-family: 'Cinzel', serif;
-    font-size: 0.85rem;
-    color: #57657a;
-    border-top: 1px solid #1c1f24;
-    background-color: #111315; /* Reverts cleanly back to entryway dark matte canvas */
-    margin-top: 60px;
