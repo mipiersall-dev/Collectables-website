@@ -1,5 +1,6 @@
+/* Core Styling Variables */
 body {
-    background-color: #111315;
+    background-color: #111315; /* Soft, warm matte charcoal canvas */
     color: #e2e8f0;
     font-family: 'Inter', sans-serif;
     margin: 0;
@@ -9,43 +10,70 @@ body {
     min-height: 100vh;
 }
 
+/* Compressed Header Box (Pulls the rows upward to force the scroll prompt) */
 header {
     text-align: center;
-    padding: 90px 20px 50px 20px;
+    padding: 45px 20px 25px 20px; /* Highly compressed to reveal the first row card */
     background: radial-gradient(circle at center, #181c20 0%, #111315 100%);
+    border-bottom: 1px solid #1c1f24;
 }
 
 .master-sign {
     font-family: 'Monsieur La Doulaise', cursive;
-    color: #cfad4b;
-    font-size: 4.8rem;
-    margin-bottom: -15px;
+    color: #cfad4b; /* Soft Muted Museum Gold */
+    font-size: 4.5rem;
+    margin-bottom: -22px;
     display: block;
+    user-select: none;
 }
 
-.sub-header-details {
-    color: #57657a;
+/* Sub-Header Interactive Ribbon Framework */
+.navigation-subheaders {
+    margin: 8px 0 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.nav-link-item {
+    font-family: 'Cinzel', serif;
+    color: #556275; /* Subdued background contrast when quiet */
     font-size: 0.85rem;
     font-weight: 400;
-    letter-spacing: 4px;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    margin-top: 5px;
-    display: block;
+    text-decoration: none;
+    transition: color 0.25s ease, text-shadow 0.25s ease;
 }
 
-.prelude-container {
+/* Museum Gold Color Shift on Sub-Header Hover */
+.nav-link-item:hover {
+    color: #cfad4b;
+    text-shadow: 0 0 8px rgba(207, 173, 75, 0.25);
+}
+
+.nav-divider-bullet {
+    color: #262e35;
+    font-size: 0.85rem;
+    user-select: none;
+}
+
+.prelude-text-block {
     max-width: 580px;
-    margin: 40px auto 0 auto;
+    margin: 0 auto;
     color: #64748b;
     font-size: 0.95rem;
-    line-height: 1.7;
+    line-height: 1.6;
     font-weight: 300;
 }
 
+/* Alternating Row Configurations */
 .gallery-walk-container {
     max-width: 900px;
     width: 100%;
-    margin: 40px auto 100px auto;
+    margin: 15px auto 80px auto; /* Tighter spacing draws content above the fold */
     padding: 0 40px;
     box-sizing: border-box;
 }
@@ -56,12 +84,13 @@ header {
     align-items: center;
     text-decoration: none;
     color: inherit;
-    padding: 40px 0;
+    padding: 35px 0;
     border-bottom: 1px solid #1c1f24;
 }
 
+/* Fixed 1:1 Image Shadow-Boxes */
 .display-box {
-    width: 240px;
+    width: 220px;
     aspect-ratio: 1 / 1;
     background-color: #0b0d0f;
     border: 1px solid #20262b;
@@ -78,10 +107,11 @@ header {
     max-width: 80%;
     max-height: 80%;
     object-fit: contain;
-    opacity: 0.7;
+    opacity: 0.6;
     transition: all 0.25s ease;
 }
 
+/* Text Column Layout Layouts (Strictly Left-Aligned) */
 .info-column {
     display: flex;
     flex-direction: column;
@@ -89,17 +119,16 @@ header {
     box-sizing: border-box;
 }
 
-.gallery-row.img-left .info-column {
-    padding-left: 40px;
-}
-
-.gallery-row.img-right .info-column {
-    padding-right: 40px;
-}
+.gallery-row.img-left { justify-items: start; }
+.gallery-row.img-right { justify-items: end; }
+.gallery-row.img-left .display-box { justify-self: start; }
+.gallery-row.img-right .display-box { justify-self: end; }
+.gallery-row.img-left .info-column { padding-left: 40px; }
+.gallery-row.img-right .info-column { padding-right: 40px; }
 
 .info-column h2 {
     font-family: 'Cinzel', serif;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 400;
     margin: 0 0 10px 0;
     color: #f1f5f9;
@@ -115,6 +144,7 @@ header {
     line-height: 1.5;
 }
 
+/* Synchronized Interaction Response Styles */
 .gallery-row:hover h2 {
     color: #cfad4b;
 }
@@ -128,11 +158,6 @@ header {
     transform: scale(1.05);
     opacity: 1;
 }
-
-.gallery-row.img-left { justify-items: start; }
-.gallery-row.img-right { justify-items: end; }
-.gallery-row.img-left .display-box { justify-self: start; }
-.gallery-row.img-right .display-box { justify-self: end; }
 
 footer {
     margin-top: auto;
