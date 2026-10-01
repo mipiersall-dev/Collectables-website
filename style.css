@@ -273,25 +273,33 @@ footer {
     height: 500px; /* Expansive vertical scale for exhibition depth */
 }
 
+/* ==========================================================================
+   Phaleristics Room Portal Gateways (Ivory Ledger Sheets)
+   ========================================================================== */
 .vertical-pillar-box {
-    /* Fixed: Removed the dark tint gradient to let your raw image display at 100% full brightness */
-    background-image: url('images/panel-texture.jpg');
-    background-size: cover;
+    display: block;
+    text-decoration: none;
+    width: 100%;
+    max-width: 380px; /* Constrains column widths to natural paper dimensions */
+    aspect-ratio: 7 / 12; /* Matches the exact native ratio of the parchment sheet */
+    
+    /* Design Asset Alignment: Locks the entire border framework inside the bounding box */
+    background-image: url('assets/phaleristics/ledger-bg.png'); /* Replace with your local asset path */
+    background-size: 100% 100%; /* Scales length and width explicitly to frame borders evenly */
     background-position: center;
     background-repeat: no-repeat;
+    background-color: #eae3cb; /* Historic Museum Ivory Parchment canvas floor */
     
-    border: 1px solid rgba(255, 255, 255, 0.2); 
-    border-radius: 4px;
-    text-decoration: none;
-    color: #1c1e21; /* Dark charcoal black */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px 20px; 
+    /* DESIGN COMPLIANCE: Zero drop shadows allowed */
+    box-shadow: none; 
+    border: 1px solid #d4cbb3;
     box-sizing: border-box;
-    text-align: center;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
-    transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.3s ease;
+}
+
+.vertical-pillar-box:hover {
+    transform: translateY(-4px); /* Clean, flat structural lift */
+    border-color: #cfad4b; /* Gold accent threshold transition */
 }
 
 .pillar-content-center {
