@@ -77,6 +77,16 @@
     <footer>
         &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
     </footer>
-
+<!-- Lightweight native scroll monitor to toggle the condensed header pane -->
+    <script>
+        window.addEventListener('scroll', function() {
+            const headerElement = document.querySelector('header');
+            if (window.scrollY > 40) {
+                headerElement.classList.add('shrunk-pane');
+            } else {
+                headerElement.classList.remove('shrunk-pane');
+            }
+        });
+    </script>
 </body>
 </html>
