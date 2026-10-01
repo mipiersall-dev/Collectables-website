@@ -243,15 +243,16 @@ header.shrunk-pane .prelude-container {
     text-decoration: none;
     width: 100%;
     max-width: 360px;
-    aspect-ratio: 7 / 12; /* Locks the box proportions to match your image exactly */
+    aspect-ratio: 7 / 12; /* Symmetrically binds your 7:12 canvas ratio dimensions */
     
-    background-image: url('assets/phaleristics/ledger-bg.png');
-    background-size: contain; /* OPTION B FIX: Prevents the border design from clipping */
+    /* REVISION FIX: Paths correctly to your single image directory folder */
+    background-image: url('images/ledger-bg.jpg'); 
+    background-size: contain; /* Enforces Option B container containment values */
     background-position: top center;
     background-repeat: no-repeat;
-    background-color: #eae3cb; /* Museum Ivory Parchment canvas floor fills any gaps */
+    background-color: #eae3cb; /* Historic Museum Ivory Parchment canvas floor fills any gaps */
     
-    border: 1px solid #d4cbb3; /* Sharp frame boundary */
+    border: 1px solid #d4cbb3; /* Enforces clean ledger borders */
     box-shadow: none; /* DESIGN COMPLIANCE: Absolutely zero drop shadows */
     box-sizing: border-box;
     transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.3s ease;
@@ -276,7 +277,7 @@ header.shrunk-pane .prelude-container {
 .pillar-content-center h2 {
     font-size: 2rem;
     font-weight: 700;
-    color: #1c1e21; /* Historic charcoal black ink */
+    color: #1c1e21; /* Historic charcoal black ink text */
     letter-spacing: 2px;
     margin: 0 0 15px 0;
     transition: color 0.25s ease;
