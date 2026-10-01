@@ -252,18 +252,23 @@ footer {
 }
 
 .vertical-pillar-box {
-    background-color: #eae3cb; /* Rich antique museum ivory parchment tone */
-    border: 1px solid #d4cbb3;
+    /* Fixed: Now loads your master image full-bleed inside the panel with a protective dark text overlay mask */
+    background-image: linear-gradient(rgba(17, 19, 21, 0.75), rgba(17, 19, 21, 0.75)), url('images/panel-texture.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Swapped to a subtle light border that frames the dark picture elegantly */
     border-radius: 4px;
     text-decoration: none;
-    color: #1c1e21; /* Flips baseline text to dark charcoal for sharp print contrast */
+    color: #ffffff; /* Flips text back to crisp white so it pops sharply over the dark picture background */
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 24px 20px; /* Reduced vertical and horizontal internal padding */
+    padding: 24px 20px; 
     box-sizing: border-box;
     text-align: center;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
     transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
