@@ -1,3 +1,4 @@
+html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,17 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Piersall Collection | Phaleristics Portal</title>
     
-    <!-- Premium Google Typography Engine -->
+    <!-- Premium Google Typography Engine (VERIFIED SUBDOMAIN PATHS) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Pinyon+Script&family=Inter:wght@300;400&display=swap" rel="stylesheet">
     
-    <!-- Pulls from your master design stylesheet framework -->
-    <link rel="stylesheet" href="style.css?v=1.1"> 
+    <!-- FIXED: Pointed directly to the freshly updated master stylesheet release version -->
+    <link rel="stylesheet" href="style.css?v=1.5"> 
 </head>
 <body>
 
-<!-- THE HEADER PORTICO -->
+    <!-- THE HEADER PORTICO -->
     <header>
         <!-- The cursive title now acts as a silent home link with no color change -->
         <a href="index.html" style="text-decoration: none; color: inherit; display: inline-block;">
@@ -23,7 +24,7 @@
         </a>
         
         <div class="navigation-ribbon">
-            <a href="phaleristics.html" class="nav-link-anchor">Phaleristics</a>
+            <a href="phaleristics.html" class="nav-link-anchor" style="color: #cfad4b;">Phaleristics</a>
             <span class="nav-bullet-divider">&bull;</span>
             <a href="numismatics.html" class="nav-link-anchor">Numismatics</a>
             <span class="nav-bullet-divider">&bull;</span>
@@ -72,6 +73,18 @@
     <footer>
         &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
     </footer>
+
+    <!-- FIXED: Re-injected the native scroll monitor engine to coordinate the shrunk-pane state -->
+    <script>
+        window.addEventListener('scroll', function() {
+            const headerElement = document.querySelector('header');
+            if (window.scrollY > 40) {
+                headerElement.classList.add('shrunk-pane');
+            } else {
+                headerElement.classList.remove('shrunk-pane');
+            }
+        });
+    </script>
 
 </body>
 </html>
