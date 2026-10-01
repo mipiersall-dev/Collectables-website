@@ -6,9 +6,9 @@
     <title>The Piersall Collection | Instrument Vault Registry</title>
     
     <!-- Premium Google Typography Engine -->
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
     
     <!-- Master design stylesheet framework -->
     <link rel="stylesheet" href="style.css?v=1.1"> 
@@ -151,12 +151,13 @@
             element.classList.add('active');
         }
 
+        // FIXED: Now maps perfectly to the .scrolled CSS engine transitions
         window.addEventListener('scroll', function() {
             const headerElement = document.querySelector('header');
             if (window.scrollY > 40) {
-                headerElement.classList.add('shrunk-pane');
+                headerElement.classList.add('scrolled');
             } else {
-                headerElement.classList.remove('shrunk-pane');
+                headerElement.classList.remove('scrolled');
             }
         });
     </script>
