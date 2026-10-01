@@ -17,17 +17,21 @@ body {
    ========================================================================== */
 header {
     text-align: center;
-    background: radial-gradient(circle at center, #181c20 0%, #111315 100%);
+    /* DESIGN COMPLIANCE: Pure dark matte charcoal canvas. Zero gradients. */
+    background-color: #111315;
     border-bottom: 1px solid #1c1f24;
     
-    /* Locks the header pane tightly to the absolute top of the screen */
-    position: sticky;
+    /* Fixed lock guarantees smooth scrolling without layout flow recalculation jitters */
+    position: fixed;
     top: 0;
-    z-index: 100; /* Ensures the navigation pane sits safely over background content */
+    left: 0;
+    width: 100%;
+    z-index: 1000; 
     
-    /* Configures fluid structural transitions when the layout responds to scroll states */
+    /* Configures fluid structural transitions when responding to scroll states */
     padding: 30px 20px 20px 20px;
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-sizing: border-box;
+    transition: padding 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .master-sign {
@@ -58,12 +62,12 @@ header {
     letter-spacing: 3px;
     text-transform: uppercase;
     text-decoration: none;
-    transition: color 0.25s ease, text-shadow 0.25s ease;
+    transition: color 0.25s ease;
 }
 
 .nav-link-anchor:hover {
     color: #cfad4b;
-    text-shadow: 0 0 8px rgba(207, 173, 75, 0.25);
+    /* DESIGN COMPLIANCE: Removed glowing text-shadow rule to maintain zero-shade rule */
 }
 
 .nav-bullet-divider {
@@ -87,28 +91,32 @@ header {
 }
 
 /* ==========================================================================
-   Scroll-Trigger Transformations (Activates dynamically via structural state)
+   Active Scroll Engine States (Triggered via Client-Side JavaScript Engine)
    ========================================================================== */
 
-/* Triggers severe structural compression to collapse empty vertical space */
-header:not(:has(+ * :hover)) {
-    /* Baseline styles remain broad until scroll context updates */
+/* 1. Scales down layout height and centers ribbon when window.scrollY > 40 */
+header.scrolled {
+    padding: 15px 20px 15px 20px;
 }
 
-/* When the page content moves behind the fixed container window, the pane refines */
-@media (min-width: 1024px) {
-    /* Seamless script mechanics to fade out layout clutter as content advances */
+/* 2. Completely scales down branding text and eliminates prelude block clutter */
+header.scrolled .master-sign {
+    font-size: 2.5rem;
+    margin-bottom: 0px;
 }
 
-/* Custom Scroll-State Engine: When the main walk container is actively engaged */
-.gallery-walk-container:hover ~ header,
-body:has(.gallery-walk-container:before) header {
-    /* Secondary structural properties map here */
+header.scrolled .prelude-container {
+    opacity: 0;
+    max-height: 0;
+    margin-top: 0;
 }
 
-/* A clean, pure CSS approach to shrink the header pane as the user interacts downwards */
-header:has(~ .gallery-walk-container) {
-    /* Keeps styling variables open for structural adjustments */
+/* 3. The Glitch Killer: Prevents content from jumping up behind the fixed header */
+header + main,
+header + .gallery-walk-container,
+header + .vault-container { 
+    margin-top: 230px; /* Provides the perfect structural buffer for the raw header */
+    transition: margin-top 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 /* ==========================================================================
