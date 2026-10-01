@@ -182,3 +182,97 @@ footer {
     letter-spacing: 1.5px;
     text-transform: uppercase;
 }
+
+/* ==========================================================================
+   Step 2: Phaleristics Hub Three-Panel Matrix Layout
+   ========================================================================== */
+.portal-widescreen-stage {
+    width: 100%;
+    flex-grow: 1;
+    background-color: #0e1012;
+    /* Panoramic background setup loading your montage photo behind panels */
+    background-image: linear-gradient(rgba(17, 19, 21, 0.85), rgba(17, 19, 21, 0.85)), url('images/phaleristics-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+    box-sizing: border-box;
+}
+
+.portal-horizontal-row {
+    max-width: 1100px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Snaps into one single horizontal row of three boxes */
+    gap: 30px;
+    height: 500px; /* Expansive vertical scale for exhibition depth */
+}
+
+.vertical-pillar-box {
+    background-color: rgba(23, 27, 31, 0.45); /* Semi-translucent casing lets backdrop reveal softly */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    box-sizing: border-box;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px); /* Immersive museum glass blur effect */
+    transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.pillar-content-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Bold Roman Style, Mixed-Case Typography Configuration */
+.vertical-pillar-box h2 {
+    font-family: 'Cinzel', serif;
+    font-weight: 600; /* Distinctly bold structural thickness */
+    font-size: 1.8rem;
+    color: #ffffff;
+    margin: 0 0 15px 0;
+    letter-spacing: 1px;
+    text-transform: none; /* Mixed-case preservation loop overrides global uppercase defaults */
+    transition: color 0.25s ease;
+}
+
+.vertical-pillar-box p {
+    font-family: 'Inter', sans-serif;
+    color: #64748b; /* Subdued default state text contrast color */
+    font-size: 0.9rem;
+    font-weight: 300;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 240px;
+    transition: color 0.25s ease;
+}
+
+/* ==========================================================================
+   Step 2: Interactive Focus Doorway Highlights
+   ========================================================================== */
+.vertical-pillar-box:hover {
+    transform: translateY(-8px); /* Subtle panel lift */
+    border-color: #cfad4b; /* Gold frame boundary activate */
+    background-color: rgba(23, 27, 31, 0.75); /* Deeper clarity focus background */
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 20px rgba(207, 173, 75, 0.1);
+}
+
+.vertical-pillar-box:hover h2 {
+    color: #cfad4b; /* Shifts smoothly to Museum Gold */
+}
+
+.vertical-pillar-box:hover p {
+    color: #cbd5e1; /* Brightens subtext description text for legibility */
+}
