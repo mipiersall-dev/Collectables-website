@@ -345,3 +345,119 @@ header.shrunk-pane .prelude-container {
     max-height: 0 !important; 
     margin: 0 !important;
 }
+
+/* ==========================================================================
+   Step 3: Romanian Era Vault Matrix Layout (Parchment Mode)
+   ========================================================================== */
+body.parchment-vault-view {
+    background-color: #eae3cb; /* Locks the master vault surface completely into ivory parchment */
+    color: #1c1e21;
+}
+
+.vault-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 50px 40px 100px 40px;
+    box-sizing: border-box;
+}
+
+/* Row 1 Layout: High-Contrast Dark Print Narrative Description */
+.vault-narrative-row {
+    max-width: 800px;
+    margin: 0 auto 50px auto;
+    text-align: center;
+}
+
+.vault-narrative-row h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 2.2rem;
+    font-weight: 500;
+    color: #1c1e21;
+    margin: 0 0 15px 0;
+    letter-spacing: 0.5px;
+}
+
+.vault-narrative-row p {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #4e5866;
+    font-weight: 400;
+}
+
+/* Row 2 Layout: Symmetrical 4-Column Grid Array Matrix */
+.vault-matrix-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Snaps desktop display cleanly into 4 uniform columns */
+    gap: 30px;
+    width: 100%;
+}
+
+.medal-card-link {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    box-sizing: border-box;
+}
+
+.medal-photo-box {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: #f4f1ea; /* Soft interior matting color matching your parchment profile */
+    border: 1px solid #d4cbb3;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.06);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.medal-photo-box img {
+    max-width: 85%;
+    max-height: 85%;
+    object-fit: contain;
+    opacity: 0.85;
+    transition: all 0.25s ease;
+}
+
+.medal-meta-label {
+    padding: 15px 5px 0 5px;
+    text-align: left;
+}
+
+.medal-meta-label h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #1c1e21;
+    margin: 0 0 5px 0;
+    letter-spacing: 0.2px;
+    transition: color 0.25s ease;
+}
+
+.medal-meta-label p {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    color: #64748b;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* Interactive Card Focus Shifts (No shadow overlays or backgrounds) */
+.medal-card-link:hover h3 {
+    color: #cfad4b; /* Main link text cleanly targets gold on focus approach */
+}
+
+.medal-card-link:hover .medal-photo-box {
+    border-color: #cfad4b;
+    box-shadow: 0 8px 20px rgba(207, 173, 75, 0.15);
+}
+
+.medal-card-link:hover .medal-photo-box img {
+    transform: scale(1.03);
+    opacity: 1;
+}
