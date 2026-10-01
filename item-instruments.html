@@ -43,19 +43,18 @@
             <!-- LEFT COLUMN: Image Window + Underneath Thumbnail Strip -->
             <div class="photo-exhibition-column">
                 <div class="main-hero-display">
-                    <img id="guitar-hero-view" src="" alt="Active Instrument View">
+                    <img id="guitar-hero-view" src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' width='1' height='1'></svg>" alt="Active Instrument View">
                 </div>
                 
                 <div class="thumbnail-selector-strip">
-                    <!-- FIXED: Hardcoded image paths removed so the JS injection handles dynamic swapping -->
                     <button id="thumb-g1" class="thumb-slot active" onclick="swapGuitarPhoto(this.querySelector('img').src, this)">
-                        <img id="thumb-img-1" src="" alt="Front View">
+                        <img id="thumb-img-1" src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' width='1' height='1'></svg>" alt="Front View">
                     </button>
                     <button id="thumb-g2" class="thumb-slot" onclick="swapGuitarPhoto(this.querySelector('img').src, this)">
-                        <img id="thumb-img-2" src="" alt="Back View">
+                        <img id="thumb-img-2" src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' width='1' height='1'></svg>" alt="Back View">
                     </button>
                     <button id="thumb-g3" class="thumb-slot" onclick="swapGuitarPhoto(this.querySelector('img').src, this)">
-                        <img id="thumb-img-3" src="" alt="Angled/Headstock View">
+                        <img id="thumb-img-3" src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' width='1' height='1'></svg>" alt="Angled/Headstock View">
                     </button>
                     <div class="thumb-slot empty-placeholder"></div>
                 </div>
@@ -92,8 +91,8 @@
                     </div>
                 </div>
             </div>
-
-              <!-- LOWER STAGE: Full-Width Luthier Narrative Essays -->
+        </div> <!-- FIXED: Closures sealed perfectly here to stabilize split views -->
+               <!-- LOWER STAGE: Full-Width Luthier Narrative Essays -->
         <div id="guitar-essay-stage" class="historical-description-box">
             <h2>About this Model</h2>
         </div>
@@ -163,5 +162,3 @@
 
 </body>
 </html>
-
-        </div>
