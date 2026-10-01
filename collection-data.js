@@ -96,7 +96,7 @@ const MEDALS_DATA = {
             model: "C90",
             type: "Classical",
             finish: "glossy factory finish",
-            Hardware: "Stock chrome tuners "
+            hardware: "Stock chrome tuners"
         },
         photos: {
             obverse: "images/c90-f.jpg",
@@ -104,8 +104,8 @@ const MEDALS_DATA = {
             angled: "images/c90-a.jpg"
         },
         description: [
-            "The Yamaha C90 is a full-size classical nylon-string guitar built primarily as an entry-level student instrument within Yamaha’s long-running C Series line. It was engineered specifically to offer reliable build quality and accessible playability for beginners."
-            "This guitar features an all-laminate construction that typically utilizes a layered spruce top paired with laminate back and sides, alongside a traditional wide, flat classical neck profile and a rosewood fingerboard. This design delivers a warm, soft, and rounded tone characteristic of nylon strings."
+            "The Yamaha C90 is a full-size classical nylon-string guitar built primarily as an entry-level student instrument within Yamaha’s long-running C Series line. It was engineered specifically to offer reliable build quality and accessible playability for beginners.",
+            "This guitar features an all-laminate construction that typically utilizes a layered spruce top paired with laminate back and sides, alongside a traditional wide, flat classical neck profile and a rosewood fingerboard. This design delivers a warm, soft, and rounded tone characteristic of nylon strings.",
             "The C90 is built to withstand the physical demands of daily practice. Its sturdy finish and robust structural design make it highly resilient against minor bumps and shifting humidity levels, ensuring long-lasting durability."
         ]
     }   
