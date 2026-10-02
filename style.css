@@ -350,7 +350,7 @@ header.shrunk-pane .prelude-container {
 /* Specimen Grid Tiles (Heavy Ledger Sheet Card System) */
 .coin-specimen-card, .specimen-tile-card {
     background-color: #eae3cb;
-    border: 1px solid #d4cbb3;
+    border: 1px solid transparent;
     padding: 20px;
     box-sizing: border-box;
     display: flex;
@@ -369,7 +369,7 @@ header.shrunk-pane .prelude-container {
     aspect-ratio: 1 / 1;
     overflow: hidden;
     margin-bottom: 15px;
-    border: 1px solid #d4cbb3;
+    border: none;
     background-color: #f4eee1;
 }
 
