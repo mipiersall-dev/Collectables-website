@@ -90,4 +90,26 @@ const INSTRUMENTS_DATA = {
             "This guitar was the first electric in the collection purchased in Frederick, MD crica 2010."
         ]
     },   
+
+   "pacifica": {
+        title: "Yamaha G-55A",
+        category: "Musical Instruments",
+        specs: {
+            brand: "Yamaha",
+            model: "G-55A",
+            type: "Classical",
+            finish: "gloss",
+            hardware: "Stock"
+        },
+        photos: {
+            obverse: "images/g-55a-f.png",
+            reverse: "images/g-55a-b.png",
+            angled: "images/g-55a-a.png"
+        },
+        description: [
+            "Yamaha introduced the Pacifica line around 1990. The original idea was a Strat-style guitar updated with a humbucker in the bridge position. Yamaha already had a name for solid build quality in its other guitars, and the Pacifica brought that to an affordable, versatile design. The line took off, and Mike Stern's signature model (the 1511MS) helped show it wasn't only a beginner guitar.",
+            "It plays well out of the box, covers a wide range of tones (clean single-coil sparkle to humbucker crunch), and costs far less than comparable guitars. It's also a popular platform for modding, since people swap pickups and hardware to upgrade it cheaply.",
+            "This guitar was the first electric in the collection purchased in Frederick, MD crica 2010."
+        ]
+    },   
 };
