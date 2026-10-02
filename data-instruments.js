@@ -111,4 +111,25 @@ const INSTRUMENTS_DATA = {
             "Despite its modest status as an entry-level model, the guitar is widely praised by players for its warm, resonant tone, strong projection, and excellent build quality that often rivals more modern, expensive beginner instruments.",
         ]
     },   
+    "squire": {
+        title: "Fender Squire Stratocaster",
+        category: "Musical Instruments",
+        specs: {
+            brand: "Fender",
+            model: "Squire",
+            type: "Electric/Special Purpose",
+            finish: "gloss Black",
+            hardware: "Rockband Pro compatible"
+        },
+        photos: {
+            obverse: "images/squire-f.png",
+            reverse: "images/squire-b.png",
+            angled: "images/squire-a.png"
+        },
+        description: [
+            "The Squier by Fender Stratocaster Guitar and Controller represents a ground-breaking bridge between virtual entertainment and authentic musical education. Unlike traditional video game peripherals that rely on simplified plastic buttons, this innovative instrument functions as a fully operational, full-sized electric guitar that seamlessly transitions into a gaming controller for Rock Band 3.",
+            "Designed in collaboration with Harmonix, it features specialized internal electronics that track finger placements across the fretboard and detect actual string plucks in real time. This allows players to engage with the game's advanced "Pro Guitar" mode, mapping the digital notes directly to real-world chords and scales. By blurring the line between a digital simulation and a true musical instrument, Fender created a unique tool that transforms gaming hours into practical, transferable guitar-playing skills, allowing you to unplug from the console and immediately plug into a standard amplifier.",
+            "This Strat is in full working order and may be used as Rockband controller, or a standalone guitar."           
+        ]
+    },   
 };
