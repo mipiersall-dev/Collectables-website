@@ -47,7 +47,7 @@ const INSTRUMENTS_DATA = {
         ]
     },
    
-    "Seagull Entourage Rustic": {
+    "Seagull_Entourage_Rustic": {
         title: "Seagull Entourage",
         category: "Musical Instruments",
         specs: {
