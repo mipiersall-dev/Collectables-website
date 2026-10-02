@@ -132,6 +132,7 @@ const INSTRUMENTS_DATA = {
             "This Strat is in full working order and may be used as Rockband controller, or a standalone guitar."           
         ]
     },  
+   
     "deluze": {
         title: "DeLuze Orphean",
         category: "Musical Instruments",
@@ -152,5 +153,5 @@ const INSTRUMENTS_DATA = {
             "Rather than utilizing traditional tuning pegs on the headstock, the strings route over a slanted hardtail bridge and through custom-machined redirection bars to functional tuning machines mounted directly into the lower tail end of the body. The physical instrument features a specialized pickguard, stylized bomb graphics, and intensive custom weathering to reflect a lifetime of stage wear",
             "This guitar was built as a father and son project utilizing a highly modified kit.  Work included extensive fabricated parts, woodwork as well as paint and engineering on such a exotic design."           
         ]
-    },   
+    }   
 };
