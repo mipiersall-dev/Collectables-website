@@ -128,8 +128,29 @@ const INSTRUMENTS_DATA = {
         },
         description: [
             "The Squier by Fender Stratocaster Guitar and Controller represents a ground-breaking bridge between virtual entertainment and authentic musical education. Unlike traditional video game peripherals that rely on simplified plastic buttons, this innovative instrument functions as a fully operational, full-sized electric guitar that seamlessly transitions into a gaming controller for Rock Band 3.",
-            "Designed in collaboration with Harmonix, it features specialized internal electronics that track finger placements across the fretboard and detect actual string plucks in real time. This allows players to engage with the game's advanced "Pro Guitar" mode, mapping the digital notes directly to real-world chords and scales. By blurring the line between a digital simulation and a true musical instrument, Fender created a unique tool that transforms gaming hours into practical, transferable guitar-playing skills, allowing you to unplug from the console and immediately plug into a standard amplifier.",
+            "Designed in collaboration with Harmonix, it features specialized internal electronics that track finger placements across the fretboard and detect actual string plucks in real time. This allows players to engage with the game's advanced Pro Guitar mode, mapping the digital notes directly to real-world chords and scales. By blurring the line between a digital simulation and a true musical instrument, Fender created a unique tool that transforms gaming hours into practical, transferable guitar-playing skills, allowing you to unplug from the console and immediately plug into a standard amplifier.",
             "This Strat is in full working order and may be used as Rockband controller, or a standalone guitar."           
+        ]
+    },  
+    "deluze": {
+        title: "DeLuze Orphean",
+        category: "Musical Instruments",
+        specs: {
+            brand: "DeLuze",
+            model: "Orphean",
+            type: "Custom Electric",
+            finish: "Distressed Black with Custom Decals",
+            hardware: "various"
+        },
+        photos: {
+            obverse: "images/deluze-f.png",
+            reverse: "images/deluze-b.png",
+            angled: "images/deluze-a.png"
+        },
+        description: [
+            "The DeLuze Orphean is a custom-engineered electric guitar designed to physically realize the iconic rockerboy guitar of character Johnny Silverhand from the Cyberpunk2077 video game. This piece serves as a bridge between speculative digital architecture and real-world human music, a theme deeply explored in the game. The instrument's origins trace back to concept art by Lea Leonowicz, which challenged builders to engineer a structurally viable headless guitar with a head.",
+            "Rather than utilizing traditional tuning pegs on the headstock, the strings route over a slanted hardtail bridge and through custom-machined redirection bars to functional tuning machines mounted directly into the lower tail end of the body. The physical instrument features a specialized pickguard, stylized bomb graphics, and intensive custom weathering to reflect a lifetime of stage wear",
+            "This guitar was built as a father and son project utilizing a highly modified kit.  Work included extensive fabricated parts, woodwork as well as paint and engineering on such a exotic design."           
         ]
     },   
 };
