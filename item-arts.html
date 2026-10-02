@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Piersall Collection | Gallery Registry Vault</title>
+    
+    <!-- Premium Google Typography Engine (VERIFIED SUBDOMAIN PATHS) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Master design stylesheet framework -->
+    <link rel="stylesheet" href="style.css?v=1.5"> 
+</head>
+<body class="parchment-vault-view">
+
+    <!-- PERSISTENT TOP NAVIGATION RIBBON -->
+    <header>
+        <a href="index.html" style="text-decoration: none; color: inherit; display: inline-block;">
+            <span class="master-sign">The Piersall Collection</span>
+        </a>
+        <div class="navigation-ribbon">
+            <a href="phaleristics.html" class="nav-link-anchor">Phaleristics</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="numismatics.html" class="nav-link-anchor">Numismatics</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="fine-arts.html" class="nav-link-anchor" style="color: #cfad4b;">Fine Arts</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="musical-instruments.html" class="nav-link-anchor">Musical Instruments</a>
+        </div>
+        <p class="prelude-container">
+            A private curated archive dedicated to the preservation and historical study of international phaleristics, legacy instrumentation, and the fine arts.
+        </p>
+    </header>
+
+    <!-- DYNAMIC FINE ARTS SHOWCASE CONTAINER -->
+    <main class="item-showcase-container">
+        
+        <!-- TOP STAGE: VISUAL MEDIA (LEFT) VS DIRECT DATA LEDGER (RIGHT) -->
+        <div class="showcase-split-stage">
+            
+            <!-- LEFT COLUMN: Large Photo Window + Underneath 4-Column Rolling Thumbnail Grid -->
+            <div class="photo-exhibition-column">
+                <div class="main-hero-display">
+                    <img id="art-hero-view" src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' width='1' height='1'></svg>" alt="Active Gallery View">
+                </div>
+                
+                <!-- AUTOMATED THUMBNAIL MATRIX: Script will automatically inject button frames here -->
+                <div id="art-thumbnail-strip" class="thumbnail-selector-strip"></div>
+            </div>
+
+            <!-- RIGHT COLUMN: Tailored Left-Aligned Fine Arts Directory -->
+            <div class="metadata-ledger-column">
+                <a href="fine-arts.html" class="category-indicator-tag" style="text-decoration: none; display: inline-block;">
+                    Fine Arts &bull; Collection Registry
+                </a>
+                <h2 id="art-title">Loading Specimen Record...</h2>
+                
+                <!-- Customized Fine Arts Specifications Matrix Layout -->
+                <div class="specs-floating-directory">
+                    <div class="spec-inline-row">
+                        <span class="spec-label">Artist</span>
+                        <span id="spec-artist" class="spec-value"></span>
+                    </div>
+                    <div class="spec-inline-row">
+                        <span class="spec-label">Medium</span>
+                        <span id="spec-medium" class="spec-value"></span>
+                    </div>
+                    <div class="spec-inline-row">
+                        <span class="spec-label">Base Canvas</span>
+                        <span id="spec-base" class="spec-value"></span>
+                    </div>
+                    <div class="spec-inline-row">
+                        <span class="spec-label">Frame Specs</span>
+                        <span id="spec-frame" class="spec-value"></span>
+                    </div>
+                    <div class="spec-inline-row">
+                        <span class="spec-label">Year</span>
+                        <span id="spec-year" class="spec-value"></span>
+                    </div>
+                    <div class="spec-inline-row">
+                        <span class="spec-label">Dimensions</span>
+                        <span id="spec-dimensions" class="spec-value"></span>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- Split stage row container closed cleanly -->
+       <!-- LOWER STAGE: Full-Width Visual Narrative Essays Floor -->
+        <div id="art-essay-stage" class="historical-description-box">
+            <h2>About this Work</h2>
+        </div>
+
+    </main>
+
+    <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
+    <footer>
+        &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
+    </footer>
+
+    <!-- AUTOMATED SINGLE-ITEM TEXT ENGINE FOR FINE ARTS -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParameters = new URLSearchParams(window.location.search);
+            const activeItemKey = urlParameters.get('item');
+
+            if (!activeItemKey) {
+                document.getElementById('art-title').textContent = "No Specimen Selected";
+                return;
+            }
+
+            // Fetch your raw master spreadsheet data text sheet from the data folder
+            fetch('data/fine-arts.csv')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Master Fine Arts database ledger could not be accessed.");
+                    }
+                    return response.text();
+                })
+                .then(csvText => {
+                    processTargetRecord(csvText, activeItemKey);
+                })
+                .catch(error => {
+                    console.error("Showcase Engine Error:", error);
+                    document.getElementById('art-title').textContent = "Record Ledger Unavailable";
+                });
+        });
+
+        function processTargetRecord(text, searchKey) {
+            // Split text lines while protecting commas locked inside Excel double quotes
+            const rows = [];
+            let currentToken = "";
+            let insideQuotes = false;
+            let currentRow = [];
+
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                let nextChar = text[i + 1];
+
+                if (char === '"') {
+                    if (insideQuotes && nextChar === '"') {
+                        currentToken += '"'; // Handles escaped quotation marks
+                        i++;
+                    } else {
+                        insideQuotes = !insideQuotes; // Toggles quote boundary tracking
+                    }
+                } else if (char === ',' && !insideQuotes) {
+                    currentRow.push(currentToken.trim());
+                    currentToken = "";
+                } else if ((char === '\r' || char === '\n') && !insideQuotes) {
+                    if (char === '\r' && nextChar === '\n') { i++; }
+                    currentRow.push(currentToken.trim());
+                    if (currentRow.length > 1 && currentRow !== "") {
+                        rows.push(currentRow);
+                    }
+                    currentToken = "";
+                    currentRow = [];
+                } else {
+                    currentToken += char;
+                }
+            }
+            if (currentToken.trim() !== "" || currentRow.length > 0) {
+                currentRow.push(currentToken.trim());
+                if (currentRow.length > 1) { rows.push(currentRow); }
+            }
+
+            if (rows.length === 0) return;
+            const headers = rows.shift(); // Strips headers out safely
+
+            // Find the specific row matching our unique underscore search token key ID
+            // Index Mapping: 0:ID, 1:Title, 2:Artist, 3:Medium, 4:Base, 5:Frame, 6:Year, 7:Dimensions, 8:About
+            const targetDataRow = rows.find(r => r[0] === searchKey);
+
+            if (targetDataRow) {
+                const itemId = targetDataRow[0];
+                const itemTitle = targetDataRow[1];
+                
+                // Inject structural metadata values directly into labeled layout slots
+                document.getElementById('art-title').textContent = itemTitle;
+                document.getElementById('spec-artist').textContent = targetDataRow[2];
+                document.getElementById('spec-medium').textContent = targetDataRow[3];
+                document.getElementById('spec-base').textContent = targetDataRow[4];
+                document.getElementById('spec-frame').textContent = targetDataRow[5];
+                document.getElementById('spec-year').textContent = targetDataRow[6];
+                document.getElementById('spec-dimensions').textContent = targetDataRow[7];
+
+                // AUTOMATED SEQUENTIAL IMAGE SEARCH ENGINE:
+                // Pre-populates the standard front (-f) and frame view (-frame), then scans for extra assets
+                const imageList = [
+                    `images/fine-arts/${itemId}-f.png`,
+                    `images/fine-arts/${itemId}-frame.png`,
+                    `images/fine-arts/${itemId}-a.png`,
+                    `images/fine-arts/${itemId}-b.png`
+                ];
+
+                // Set initial active large display view anchor
+                document.getElementById('art-hero-view').src = imageList[0];
+                document.getElementById('art-hero-view').alt = itemTitle;
+
+                const thumbnailStrip = document.getElementById('art-thumbnail-strip');
+                
+                // Dynamically construct your locked 4-wide rolling matrix button list elements
+                imageList.forEach((photoUrl, index) => {
+                    const button = document.createElement('button');
+                    button.className = index === 0 ? 'thumb-slot active' : 'thumb-slot';
+                    
+                    // Create structural image wrapper to protect dimensions
+                    const img = document.createElement('img');
+                    img.src = photoUrl;
+                    img.alt = `Gallery View Layer ${index + 1}`;
+                    
+                    // IF AN EXTENDED PHOTO PATH DOES NOT EXIST, HIDE THE BUTTON WINDOW DYNAMICALLY
+                    img.onerror = function() {
+                        button.style.display = 'none';
+                    };
+
+                    button.appendChild(img);
+                    button.onclick = function() {
+                        swapArtPhoto(photoUrl, button);
+                    };
+
+                    thumbnailStrip.appendChild(button);
+                });
+
+                // Parse the narrative context column and handle multi-paragraph bar divisions (|)
+                const narrativeText = targetDataRow[8] || "Archival study history log updates pending processing.";
+                const paragraphs = narrativeText.split('|');
+                const essayStage = document.getElementById('art-essay-stage');
+
+                paragraphs.forEach(textBlock => {
+                    if (textBlock.trim() !== "") {
+                        const pElement = document.createElement('p');
+                        pElement.textContent = textBlock.trim();
+                        essayStage.appendChild(pElement);
+                    }
+                });
+
+            } else {
+                document.getElementById('art-title').textContent = "Specimen Registry Record Not Found";
+            }
+        }
+
+        function swapArtPhoto(imagePath, element) {
+            document.getElementById('art-hero-view').src = imagePath;
+            const slots = document.querySelectorAll('.thumb-slot');
+            slots.forEach(slot => slot.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        // Native scroll monitor to toggle the condensed header pane smoothly
+        window.addEventListener('scroll', function() {
+            const headerElement = document.querySelector('header');
+            if (window.scrollY > 40) {
+                headerElement.classList.add('shrunk-pane');
+            } else {
+                headerElement.classList.remove('shrunk-pane');
+            }
+        });
+    </script>
+
+</body>
+</html>
