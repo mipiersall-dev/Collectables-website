@@ -132,6 +132,26 @@ const INSTRUMENTS_DATA = {
             "This Strat is in full working order and may be used as Rockband controller, or a standalone guitar."           
         ]
     },  
+
+    "CG151S": {
+        title: "Yamaha CG-151S",
+        category: "Musical Instruments",
+        specs: {
+            brand: "Yamaha",
+            model: "CG-151S",
+            type: "Classical",
+            finish: "gloss Spruce top",
+            hardware: "Replacement Tuners"
+        },
+        photos: {
+            obverse: "images/cg151s-f.png",
+            reverse: "images/cg151s-b.png",
+            angled: "images/cg151s-a.png"
+        },
+        description: [
+            "he Yamaha CG-151S is an intermediate-level nylon-string classical guitar known for its reliable craftsmanship, balanced resonance, and high-quality tone wood configuration. As part of Yamaha’s popular Concert Guitar (CG) lineup, the "S" designation denotes its solid top construction, allowing the acoustic properties of the instrument to mature and improve in tone over time"           
+        ]
+    },  
    
     "deluze": {
         title: "DeLuze Orphean",
