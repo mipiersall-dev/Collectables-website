@@ -91,7 +91,7 @@ const INSTRUMENTS_DATA = {
         ]
     },   
 
-   "pacifica": {
+   "G55A": {
         title: "Yamaha G-55A",
         category: "Musical Instruments",
         specs: {
@@ -107,9 +107,8 @@ const INSTRUMENTS_DATA = {
             angled: "images/g-55a-a.png"
         },
         description: [
-            "Yamaha introduced the Pacifica line around 1990. The original idea was a Strat-style guitar updated with a humbucker in the bridge position. Yamaha already had a name for solid build quality in its other guitars, and the Pacifica brought that to an affordable, versatile design. The line took off, and Mike Stern's signature model (the 1511MS) helped show it wasn't only a beginner guitar.",
-            "It plays well out of the box, covers a wide range of tones (clean single-coil sparkle to humbucker crunch), and costs far less than comparable guitars. It's also a popular platform for modding, since people swap pickups and hardware to upgrade it cheaply.",
-            "This guitar was the first electric in the collection purchased in Frederick, MD crica 2010."
+            "The Yamaha G-55A is a vintage, student-level classical acoustic guitar produced primarily during the 1970s and 1980s. Built with a laminate spruce or cedar top paired with mahogany or maple back and sides, this nylon-string instrument is highly regarded for its exceptional durability and structural integrity. It features a traditional wide rosewood fingerboard and a thick neck profile that accommodates standard classical playing techniques.",
+            "Despite its modest status as an entry-level model, the guitar is widely praised by players for its warm, resonant tone, strong projection, and excellent build quality that often rivals more modern, expensive beginner instruments.",
         ]
     },   
 };
