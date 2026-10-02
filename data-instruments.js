@@ -3,25 +3,25 @@
    ========================================================================= */
 
 const INSTRUMENTS_DATA = {
-    "Yamaha C90": {
-        title: "Yamaha C90",
+    "F335": {
+        title: "Yamaha F335",
         category: "Musical Instruments",
         specs: {
             brand: "Yamaha",
-            model: "C90",
-            type: "Classical",
-            finish: "Glossy factory finish",
-            hardware: "Stock chrome tuners"
+            model: "F335",
+            type: "Acoustic",
+            finish: "Glossy Natural factory finish",
+            hardware: "Stock"
         },
         photos: {
-            obverse: "images/c90-f.jpg",
-            reverse: "images/c90-b.jpg",
-            angled: "images/c90-a.jpg"
+            obverse: "images/f335-f.jpg",
+            reverse: "images/f335-b.jpg",
+            angled: "images/f3335-a.jpg"
         },
         description: [
-            "The Yamaha C90 is a full-size classical nylon-string guitar built primarily as an entry-level student instrument within Yamaha’s long-running C Series line. It was engineered specifically to offer reliable build quality and accessible playability for beginners.",
-            "This guitar features an all-laminate construction that typically utilizes a layered spruce top paired with laminate back and sides, alongside a traditional wide, flat classical neck profile and a rosewood fingerboard. This design delivers a warm, soft, and rounded tone characteristic of nylon strings.",
-            "The C90 is built to withstand the physical demands of daily practice. Its sturdy finish and robust structural design make it highly resilient against minor bumps and shifting humidity levels, ensuring long-lasting durability."
+            "The Yamaha F335 is a highly popular, budget-friendly dreadnought acoustic guitar built primarily for beginners and value-conscious players. It features a traditional Western body shape that delivers full, robust projection, making it excellent for casual strumming. The body is constructed with a laminated spruce top and meranti back and sides, a combination that provides a resonant sound while making the instrument highly durable and resistant to changes in temperature and humidity.",
+            "For playability, the guitar features a comfortable, relatively slim neck paired with a rosewood fingerboard and reliable die-cast tuners. Overall, the F335 stands out for providing Yamaha's signature build quality and classic acoustic tone at a highly accessible price point.",
+            "This guitar was purchased circa 2023 in Parker Colorado."
         ]
     },   
 
