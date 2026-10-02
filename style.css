@@ -250,7 +250,7 @@ header.shrunk-pane .prelude-container {
     background-size: contain; /* Enforces Option B container containment values */
     background-position: top center;
     background-repeat: no-repeat;
-    background-color: #eae3cb; /* Historic Museum Ivory Parchment canvas floor fills any gaps */
+    background-color: #000000 !important;
     
     border: 1px solid #d4cbb3; /* Enforces clean ledger borders */
     box-shadow: none; /* DESIGN COMPLIANCE: Absolutely zero drop shadows */
