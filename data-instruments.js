@@ -16,7 +16,7 @@ const INSTRUMENTS_DATA = {
         photos: {
             obverse: "images/f335-f.jpg",
             reverse: "images/f335-b.jpg",
-            angled: "images/f3335-a.jpg"
+            angled: "images/f335-a.jpg"
         },
         description: [
             "The Yamaha F335 is a highly popular, budget-friendly dreadnought acoustic guitar built primarily for beginners and value-conscious players. It features a traditional Western body shape that delivers full, robust projection, making it excellent for casual strumming. The body is constructed with a laminated spruce top and meranti back and sides, a combination that provides a resonant sound while making the instrument highly durable and resistant to changes in temperature and humidity.",
@@ -149,7 +149,7 @@ const INSTRUMENTS_DATA = {
             angled: "images/cg151s-a.png"
         },
         description: [
-            "he Yamaha CG-151S is an intermediate-level nylon-string classical guitar known for its reliable craftsmanship, balanced resonance, and high-quality tone wood configuration. As part of Yamaha’s popular Concert Guitar (CG) lineup, the "S" designation denotes its solid top construction, allowing the acoustic properties of the instrument to mature and improve in tone over time"           
+            "he Yamaha CG-151S is an intermediate-level nylon-string classical guitar known for its reliable craftsmanship, balanced resonance, and high-quality tone wood configuration. As part of Yamaha’s popular Concert Guitar (CG) lineup, the -S- designation denotes its solid top construction, allowing the acoustic properties of the instrument to mature and improve in tone over time"           
         ]
     },  
    
