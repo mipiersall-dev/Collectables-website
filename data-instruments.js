@@ -68,4 +68,26 @@ const INSTRUMENTS_DATA = {
             "This guitar was received as a gift from Michael R. Piersall."
         ]
     },   
+
+   "pacifica": {
+        title: "Yamaha Pacifica",
+        category: "Musical Instruments",
+        specs: {
+            brand: "Yamaha",
+            model: "Pacifica",
+            type: "Electric",
+            finish: "Gloss Old Violin Sunburst",
+            hardware: "Stock"
+        },
+        photos: {
+            obverse: "images/pacifica-f.png",
+            reverse: "images/pacifica-b.png",
+            angled: "images/pacifica-a.png"
+        },
+        description: [
+            "Yamaha introduced the Pacifica line around 1990. The original idea was a Strat-style guitar updated with a humbucker in the bridge position. Yamaha already had a name for solid build quality in its other guitars, and the Pacifica brought that to an affordable, versatile design. The line took off, and Mike Stern's signature model (the 1511MS) helped show it wasn't only a beginner guitar.",
+            "It plays well out of the box, covers a wide range of tones (clean single-coil sparkle to humbucker crunch), and costs far less than comparable guitars. It's also a popular platform for modding, since people swap pickups and hardware to upgrade it cheaply.",
+            "This guitar was the first electric in the collection purchased in Frederick, MD crica 2010."
+        ]
+    },   
 };
