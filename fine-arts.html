@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Piersall Collection | Art Gallery</title>
+    
+    <!-- Premium Google Typography Engine (VERIFIED SUBDOMAIN PATHS) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    
+    <!-- Master design stylesheet framework -->
+    <link rel="stylesheet" href="style.css?v=1.5"> 
+</head>
+<body class="parchment-vault-view">
+
+    <!-- PERSISTENT TOP NAVIGATION RIBBON -->
+    <header>
+        <a href="index.html" style="text-decoration: none; color: inherit; display: inline-block;">
+            <span class="master-sign">The Piersall Collection</span>
+        </a>
+        <div class="navigation-ribbon">
+            <a href="phaleristics.html" class="nav-link-anchor">Phaleristics</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="numismatics.html" class="nav-link-anchor">Numismatics</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="fine-arts.html" class="nav-link-anchor" style="color: #cfad4b;">Fine Arts</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="musical-instruments.html" class="nav-link-anchor">Musical Instruments</a>
+        </div>
+        <p class="prelude-container">
+            A private curated archive dedicated to the preservation and historical study of international phaleristics, legacy instrumentation, and the fine arts.
+        </p>
+    </header>
+
+    <!-- MAIN EXHABICTION SURFACE -->
+    <main class="vault-container">
+        
+        <!-- ROW 1: Single Unified Historical Narrative Block -->
+        <section class="archive-narrative-block">
+            <h1>The Art Gallery</h1>
+            <p>
+                A private gallery dedicated to art collction of the Piersall family.  This collection features original artwork by members of the Piersall family alongside notable local artists and traditional printmakers, tracking variations in creative medium across oils, acrylics, and watercolor sheets.
+            </p>
+        </section>
+
+        <!-- ROW 2: AUTOMATED FINE ARTS GRID MATRIX FLOOR -->
+        <!-- The automation engine will dynamically inject your Excel rows directly right here -->
+        <section id="fine-arts-matrix-floor" class="specimen-grid-matrix"></section>
+
+    </main>
+     <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
+    <footer>
+        &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
+    </footer>
+
+    <!-- AUTOMATED CSV GRID ENGINE FOR THE ART GALLERY -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Fetch your raw spreadsheet file from your repository data folder
+            fetch('data/fine-arts.csv')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Fine Arts CSV database ledger could not be located.");
+                    }
+                    return response.text();
+                })
+                .then(csvText => {
+                    parseAndBuildGrid(csvText);
+                })
+                .catch(error => {
+                    console.error("Database Engine Error:", error);
+                    document.getElementById('fine-arts-matrix-floor').innerHTML = 
+                        `<p style="color: #1c1e21; grid-column: 1/-1; text-align: center;">Gallery Vault record ledger currently unavailable.</p>`;
+                });
+        });
+
+        function parseAndBuildGrid(text) {
+            const matrixFloor = document.getElementById('fine-arts-matrix-floor');
+            
+            // Split text lines while protecting commas locked inside Excel double quotes
+            const rows = [];
+            let currentToken = "";
+            let insideQuotes = false;
+            let currentRow = [];
+
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                let nextChar = text[i + 1];
+
+                if (char === '"') {
+                    if (insideQuotes && nextChar === '"') {
+                        currentToken += '"'; // Handles escaped quotation marks
+                        i++;
+                    } else {
+                        insideQuotes = !insideQuotes; // Toggles quote boundary tracking
+                    }
+                } else if (char === ',' && !insideQuotes) {
+                    currentRow.push(currentToken.trim());
+                    currentToken = "";
+                } else if ((char === '\r' || char === '\n') && !insideQuotes) {
+                    if (char === '\r' && nextChar === '\n') { i++; }
+                    currentRow.push(currentToken.trim());
+                    if (currentRow.length > 1 && currentRow[0] !== "") {
+                        rows.push(currentRow);
+                    }
+                    currentToken = "";
+                    currentRow = [];
+                } else {
+                    currentToken += char;
+                }
+            }
+            
+            // Flush out any remaining string data trailing at the absolute end
+            if (currentToken.trim() !== "" || currentRow.length > 0) {
+                currentRow.push(currentToken.trim());
+                if (currentRow.length > 1) { rows.push(currentRow); }
+            }
+
+            // Extract the headers row (Row 0) out of the data pool array
+            if (rows.length === 0) return;
+            const headers = rows.shift(); // Drops the "ID,Title,Artist..." label row safely
+
+            // Loop through each remaining data row to construct your display tiles automatically
+            rows.forEach(dataRow => {
+                // Excel columns mapping index tracking:
+                // 0:ID, 1:Title, 2:Artist, 3:Medium, 4:Base, 5:Frame, 6:Year, 7:Dimensions, 8:About
+                const itemId = dataRow[0];
+                const itemTitle = dataRow[1];
+                const itemArtist = dataRow[2];
+                const itemMedium = dataRow[3];
+                const itemYear = dataRow[6];
+
+                if (!itemId) return; // Skips any accidental blank structural lines cleanly
+
+                // Assembles the uniform museum card template dynamically on the fly
+                const card = document.createElement('a');
+                card.className = 'specimen-tile-card';
+                card.href = `item-arts.html?item=${itemId}`; // Routes underscores safely to the address query
+
+                card.innerHTML = `
+                    <div class="tile-photo-window">
+                        <!-- Points directly to your isolated fine arts image directory folder asset -->
+                        <img src="images/fine-arts/${itemId}-f.png" alt="${itemTitle}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://w3.org\' width=\'1\' height=\'1\'><rect width=\'1\' height=\'1\' fill=\'%23f4eee1\'/></svg>'">
+                    </div>
+                    <h3>${itemTitle}</h3>
+                    <ul class="tile-data-ledger">
+                        <li><strong>Artist:</strong> <span>${itemArtist}</span></li>
+                        <li><strong>Medium:</strong> <span>${itemMedium}</span></li>
+                        <li><strong>Year:</strong> <span>${itemYear}</span></li>
+                    </ul>
+                `;
+
+                matrixFloor.appendChild(card);
+            });
+        }
+
+        // Native scroll monitor to toggle the condensed header pane smoothly
+        window.addEventListener('scroll', function() {
+            const headerElement = document.querySelector('header');
+            if (window.scrollY > 40) {
+                headerElement.classList.add('shrunk-pane');
+            } else {
+                headerElement.classList.remove('shrunk-pane');
+            }
+        });
+    </script>
+
+</body>
+</html>
