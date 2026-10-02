@@ -246,7 +246,7 @@ header.shrunk-pane .prelude-container {
     aspect-ratio: 7 / 12; /* Symmetrically binds your 7:12 canvas ratio dimensions */
 
     /* FIXED: Injected the escape directory tag to force the asset route out of the styling framework folder loop */
-    background-image: url('../images/ledger-bg.jpg'); 
+    background-image: url('../images/panel-texture.jpg'); 
     background-size: contain; /* Enforces Option B container containment values */
     background-position: top center;
     background-repeat: no-repeat;
