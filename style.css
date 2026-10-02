@@ -219,7 +219,7 @@ header.shrunk-pane .prelude-container {
 .gallery-row.dark-room:hover h2 { color: #cfad4b; }
 .gallery-row.dark-room:hover p { color: #eae3cb; }
 
-/* --------------------------------------------------------------------------
+* --------------------------------------------------------------------------
    7. STEP 2 — PHALERISTICS GATEWAY LEDGER PILLARS (phaleristics.html)
    -------------------------------------------------------------------------- */
 .portal-widescreen-stage {
@@ -243,18 +243,12 @@ header.shrunk-pane .prelude-container {
     text-decoration: none;
     width: 100%;
     max-width: 360px;
-    aspect-ratio: 7 / 12; /* Symmetrically binds your 7:12 canvas ratio dimensions */
-
-    /* FIXED: Injected the escape directory tag to force the asset route out of the styling framework folder loop */
-    background-image: url('../images/panel-texture.jpg'); 
-    background-size: contain; /* Enforces Option B container containment values */
-    background-position: top center;
-    background-repeat: no-repeat;
-    background-color: #000000 !important;
-    
-    border: 1px solid #d4cbb3; /* Enforces clean ledger borders */
-    box-shadow: none; /* DESIGN COMPLIANCE: Absolutely zero drop shadows */
+    aspect-ratio: 7 / 12;
+    position: relative; /* CRITICAL: Acts as the anchor frame for the layered text */
+    background-color: #eae3cb; /* Premium museum parchment base color */
+    border: 1px solid #d4cbb3;
     box-sizing: border-box;
+    overflow: hidden; /* Keeps the internal image clipped perfectly inside the card */
     transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.3s ease;
 }
 
@@ -263,7 +257,23 @@ header.shrunk-pane .prelude-container {
     border-color: #cfad4b;
 }
 
+/* Formats the regular image asset to behave like a full containment backdrop */
+.pillar-backdrop-asset {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1; /* Sits safely at the baseline layer */
+}
+
+/* Forces the text column block to float directly on top of the image */
 .pillar-content-center {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -272,12 +282,13 @@ header.shrunk-pane .prelude-container {
     padding: 35px;
     text-align: center;
     box-sizing: border-box;
+    z-index: 2; /* Sits on top of the image layer */
 }
 
 .pillar-content-center h2 {
     font-size: 2rem;
     font-weight: 700;
-    color: #1c1e21; /* Historic charcoal black ink text */
+    color: #1c1e21; 
     letter-spacing: 2px;
     margin: 0 0 15px 0;
     transition: color 0.25s ease;
