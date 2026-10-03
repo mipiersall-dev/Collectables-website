@@ -617,3 +617,33 @@ body.parchment-vault-view,
     border-color: #d4cbb3 !important; /* Parchment border line highlights on hover */
     background-color: #ffffff !important; /* Soft reflective white fill shift */
 }
+
+/* ==========================================================================
+   THE PIERSALL COLLECTION: UNIVERSAL MUSEUM LOUPE INTERACTIVE ZOOM
+   ========================================================================== */
+
+/* 1. Prepares the Main Display Windows for Safe Internal Magnification */
+.main-hero-display {
+    position: relative;
+    overflow: hidden; /* Locks the zoomed image strictly inside the window frame boundaries */
+    cursor: zoom-in;  /* Updates the cursor pointer to indicate an interactive zoom element */
+}
+
+/* 2. Standardizes Transition Smoothness for Every Page Hero View Natively */
+#coin-hero-view,
+#art-hero-view,
+#instrument-hero-view {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform-origin: center center; /* Anchors baseline zoom to dead-center */
+    transition: transform 0.15s ease-out; /* Keeps the zoom gliding beautifully */
+    pointer-events: none; /* Prevents image dragging from blocking mouse tracking loops */
+}
+
+/* 3. Magnification State: Triggers instantly on desktop hover engagement */
+.main-hero-display:hover #coin-hero-view,
+.main-hero-display:hover #art-hero-view,
+.main-hero-display:hover #instrument-hero-view {
+    transform: scale(2.2); /* Locks in a highly crisp 2.2x macro magnification scale */
+}
