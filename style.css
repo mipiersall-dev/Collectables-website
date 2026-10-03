@@ -577,3 +577,43 @@ footer {
     width: 100%;
     box-sizing: border-box;
 }
+
+/* ==========================================================================
+   THE PIERSALL COLLECTION: LIGHTENED MUSEUM IVORY MASTER OVERRIDE
+   ========================================================================== */
+
+/* 1. Global Page Vault Canvas Realignment */
+body.parchment-vault-view, 
+.vault-container,
+.item-showcase-container {
+    background-color: #faf8f2 !important; /* Soft, lightened museum ivory */
+    color: #1c1e21 !important; /* Ink-charcoal typography for maximum contrast */
+}
+
+/* 2. Floating Seamless Catalog Cards (Strips White Boxes & Bounding Grids) */
+.coin-specimen-card,
+.specimen-tile-card,
+.instrument-specimen-card {
+    background-color: transparent !important; 
+    border: none !important; 
+    box-shadow: none !important; 
+    padding: 0 !important;
+}
+
+/* 3. Interactive Asset Framing: Hidden Border Baseline */
+.coin-image-frame,
+.tile-photo-window,
+.instrument-photo-window {
+    background-color: #faf8f2 !important; /* Seamlessly blends into backdrop */
+    border: 1px solid transparent !important; /* Completely hidden baseline border */
+    box-sizing: border-box;
+    transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+
+/* 4. Mouseover Engagement Trigger: Reveals Premium Parchment Boundary */
+.coin-specimen-card:hover .coin-image-frame,
+.specimen-tile-card:hover .tile-photo-window,
+.instrument-specimen-card:hover .instrument-photo-window {
+    border-color: #d4cbb3 !important; /* Parchment border line highlights on hover */
+    background-color: #ffffff !important; /* Soft reflective white fill shift */
+}
