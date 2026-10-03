@@ -1,18 +1,18 @@
-﻿ID,Title,Date,Mint,Type,Denomination,Grade,Grading Service,,
-morgan_g,1885-O Morgan Dollar,1885,New Orleans,Morgan Dollar,$1.00 ,MS64,PCGS,,
-peace_g,1925 Peace Dollar,1925,Philadelphia,Peace Dollar,$1.00 ,MS64,PCGS,,
-eisenhower_g,1972-S Silver Eisenhower Dollar,1972,San Francisco,Eisenhower/Ike Dollar,$1.00 ,MS67,PCGS,,
-kennedy_half_g,1971-D Kennedy Half Dollar,1971,Denver,Kennedy half Dollar,$0.50 ,MS66,PCGS,,
-franklin_half_g,1957-D Franklin Half Dollar,1957,Denver,Franklin Half Dollar,$0.50 ,MS64FBL,PCGS,,
-walking_half_g,1943 Walking Liberty Half,1943,,Walking Liberty Half Dollar,$0.50 ,MS64,PCGS,,
-jefferson_silver_g,1945 Jefferson Silver Nickel,1945,Philadelphia,Jefferson Nickel - Silver,$0.05 ,MS66,PCGS,,
-lincoln_wheat_g,1935 Lincoln Wheat Cent,1935,Philadelphia,Lincoln Wheat Cent,$0.01 ,MS66RD,PCGS,,
-trade_g,1878-S Trade Dollar,1878,San Francisco,Trade Dollar,$1.00 ,F12,PCGS,,
-washington_clad_g,1978 Washington Quarter,1978,,Washington Quarter,$0.25 ,MS66,PCGS,,
-buffalo_g,1938-D Buffalo Nickel,1938,Denver,Buffalo Nickel,$0.05 ,MS66,PCGS,,
-susan_b_g,1999-D Susan B. Anthony Dollar,1999,Denver,Susan B. Anthont Dollar,$1.00 ,MS66,PCGS,,
-sac_dollar_g,2001 Sacagawea  Dollar,2001,Philadelphia,Sacagawea  Dollar,$1.00 ,MS67,PCGS,,
-roose_dime_g,1980-P Roosevelt Dime,1980,Philadelphia,Roosevelt Dime,$0.10 ,MS66,PCGS,,
-merc_dime_g,1941-D Mercury Dime,1941,Denver,Mercury Dime,$0.10 ,MS66FB,PCGS,,
-liberty_nickel_g,1883 Liberty Nickel - No Cents,1883,,Liberty Nickel - No Cents,$0.05 ,MS64,PCGS,,
-indian_r,1861 Indian Head Cent,1861,Philadelphia,Indian Head Cent,$0.01 ,F12,Self Graded,,
+﻿ID,Title,Date,Mint,Type,Denomination,Grade,Grading Service,Category
+morgan_g,1885-O Morgan Dollar,1885,New Orleans,Morgan Dollar,$1.00 ,MS64,PCGS,US
+peace_g,1925 Peace Dollar,1925,Philadelphia,Peace Dollar,$1.00 ,MS64,PCGS,US
+eisenhower_g,1972-S Silver Eisenhower Dollar,1972,San Francisco,Eisenhower/Ike Dollar,$1.00 ,MS67,PCGS,US
+kennedy_half_g,1971-D Kennedy Half Dollar,1971,Denver,Kennedy half Dollar,$0.50 ,MS66,PCGS,US
+franklin_half_g,1957-D Franklin Half Dollar,1957,Denver,Franklin Half Dollar,$0.50 ,MS64FBL,PCGS,US
+walking_half_g,1943 Walking Liberty Half,1943,,Walking Liberty Half Dollar,$0.50 ,MS64,PCGS,US
+jefferson_silver_g,1945 Jefferson Silver Nickel,1945,Philadelphia,Jefferson Nickel - Silver,$0.05 ,MS66,PCGS,US
+lincoln_wheat_g,1935 Lincoln Wheat Cent,1935,Philadelphia,Lincoln Wheat Cent,$0.01 ,MS66RD,PCGS,US
+trade_g,1878-S Trade Dollar,1878,San Francisco,Trade Dollar,$1.00 ,F12,PCGS,US
+washington_clad_g,1978 Washington Quarter,1978,,Washington Quarter,$0.25 ,MS66,PCGS,US
+buffalo_g,1938-D Buffalo Nickel,1938,Denver,Buffalo Nickel,$0.05 ,MS66,PCGS,US
+susan_b_g,1999-D Susan B. Anthony Dollar,1999,Denver,Susan B. Anthont Dollar,$1.00 ,MS66,PCGS,US
+sac_dollar_g,2001 Sacagawea  Dollar,2001,Philadelphia,Sacagawea  Dollar,$1.00 ,MS67,PCGS,US
+roose_dime_g,1980-P Roosevelt Dime,1980,Philadelphia,Roosevelt Dime,$0.10 ,MS66,PCGS,US
+merc_dime_g,1941-D Mercury Dime,1941,Denver,Mercury Dime,$0.10 ,MS66FB,PCGS,US
+liberty_nickel_g,1883 Liberty Nickel - No Cents,1883,,Liberty Nickel - No Cents,$0.05 ,MS64,PCGS,US
+indian_r,1861 Indian Head Cent,1861,Philadelphia,Indian Head Cent,$0.01 ,Fine,Self Graded,token
