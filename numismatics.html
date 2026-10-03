@@ -6,9 +6,9 @@
     <title>The Piersall Collection | The Coin Cabinet</title>
     
     <!-- Premium Google Typography Engine (VERIFIED SUBDOMAIN PATHS) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     
     <!-- Master design stylesheet framework -->
     <link rel="stylesheet" href="style.css?v=1.5"> 
@@ -34,7 +34,7 @@
         </p>
     </header>
 
-    <!-- MAIN EXHABICTION SURFACE -->
+    <!-- MAIN EXHIBITION SURFACE -->
     <main class="vault-container">
         
         <!-- ROW 1: Master Archival Narrative Prelude -->
@@ -45,24 +45,35 @@
             </p>
         </section>
 
-        <!-- CHAMBER 1: UNITED STATES COINAGE SECTION -->
-        <section id="chamber-us-wrap" class="archive-narrative-block" style="display: none; margin-top: 50px;">
-            <h2 style="font-family: 'Cinzel', serif; font-size: 1.6rem; color: #1c1e21; border-bottom: 1px solid #d4cbb3; padding-bottom: 10px; margin-bottom: 25px;">United States Coinage</h2>
-            <div id="matrix-us-floor" class="coin-grid-matrix"></div>
+        <!-- ROW 2: SEARCH & FILTER CONTROL PANEL DECK -->
+        <section class="archive-narrative-block" style="margin-bottom: 35px; border-top: 1px solid #d4cbb3; padding-top: 25px;">
+            <div style="display: flex; flex-direction: column; gap: 20px; width: 100%;">
+                
+                <!-- Live Search Bar: Styled cleanly to match your parchment interface -->
+                <div style="width: 100%; max-width: 500px;">
+                    <input type="text" id="coin-search-input" placeholder="Search by year, mint, country, variety..." 
+                           style="width: 100%; padding: 12px 16px; font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #1c1e21; background-color: #f4eee1; border: 1px solid #d4cbb3; box-sizing: border-box; outline: none; transition: border-color 0.25s ease;">
+                </div>
+
+                <!-- Interactive Filter Row Indicators -->
+                <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 15px; font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 1px;">
+                    <button class="coin-filter-btn active" data-filter="all" style="background: none; border: none; color: #cfad4b; cursor: pointer; padding: 5px 10px; font-weight: 500;">All Items</button>
+                    <span style="color: #d4cbb3;">|</span>
+                    <button class="coin-filter-btn" data-filter="us" style="background: none; border: none; color: #57657a; cursor: pointer; padding: 5px 10px;">U.S. Coinage</button>
+                    <span style="color: #d4cbb3;">|</span>
+                    <button class="coin-filter-btn" data-filter="world" style="background: none; border: none; color: #57657a; cursor: pointer; padding: 5px 10px;">World & Intl</button>
+                    <span style="color: #d4cbb3;">|</span>
+                    <button class="coin-filter-btn" data-filter="token" style="background: none; border: none; color: #57657a; cursor: pointer; padding: 5px 10px;">Tokens & Exonumia</button>
+                    
+                    <!-- Dynamic Counter Tag -->
+                    <span id="coin-registry-counter" style="font-family: 'Inter', sans-serif; font-size: 0.85rem; color: #6c757d; margin-left: auto; text-transform: uppercase; letter-spacing: 0.5px;">Loading catalog records...</span>
+                </div>
+
+            </div>
         </section>
 
-        <!-- CHAMBER 2: WORLD & INTERNATIONAL NUMISMATICS SECTION -->
-        <!-- FIXED: This chamber now acts as the default home for world and ancient coins -->
-        <section id="chamber-world-wrap" class="archive-narrative-block" style="display: none; margin-top: 50px;">
-            <h2 style="font-family: 'Cinzel', serif; font-size: 1.6rem; color: #1c1e21; border-bottom: 1px solid #d4cbb3; padding-bottom: 10px; margin-bottom: 25px;">World & International Numismatics</h2>
-            <div id="matrix-world-floor" class="coin-grid-matrix"></div>
-        </section>
-
-        <!-- CHAMBER 3: MILITARY TOKENS & HISTORICAL EXONUMIA SECTION -->
-        <section id="chamber-token-wrap" class="archive-narrative-block" style="display: none; margin-top: 50px;">
-            <h2 style="font-family: 'Cinzel', serif; font-size: 1.6rem; color: #1c1e21; border-bottom: 1px solid #d4cbb3; padding-bottom: 10px; margin-bottom: 25px;">Military Tokens & Historical Exonumia</h2>
-            <div id="matrix-token-floor" class="coin-grid-matrix"></div>
-        </section>
+        <!-- ROW 3: UNIFIED UNBOUNDED MATRIX GRID FLOOR -->
+        <section id="numismatics-matrix-floor" class="coin-grid-matrix"></section>
 
     </main>
      <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
@@ -70,10 +81,16 @@
         &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
     </footer>
 
-    <!-- STREAMLINED CHAMBER SORTING CSV ENGINE -->
+    <!-- INTERACTIVE SEARCH & MATRIX FILTER ENGINE -->
     <script>
+        let MASTER_COIN_POOL = []; // Holds your entire Excel catalog array in live memory
+
         document.addEventListener("DOMContentLoaded", function() {
-            // Fetch your raw spreadsheet database file from the data folder
+            const searchInput = document.getElementById('coin-search-input');
+            searchInput.addEventListener('focus', () => searchInput.style.borderColor = '#cfad4b');
+            searchInput.addEventListener('blur', () => searchInput.style.borderColor = '#d4cbb3');
+
+            // Fetch the raw spreadsheet database from your repository folder
             fetch('data/numismatics.csv')
                 .then(response => {
                     if (!response.ok) {
@@ -82,21 +99,20 @@
                     return response.text();
                 })
                 .then(csvText => {
-                    parseAndRouteChambers(csvText);
+                    MASTER_COIN_POOL = parseCSVToArray(csvText);
+                    initializeSearchConsole();
+                    executeLiveSearch(); // Initial render pass to draw the active grid items
                 })
                 .catch(error => {
                     console.error("Database Engine Error:", error);
-                    const mainContainer = document.querySelector('.vault-container');
-                    const warning = document.createElement('p');
-                    warning.style.cssText = "color: #1c1e21; text-align: center; margin-top: 40px;";
-                    warning.textContent = "Coin Vault record ledger currently unavailable.";
-                    mainContainer.appendChild(warning);
+                    document.getElementById('numismatics-matrix-floor').innerHTML = 
+                        `<p style="color: #1c1e21; grid-column: 1/-1; text-align: center;">Coin Vault record ledger currently unavailable.</p>`;
                 });
         });
 
-        function parseAndRouteChambers(text) {
-            // Split text lines while protecting commas locked inside Excel double quotes
-            const rows = [];
+        // Translates your Excel CSV row text blocks cleanly into structural data objects
+        function parseCSVToArray(text) {
+            const lines = [];
             let currentToken = "";
             let insideQuotes = false;
             let currentRow = [];
@@ -107,10 +123,10 @@
 
                 if (char === '"') {
                     if (insideQuotes && nextChar === '"') {
-                        currentToken += '"'; // Handles escaped quotation marks
+                        currentToken += '"'; // Handles escaped quotes
                         i++;
                     } else {
-                        insideQuotes = !insideQuotes; // Toggles quote boundary tracking
+                        insideQuotes = !insideQuotes;
                     }
                 } else if (char === ',' && !insideQuotes) {
                     currentRow.push(currentToken.trim());
@@ -119,7 +135,7 @@
                     if (char === '\r' && nextChar === '\n') { i++; }
                     currentRow.push(currentToken.trim());
                     if (currentRow.length > 1 && currentRow !== "") {
-                        rows.push(currentRow);
+                        lines.push(currentRow);
                     }
                     currentToken = "";
                     currentRow = [];
@@ -129,91 +145,118 @@
             }
             if (currentToken.trim() !== "" || currentRow.length > 0) {
                 currentRow.push(currentToken.trim());
-                if (currentRow.length > 1) { rows.push(currentRow); }
+                if (currentRow.length > 1) { lines.push(currentRow); }
             }
 
-            if (rows.length === 0) return;
+            if (lines.length === 0) return [];
             
-            // Extract the headers row (Row 0) safely
-            const headers = rows.shift(); 
-
-            // Find column index values dynamically based on Excel headers
+            const headers = lines.shift(); // Strips out the top row headers cell label line
+            
+            // Map header indexes dynamically to match your Excel columns perfectly
             const idxId = headers.findIndex(h => h.toLowerCase() === 'id');
-            const idxChamber = headers.findIndex(h => h.toLowerCase() === 'chamber');
+            const idxCategory = headers.findIndex(h => h.toLowerCase() === 'category'); // Tracks your "Category" column header!
             const idxTitle = headers.findIndex(h => h.toLowerCase() === 'title');
             const idxDate = headers.findIndex(h => h.toLowerCase() === 'date');
             const idxMint = headers.findIndex(h => h.toLowerCase() === 'mint');
             const idxDenom = headers.findIndex(h => h.toLowerCase() === 'denomination');
             const idxGrade = headers.findIndex(h => h.toLowerCase() === 'grade');
+            const idxAbout = headers.findIndex(h => h.toLowerCase() === 'about');
 
-            const idCol = idxId !== -1 ? idxId : 0;
-            const chamberCol = idxChamber !== -1 ? idxChamber : 1;
-            const titleCol = idxTitle !== -1 ? idxTitle : 2;
-            const dateCol = idxDate !== -1 ? idxDate : 3;
-            const mintCol = idxMint !== -1 ? idxMint : 4;
-            const denomCol = idxDenom !== -1 ? idxDenom : 6;
-            const gradeCol = idxGrade !== -1 ? idxGrade : 7;
+            return lines.map(row => {
+                return {
+                    id: row[idxId !== -1 ? idxId : 0] || "",
+                    category: row[idxCategory !== -1 ? idxCategory : 1] || "",
+                    title: row[idxTitle !== -1 ? idxTitle : 2] || "",
+                    date: row[idxDate !== -1 ? idxDate : 3] || "",
+                    mint: row[idxMint !== -1 ? idxMint : 4] || "",
+                    denom: row[idxDenom !== -1 ? idxDenom : 6] || "",
+                    grade: row[idxGrade !== -1 ? idxGrade : 7] || "",
+                    about: row[idxAbout !== -1 ? idxAbout : 8] || ""
+                };
+            }).filter(item => item.id !== ""); // Cleans out stray empty rows
+        }
 
-            // Loop through each remaining coin row to route them dynamically
-            rows.forEach(dataRow => {
-                const itemId = dataRow[idCol];
-                const itemChamber = dataRow[chamberCol] ? dataRow[chamberCol].toLowerCase().trim() : "";
-                const itemTitle = dataRow[titleCol];
-                const itemDate = dataRow[dateCol];
-                const itemMint = dataRow[mintCol];
-                const itemDenom = dataRow[denomCol];
-                const itemGrade = dataRow[gradeCol];
+        // Binds live typing actions and filter clicks straight to the rendering engine
+        function initializeSearchConsole() {
+            const searchInput = document.getElementById('coin-search-input');
+            const filterButtons = document.querySelectorAll('.coin-filter-btn');
 
-                if (!itemId) return; // Skips blank rows safely
+            searchInput.addEventListener('input', executeLiveSearch);
 
-                let targetFloorId = "";
-                let targetWrapId = "";
-
-                // REVISED ROUTER LOGIC: Merges ancient criteria directly into the World room tracking loops
-                if (itemChamber.includes("us") || itemChamber.includes("united")) {
-                    targetFloorId = "matrix-us-floor";
-                    targetWrapId = "chamber-us-wrap";
-                } else if (itemChamber.includes("world") || itemChamber.includes("intl") || itemChamber.includes("international") || itemChamber.includes("ancient")) {
-                    targetFloorId = "matrix-world-floor";
-                    targetWrapId = "chamber-world-wrap";
-                } else if (itemChamber.includes("token") || itemChamber.includes("exonumia")) {
-                    targetFloorId = "matrix-token-floor";
-                    targetWrapId = "chamber-token-wrap";
-                } else {
-                    targetFloorId = "matrix-us-floor";
-                    targetWrapId = "chamber-us-wrap";
-                }
-
-                const matrixFloor = document.getElementById(targetFloorId);
-                const chamberWrap = document.getElementById(targetWrapId);
-
-                if (matrixFloor && chamberWrap) {
-                    // Unlocks the museum header section visibility instantly on the fly
-                    chamberWrap.style.display = "block";
-
-                    // Assembles the uniform coin card template matching your design rules
-                    const card = document.createElement('a');
-                    card.className = 'coin-specimen-card';
-                    card.href = `item-coins.html?item=${itemId}`; // Routes underscores safely to URL parameter
-
-                    card.innerHTML = `
-                        <div class="coin-image-frame">
-                            <img src="images/numismatics/${itemId}-1.png" alt="${itemTitle}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://w3.org\' width=\'1\' height=\'1\'><rect width=\'1\' height=\'1\' fill=\'%23f4eee1\'/></svg>'">
-                        </div>
-                        <h3>${itemTitle}</h3>
-                        <ul class="coin-data-ledger">
-                            <li><strong>Denom:</strong> <span>${itemDenom}</span></li>
-                            <li><strong>Date/Mint:</strong> <span>${itemDate} ${itemMint}</span></li>
-                            <li><strong>Grade:</strong> <span>${itemGrade}</span></li>
-                        </ul>
-                    `;
-
-                    matrixFloor.appendChild(card);
-                }
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filterButtons.forEach(b => {
+                        b.classList.remove('active');
+                        b.style.color = '#57657a';
+                        b.style.fontWeight = '400';
+                    });
+                    this.classList.add('active');
+                    this.style.color = '#cfad4b';
+                    this.style.fontWeight = '500';
+                    executeLiveSearch();
+                });
             });
         }
 
-        // Native scroll monitor to toggle the condensed header pane smoothly
+        // Executes the real-time search logic and dynamically draws matching cards
+        function executeLiveSearch() {
+            const query = document.getElementById('coin-search-input').value.toLowerCase().trim();
+            const activeFilter = document.querySelector('.coin-filter-btn.active').getAttribute('data-filter');
+            const matrixFloor = document.getElementById('numismatics-matrix-floor');
+            
+            matrixFloor.innerHTML = ""; // Flushes out the old display tiles instantly
+
+            let matchingCount = 0;
+
+            MASTER_COIN_POOL.forEach(coin => {
+                const coinCategory = coin.category.toLowerCase();
+                
+                // 1. Filter Category Evaluation Check (Includes ancient check mapped straight into world room)
+                if (activeFilter === 'us' && !(coinCategory.includes('us') || coinCategory.includes('united'))) return;
+                if (activeFilter === 'world' && !(coinCategory.includes('world') || coinCategory.includes('intl') || coinCategory.includes('international') || coinCategory.includes('ancient'))) return;
+                if (activeFilter === 'token' && !(coinCategory.includes('token') || coinCategory.includes('exonumia'))) return;
+
+                // 2. Text Query Search String Evaluation Check
+                const matchesSearch = 
+                    coin.title.toLowerCase().includes(query) ||
+                    coin.date.toLowerCase().includes(query) ||
+                    coin.mint.toLowerCase().includes(query) ||
+                    coin.denom.toLowerCase().includes(query) ||
+                    coin.grade.toLowerCase().includes(query) ||
+                    coin.about.toLowerCase().includes(query);
+
+                if (!matchesSearch) return;
+
+                matchingCount++;
+
+                // 3. Construct the matching coin card tile dynamically (Universal numeric photo -1 standard)
+                const card = document.createElement('a');
+                card.className = 'coin-specimen-card';
+                card.href = `item-coins.html?item=${coin.id}`;
+
+                card.innerHTML = `
+                    <div class="coin-image-frame">
+                        <img src="images/numismatics/${coin.id}-1.png" alt="${coin.title}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://w3.org\' width=\'1\' height=\'1\'><rect width=\'1\' height=\'1\' fill=\'%23f4eee1\'/></svg>'">
+                    </div>
+                    <h3>${coin.title}</h3>
+                    <ul class="coin-data-ledger">
+                        <li><strong>Denom:</strong> <span>${coin.denom}</span></li>
+                        <li><strong>Date/Mint:</strong> <span>${coin.date} ${coin.mint}</span></li>
+                        <li><strong>Grade:</strong> <span>${coin.grade}</span></li>
+                    </ul>
+                `;
+                matrixFloor.appendChild(card);
+            });
+
+            // 4. Update the museum count status line dynamically
+            const counterTag = document.getElementById('coin-registry-counter');
+            counterTag.textContent = `Showing ${matchingCount} of ${MASTER_COIN_POOL.length} Specimens`;
+
+            if (matchingCount === 0) {
+                matrixFloor.innerHTML = `<p style="color: #6c757d; grid-column: 1/-1; text-align: center; margin-top: 30px; font-family: 'Inter', sans-serif;">No registry specimens match your active query criteria.</p>`;
+            }
+        }
+
         window.addEventListener('scroll', function() {
             const headerElement = document.querySelector('header');
             if (window.scrollY > 40) {
@@ -223,6 +266,5 @@
             }
         });
     </script>
-
 </body>
 </html>
