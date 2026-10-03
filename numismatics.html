@@ -41,30 +41,24 @@
         <section class="archive-narrative-block">
             <h1>The Coin Cabinet</h1>
             <p>
-                A comprehensive registry tracking historic United States coinage, world and international numismatics, ancient antiquities, and specialized military tokens or historical exonumia. This archive details physical composition, strike origins, and certified grading matrices across diverse historical eras. Each specimen balances technical ledger data against raw photographic exposures to preserve fine mint marks, surface patina, and engraving details cleanly.
+                A comprehensive registry tracking historic United States coinage, world and international numismatics, and specialized military tokens or historical exonumia. This archive details physical composition, strike origins, and certified grading matrices across diverse historical eras. Each specimen balances technical ledger data against raw photographic exposures to preserve fine mint marks, surface patina, and engraving details cleanly.
             </p>
         </section>
 
         <!-- CHAMBER 1: UNITED STATES COINAGE SECTION -->
-        <!-- Hidden by default, script will reveal it if items match -->
         <section id="chamber-us-wrap" class="archive-narrative-block" style="display: none; margin-top: 50px;">
             <h2 style="font-family: 'Cinzel', serif; font-size: 1.6rem; color: #1c1e21; border-bottom: 1px solid #d4cbb3; padding-bottom: 10px; margin-bottom: 25px;">United States Coinage</h2>
             <div id="matrix-us-floor" class="coin-grid-matrix"></div>
         </section>
 
         <!-- CHAMBER 2: WORLD & INTERNATIONAL NUMISMATICS SECTION -->
+        <!-- FIXED: This chamber now acts as the default home for world and ancient coins -->
         <section id="chamber-world-wrap" class="archive-narrative-block" style="display: none; margin-top: 50px;">
             <h2 style="font-family: 'Cinzel', serif; font-size: 1.6rem; color: #1c1e21; border-bottom: 1px solid #d4cbb3; padding-bottom: 10px; margin-bottom: 25px;">World & International Numismatics</h2>
             <div id="matrix-world-floor" class="coin-grid-matrix"></div>
         </section>
 
-        <!-- CHAMBER 3: ANCIENT ANTIQUITIES SECTION -->
-        <section id="chamber-ancient-wrap" class="archive-narrative-block" style="display: none; margin-top: 50px;">
-            <h2 style="font-family: 'Cinzel', serif; font-size: 1.6rem; color: #1c1e21; border-bottom: 1px solid #d4cbb3; padding-bottom: 10px; margin-bottom: 25px;">Ancient Antiquities</h2>
-            <div id="matrix-ancient-floor" class="coin-grid-matrix"></div>
-        </section>
-
-        <!-- CHAMBER 4: MILITARY TOKENS & HISTORICAL EXONUMIA SECTION -->
+        <!-- CHAMBER 3: MILITARY TOKENS & HISTORICAL EXONUMIA SECTION -->
         <section id="chamber-token-wrap" class="archive-narrative-block" style="display: none; margin-top: 50px;">
             <h2 style="font-family: 'Cinzel', serif; font-size: 1.6rem; color: #1c1e21; border-bottom: 1px solid #d4cbb3; padding-bottom: 10px; margin-bottom: 25px;">Military Tokens & Historical Exonumia</h2>
             <div id="matrix-token-floor" class="coin-grid-matrix"></div>
@@ -76,7 +70,7 @@
         &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
     </footer>
 
-    <!-- DYNAMIC CHAMBER SORTING CSV ENGINE -->
+    <!-- STREAMLINED CHAMBER SORTING CSV ENGINE -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Fetch your raw spreadsheet database file from the data folder
@@ -92,7 +86,6 @@
                 })
                 .catch(error => {
                     console.error("Database Engine Error:", error);
-                    // In case of a 404 tracking crash, project a warning on the layout floor
                     const mainContainer = document.querySelector('.vault-container');
                     const warning = document.createElement('p');
                     warning.style.cssText = "color: #1c1e21; text-align: center; margin-top: 40px;";
@@ -141,11 +134,10 @@
 
             if (rows.length === 0) return;
             
-            // Extract the headers row (Row 0) out of the data pool safely
+            // Extract the headers row (Row 0) safely
             const headers = rows.shift(); 
 
-            // Find column index values dynamically based on your Excel spreadsheet header placement
-            // Expected columns: ID, Chamber, Title, Date, Mint, Type, Denomination, Grade, Grading Service, Weight, About
+            // Find column index values dynamically based on Excel headers
             const idxId = headers.findIndex(h => h.toLowerCase() === 'id');
             const idxChamber = headers.findIndex(h => h.toLowerCase() === 'chamber');
             const idxTitle = headers.findIndex(h => h.toLowerCase() === 'title');
@@ -154,7 +146,6 @@
             const idxDenom = headers.findIndex(h => h.toLowerCase() === 'denomination');
             const idxGrade = headers.findIndex(h => h.toLowerCase() === 'grade');
 
-            // Fallback static indexes if exact match search criteria behaves oddly
             const idCol = idxId !== -1 ? idxId : 0;
             const chamberCol = idxChamber !== -1 ? idxChamber : 1;
             const titleCol = idxTitle !== -1 ? idxTitle : 2;
@@ -175,25 +166,20 @@
 
                 if (!itemId) return; // Skips blank rows safely
 
-                // Set up target variables to map layout targets dynamically
                 let targetFloorId = "";
                 let targetWrapId = "";
 
-                // SMART ROUTER LOGIC: Evaluates the text inside your Excel "Chamber" cell
+                // REVISED ROUTER LOGIC: Merges ancient criteria directly into the World room tracking loops
                 if (itemChamber.includes("us") || itemChamber.includes("united")) {
                     targetFloorId = "matrix-us-floor";
                     targetWrapId = "chamber-us-wrap";
-                } else if (itemChamber.includes("world") || itemChamber.includes("intl") || itemChamber.includes("international")) {
+                } else if (itemChamber.includes("world") || itemChamber.includes("intl") || itemChamber.includes("international") || itemChamber.includes("ancient")) {
                     targetFloorId = "matrix-world-floor";
                     targetWrapId = "chamber-world-wrap";
-                } else if (itemChamber.includes("ancient")) {
-                    targetFloorId = "matrix-ancient-floor";
-                    targetWrapId = "chamber-ancient-wrap";
                 } else if (itemChamber.includes("token") || itemChamber.includes("exonumia")) {
                     targetFloorId = "matrix-token-floor";
                     targetWrapId = "chamber-token-wrap";
                 } else {
-                    // Fallback default catch to protect unassigned entries from disappearing
                     targetFloorId = "matrix-us-floor";
                     targetWrapId = "chamber-us-wrap";
                 }
@@ -212,7 +198,6 @@
 
                     card.innerHTML = `
                         <div class="coin-image-frame">
-                            <!-- Points directly to your isolated numerical folder asset standard -->
                             <img src="images/numismatics/${itemId}-1.png" alt="${itemTitle}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://w3.org\' width=\'1\' height=\'1\'><rect width=\'1\' height=\'1\' fill=\'%23f4eee1\'/></svg>'">
                         </div>
                         <h3>${itemTitle}</h3>
