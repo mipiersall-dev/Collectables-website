@@ -37,7 +37,7 @@
     <!-- MAIN EXHABICTION SURFACE -->
     <main class="vault-container">
         
-        <!-- ROW 1: Single Unified Historical Narrative Block -->
+        <!-- ROW 1: Master Archival Narrative Prelude -->
         <section class="archive-narrative-block">
             <h1>The Coin Cabinet</h1>
             <p>
@@ -45,40 +45,63 @@
             </p>
         </section>
 
-        <!-- ROW 2: AUTOMATED COIN GRID MATRIX FLOOR -->
-        <!-- The automation engine will dynamically inject your Excel rows directly right here -->
-        <section id="numismatics-matrix-floor" class="coin-grid-matrix"></section>
+        <!-- CHAMBER 1: UNITED STATES COINAGE SECTION -->
+        <!-- Hidden by default, script will reveal it if items match -->
+        <section id="chamber-us-wrap" class="archive-narrative-block" style="display: none; margin-top: 50px;">
+            <h2 style="font-family: 'Cinzel', serif; font-size: 1.6rem; color: #1c1e21; border-bottom: 1px solid #d4cbb3; padding-bottom: 10px; margin-bottom: 25px;">United States Coinage</h2>
+            <div id="matrix-us-floor" class="coin-grid-matrix"></div>
+        </section>
+
+        <!-- CHAMBER 2: WORLD & INTERNATIONAL NUMISMATICS SECTION -->
+        <section id="chamber-world-wrap" class="archive-narrative-block" style="display: none; margin-top: 50px;">
+            <h2 style="font-family: 'Cinzel', serif; font-size: 1.6rem; color: #1c1e21; border-bottom: 1px solid #d4cbb3; padding-bottom: 10px; margin-bottom: 25px;">World & International Numismatics</h2>
+            <div id="matrix-world-floor" class="coin-grid-matrix"></div>
+        </section>
+
+        <!-- CHAMBER 3: ANCIENT ANTIQUITIES SECTION -->
+        <section id="chamber-ancient-wrap" class="archive-narrative-block" style="display: none; margin-top: 50px;">
+            <h2 style="font-family: 'Cinzel', serif; font-size: 1.6rem; color: #1c1e21; border-bottom: 1px solid #d4cbb3; padding-bottom: 10px; margin-bottom: 25px;">Ancient Antiquities</h2>
+            <div id="matrix-ancient-floor" class="coin-grid-matrix"></div>
+        </section>
+
+        <!-- CHAMBER 4: MILITARY TOKENS & HISTORICAL EXONUMIA SECTION -->
+        <section id="chamber-token-wrap" class="archive-narrative-block" style="display: none; margin-top: 50px;">
+            <h2 style="font-family: 'Cinzel', serif; font-size: 1.6rem; color: #1c1e21; border-bottom: 1px solid #d4cbb3; padding-bottom: 10px; margin-bottom: 25px;">Military Tokens & Historical Exonumia</h2>
+            <div id="matrix-token-floor" class="coin-grid-matrix"></div>
+        </section>
 
     </main>
-    <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
+     <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
     <footer>
         &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
     </footer>
 
-    <!-- AUTOMATED CSV GRID ENGINE FOR THE COIN CABINET -->
+    <!-- DYNAMIC CHAMBER SORTING CSV ENGINE -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Fetch your raw spreadsheet file from your repository data folder
+            // Fetch your raw spreadsheet database file from the data folder
             fetch('data/numismatics.csv')
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error("Numismatic CSV database ledger could not be located.");
+                        throw new Error("Numismatic CSV database ledger could not be accessed.");
                     }
                     return response.text();
                 })
                 .then(csvText => {
-                    parseAndBuildCoinGrid(csvText);
+                    parseAndRouteChambers(csvText);
                 })
                 .catch(error => {
                     console.error("Database Engine Error:", error);
-                    document.getElementById('numismatics-matrix-floor').innerHTML = 
-                        `<p style="color: #1c1e21; grid-column: 1/-1; text-align: center;">Coin Vault record ledger currently unavailable.</p>`;
+                    // In case of a 404 tracking crash, project a warning on the layout floor
+                    const mainContainer = document.querySelector('.vault-container');
+                    const warning = document.createElement('p');
+                    warning.style.cssText = "color: #1c1e21; text-align: center; margin-top: 40px;";
+                    warning.textContent = "Coin Vault record ledger currently unavailable.";
+                    mainContainer.appendChild(warning);
                 });
         });
 
-        function parseAndBuildCoinGrid(text) {
-            const matrixFloor = document.getElementById('numismatics-matrix-floor');
-            
+        function parseAndRouteChambers(text) {
             // Split text lines while protecting commas locked inside Excel double quotes
             const rows = [];
             let currentToken = "";
@@ -111,49 +134,97 @@
                     currentToken += char;
                 }
             }
-            
-            // Flush out any remaining string data trailing at the absolute end
             if (currentToken.trim() !== "" || currentRow.length > 0) {
                 currentRow.push(currentToken.trim());
                 if (currentRow.length > 1) { rows.push(currentRow); }
             }
 
-            // Extract the headers row (Row 0) out of the data pool array
             if (rows.length === 0) return;
-            const headers = rows.shift(); // Drops the header label row safely
+            
+            // Extract the headers row (Row 0) out of the data pool safely
+            const headers = rows.shift(); 
 
-            // Loop through each remaining data row to construct your coin tiles automatically
+            // Find column index values dynamically based on your Excel spreadsheet header placement
+            // Expected columns: ID, Chamber, Title, Date, Mint, Type, Denomination, Grade, Grading Service, Weight, About
+            const idxId = headers.findIndex(h => h.toLowerCase() === 'id');
+            const idxChamber = headers.findIndex(h => h.toLowerCase() === 'chamber');
+            const idxTitle = headers.findIndex(h => h.toLowerCase() === 'title');
+            const idxDate = headers.findIndex(h => h.toLowerCase() === 'date');
+            const idxMint = headers.findIndex(h => h.toLowerCase() === 'mint');
+            const idxDenom = headers.findIndex(h => h.toLowerCase() === 'denomination');
+            const idxGrade = headers.findIndex(h => h.toLowerCase() === 'grade');
+
+            // Fallback static indexes if exact match search criteria behaves oddly
+            const idCol = idxId !== -1 ? idxId : 0;
+            const chamberCol = idxChamber !== -1 ? idxChamber : 1;
+            const titleCol = idxTitle !== -1 ? idxTitle : 2;
+            const dateCol = idxDate !== -1 ? idxDate : 3;
+            const mintCol = idxMint !== -1 ? idxMint : 4;
+            const denomCol = idxDenom !== -1 ? idxDenom : 6;
+            const gradeCol = idxGrade !== -1 ? idxGrade : 7;
+
+            // Loop through each remaining coin row to route them dynamically
             rows.forEach(dataRow => {
-                // Spreadsheet Index Mapping:
-                // 0:id, 1:title, 2:date, 3:mint, 4:type, 5:denom, 6:grade, 7:grading_service
-                const itemId = dataRow[0];
-                const itemTitle = dataRow[1];
-                const itemDate = dataRow[2];
-                const itemMint = dataRow[3];
-                const itemDenom = dataRow[5];
-                const itemGrade = dataRow[6];
+                const itemId = dataRow[idCol];
+                const itemChamber = dataRow[chamberCol] ? dataRow[chamberCol].toLowerCase().trim() : "";
+                const itemTitle = dataRow[titleCol];
+                const itemDate = dataRow[dateCol];
+                const itemMint = dataRow[mintCol];
+                const itemDenom = dataRow[denomCol];
+                const itemGrade = dataRow[gradeCol];
 
-                if (!itemId) return; // Skips blank rows cleanly
+                if (!itemId) return; // Skips blank rows safely
 
-                // Assembles the uniform coin card template dynamically on the fly
-                const card = document.createElement('a');
-                card.className = 'coin-specimen-card';
-                card.href = `item-coins.html?item=${itemId}`; // Routes underscores safely to the query
+                // Set up target variables to map layout targets dynamically
+                let targetFloorId = "";
+                let targetWrapId = "";
 
-                card.innerHTML = `
-                    <div class="coin-image-frame">
-                        <!-- Points directly to your isolated numerical folder asset standard -->
-                        <img src="images/numismatics/${itemId}-1.png" alt="${itemTitle}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://w3.org\' width=\'1\' height=\'1\'><rect width=\'1\' height=\'1\' fill=\'%23f4eee1\'/></svg>'">
-                    </div>
-                    <h3>${itemTitle}</h3>
-                    <ul class="coin-data-ledger">
-                        <li><strong>Denom:</strong> <span>${itemDenom}</span></li>
-                        <li><strong>Date/Mint:</strong> <span>${itemDate} ${itemMint}</span></li>
-                        <li><strong>Grade:</strong> <span>${itemGrade}</span></li>
-                    </ul>
-                `;
+                // SMART ROUTER LOGIC: Evaluates the text inside your Excel "Chamber" cell
+                if (itemChamber.includes("us") || itemChamber.includes("united")) {
+                    targetFloorId = "matrix-us-floor";
+                    targetWrapId = "chamber-us-wrap";
+                } else if (itemChamber.includes("world") || itemChamber.includes("intl") || itemChamber.includes("international")) {
+                    targetFloorId = "matrix-world-floor";
+                    targetWrapId = "chamber-world-wrap";
+                } else if (itemChamber.includes("ancient")) {
+                    targetFloorId = "matrix-ancient-floor";
+                    targetWrapId = "chamber-ancient-wrap";
+                } else if (itemChamber.includes("token") || itemChamber.includes("exonumia")) {
+                    targetFloorId = "matrix-token-floor";
+                    targetWrapId = "chamber-token-wrap";
+                } else {
+                    // Fallback default catch to protect unassigned entries from disappearing
+                    targetFloorId = "matrix-us-floor";
+                    targetWrapId = "chamber-us-wrap";
+                }
 
-                matrixFloor.appendChild(card);
+                const matrixFloor = document.getElementById(targetFloorId);
+                const chamberWrap = document.getElementById(targetWrapId);
+
+                if (matrixFloor && chamberWrap) {
+                    // Unlocks the museum header section visibility instantly on the fly
+                    chamberWrap.style.display = "block";
+
+                    // Assembles the uniform coin card template matching your design rules
+                    const card = document.createElement('a');
+                    card.className = 'coin-specimen-card';
+                    card.href = `item-coins.html?item=${itemId}`; // Routes underscores safely to URL parameter
+
+                    card.innerHTML = `
+                        <div class="coin-image-frame">
+                            <!-- Points directly to your isolated numerical folder asset standard -->
+                            <img src="images/numismatics/${itemId}-1.png" alt="${itemTitle}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://w3.org\' width=\'1\' height=\'1\'><rect width=\'1\' height=\'1\' fill=\'%23f4eee1\'/></svg>'">
+                        </div>
+                        <h3>${itemTitle}</h3>
+                        <ul class="coin-data-ledger">
+                            <li><strong>Denom:</strong> <span>${itemDenom}</span></li>
+                            <li><strong>Date/Mint:</strong> <span>${itemDate} ${itemMint}</span></li>
+                            <li><strong>Grade:</strong> <span>${itemGrade}</span></li>
+                        </ul>
+                    `;
+
+                    matrixFloor.appendChild(card);
+                }
             });
         }
 
