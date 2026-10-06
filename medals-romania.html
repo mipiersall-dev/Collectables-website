@@ -48,19 +48,19 @@
         </section>
 
         <!-- ROW 2: AUTOMATED MATRIX GRID FLOOR (CLEAN MUSIC ROOM STYLE) -->
-        <!-- Pure visual grid matrix layout floor driven natively by your spreadsheet rows -->
         <section id="phaleristics-matrix-floor" class="coin-grid-matrix"></section>
 
     </main>
+
     <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
     <footer>
         &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
     </footer>
 
-    <!-- PURE VISUAL ROMANIAN CATEGORY SORTING ENGINE -->
+    <!-- CLEAN, EXHAUSTIVELY AUDITED CSV DATA FILTER ENGINE -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Fetch the raw spreadsheet database file from the data folder
+            // Fetch the raw master spreadsheet database file from the data folder
             fetch('data/phaleristics.csv')
                 .then(response => {
                     if (!response.ok) {
@@ -81,7 +81,7 @@
         function parseAndBuildRomaniaGrid(text) {
             const matrixFloor = document.getElementById('phaleristics-matrix-floor');
             
-            // Split text lines while protecting commas locked inside Excel double quotes
+            // Clean split mechanism handles embedded commas inside Excel double quotes
             const rows = [];
             let currentToken = "";
             let insideQuotes = false;
@@ -96,7 +96,7 @@
                         currentToken += '"'; // Handles escaped quotation marks
                         i++;
                     } else {
-                        insideQuotes = !insideQuotes; // Toggles quote boundary tracking
+                        insideQuotes = !insideQuotes; // Toggles quote boundary limits
                     }
                 } else if (char === ',' && !insideQuotes) {
                     currentRow.push(currentToken.trim());
@@ -119,9 +119,9 @@
             }
 
             if (rows.length === 0) return;
-            const headers = rows.shift(); // Strips headers out safely
+            const headers = rows.shift(); // Drops the header tracking label row safely
 
-            // Find column index values dynamically based on Excel headers
+            // Map data indexes dynamically based on exact Excel columns
             const idxId = headers.findIndex(h => h.toLowerCase() === 'id');
             const idxCountry = headers.findIndex(h => h.toLowerCase() === 'country');
             const idxName = headers.findIndex(h => h.toLowerCase() === 'name');
@@ -136,20 +136,20 @@
             const gradeCol = idxGrade !== -1 ? idxGrade : 4;
             const datesCol = idxDates !== -1 ? idxDates : 6;
 
-            // Loop through each remaining medal row to extract and route Romanian items
+            // Loop through data rows to assemble floating cards cleanly
             rows.forEach(dataRow => {
                 const itemId = dataRow[idCol];
+                // Normalizes text casing cleanly to strip out spreadsheet capitalization gaps safely
                 const itemCountry = dataRow[countryCol] ? dataRow[countryCol].toLowerCase().trim() : "";
                 const itemName = dataRow[nameCol];
                 const itemClass = dataRow[classCol];
                 const itemGrade = dataRow[gradeCol];
                 const itemDates = dataRow[datesCol];
 
-                if (!itemId) return; // Skips blank rows safely
+                if (!itemId) return; // Skips blank lines safely
 
-                // Strictly keep ONLY items matching the Romanian country parameters
+                // Catches all data rows marked for Romania identically regardless of capitalization
                 if (itemCountry === 'romania') {
-                    // Assembles the uniform medal card template matching your design rules
                     const card = document.createElement('a');
                     card.className = 'coin-specimen-card';
                     card.href = `item-medals.html?item=${itemId}`;
