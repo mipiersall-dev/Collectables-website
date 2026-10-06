@@ -45,124 +45,44 @@
             </p>
         </section>
 
-        <!-- ROW 2: AUTOMATED MEDAL GRID MATRIX FLOOR (CLEAN MUSIC ROOM STYLE) -->
-        <!-- Seamless floating cards layout framework driven entirely by your master spreadsheet data -->
-        <section id="phaleristics-matrix-floor" class="coin-grid-matrix"></section>
+        <!-- ROW 2: MASTER THREE-PANEL MEDAL PORTAL WITH STRUCTURED LAYERED IMAGES -->
+        <div class="portal-horizontal-row">
+            
+            <!-- Panel 1: Romanian Vault Doorway Link -->
+            <a href="medals-romania.html" class="vertical-pillar-box">
+                <img src="images/medals/portal-romania.png" class="pillar-backdrop-asset" alt="Romanian Orders Backdrop">
+                <div class="pillar-content-center">
+                    <h2>Romanian Orders</h2>
+                    <p>Click here for Kingdom orders, civil merit medals, and specialized military decorations.</p>
+                </div>
+            </a>
 
-    </main>
-     <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
+            <!-- Panel 2: United States Vault Doorway Link -->
+            <a href="medals-us.html" class="vertical-pillar-box">
+                <img src="images/medals/portal-us.png" class="pillar-backdrop-asset" alt="US Decorations Backdrop">
+                <div class="pillar-content-center">
+                    <h2>U.S. Decorations</h2>
+                    <p>Click here for United States military decorations, campaign service medals, and valor citations.</p>
+                </div>
+            </a>
+
+            <!-- Panel 3: World & International Vault Doorway Link -->
+            <a href="medals-world.html" class="vertical-pillar-box">
+                <img src="images/medals/portal-world.png" class="pillar-backdrop-asset" alt="World Orders Backdrop">
+                <div class="pillar-content-center">
+                    <h2>World & Intl</h2>
+                    <p>Click here for global phaleristics, European orders of chivalry, and foreign military decorations.</p>
+                </div>
+            </a>
+
+        </div>
+        <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
     <footer>
         &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
     </footer>
 
-    <!-- PURE VISUAL PHALERISTICS DATABASE LOADING ENGINE -->
+    <!-- LIGHTWEIGHT UTILITY SCROLL MONITOR -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Fetch your raw spreadsheet database file from the data folder
-            fetch('data/phaleristics.csv')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Phaleristics database ledger could not be accessed.");
-                    }
-                    return response.text();
-                })
-                .then(csvText => {
-                    buildPhaleristicsGrid(csvText);
-                })
-                .catch(error => {
-                    console.error("Phaleristics Gallery Engine Error:", error);
-                    document.getElementById('phaleristics-matrix-floor').innerHTML = 
-                        `<p style="color: #1c1e21; grid-column: 1/-1; text-align: center;">Phaleristics vault record ledger currently unavailable.</p>`;
-                });
-        });
-
-        function buildPhaleristicsGrid(text) {
-            const matrixFloor = document.getElementById('phaleristics-matrix-floor');
-            
-            // Split text lines while protecting commas locked inside Excel double quotes
-            const rows = [];
-            let currentToken = "";
-            let insideQuotes = false;
-            let currentRow = [];
-
-            for (let i = 0; i < text.length; i++) {
-                let char = text[i];
-                let nextChar = text[i + 1];
-
-                if (char === '"') {
-                    if (insideQuotes && nextChar === '"') {
-                        currentToken += '"'; // Handles escaped quotation marks
-                        i++;
-                    } else {
-                        insideQuotes = !insideQuotes; // Toggles quote boundary tracking
-                    }
-                } else if (char === ',' && !insideQuotes) {
-                    currentRow.push(currentToken.trim());
-                    currentToken = "";
-                } else if ((char \(=== '\r' \vert{}\vert{}\) char === '\n') && !insideQuotes) {
-                    if (char \(=== '\r' &&\) nextChar === '\n') { i++; }
-                    currentRow.push(currentToken.trim());
-                    if (currentRow.length > 1 && currentRow !== "") {
-                        rows.push(currentRow);
-                    }
-                    currentToken = "";
-                    currentRow = [];
-                } else {
-                    currentToken += char;
-                }
-            }
-            if (currentToken.trim() !== "" || currentRow.length > 0) {
-                currentRow.push(currentToken.trim());
-                if (currentRow.length > 1) { rows.push(currentRow); }
-            }
-
-            if (rows.length === 0) return;
-            const headers = rows.shift(); // Strips headers out safely
-
-            // Map header indexes dynamically based on your uploaded column names
-            const idxId = headers.findIndex(h => h.toLowerCase() === 'id');
-            const idxName = headers.findIndex(h => h.toLowerCase() === 'name');
-            const idxClass = headers.findIndex(h => h.toLowerCase() === 'classification');
-            const idxGrade = headers.findIndex(h => h.toLowerCase() === 'grade');
-            const idxDates = headers.findIndex(h => h.toLowerCase() === 'dates');
-
-            const idCol = idxId !== -1 ? idxId : 0;
-            const nameCol = idxName !== -1 ? idxName : 2;
-            const classCol = idxClass !== -1 ? idxClass : 3;
-            const gradeCol = idxGrade !== -1 ? idxGrade : 4;
-            const datesCol = idxDates !== -1 ? idxDates : 6;
-
-            // Loop through each remaining row to build floating specimen cards automatically
-            rows.forEach(dataRow => {
-                const itemId = dataRow[idCol];
-                const itemName = dataRow[nameCol];
-                const itemClass = dataRow[classCol];
-                const itemGrade = dataRow[gradeCol];
-                const itemDates = dataRow[datesCol];
-
-                if (!itemId) return; // Skips blank rows safely
-
-                const card = document.createElement('a');
-                card.className = 'coin-specimen-card'; // Inherits your global seamless card styles!
-                card.href = `item-medals.html?item=${itemId}`;
-
-                card.innerHTML = `
-                    <div class="coin-image-frame">
-                        <!-- Points directly to your isolated numerical folder asset standard -->
-                        <img src="images/medals/${itemId}-1.png" alt="${itemName}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://w3.org\' width=\'1\' height=\'1\'><rect width=\'1\' height=\'1\' fill=\'%23faf8f2\'/></svg>'">
-                    </div>
-                    <h3>${itemName}</h3>
-                    <ul class="coin-data-ledger">
-                        <li><strong>Grade:</strong> <span>${itemGrade}</span></li>
-                        <li><strong>Class:</strong> <span>${itemClass}</span></li>
-                        <li><strong>Period:</strong> <span>${itemDates}</span></li>
-                    </ul>
-                `;
-
-                matrixFloor.appendChild(card);
-            });
-        }
-
         // Native scroll monitor to toggle the condensed header pane smoothly
         window.addEventListener('scroll', function() {
             const headerElement = document.querySelector('header');
@@ -173,5 +93,8 @@
             }
         });
     </script>
+
 </body>
 </html>
+
+    </main>
