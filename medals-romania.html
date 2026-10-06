@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Piersall Collection | Romanian Orders Vault</title>
+    
+    <!-- Premium Google Typography Engine (VERIFIED SUBDOMAIN PATHS) -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Master design stylesheet framework -->
+    <link rel="stylesheet" href="style.css?v=1.6"> 
+</head>
+<body class="parchment-vault-view">
+
+    <!-- PERSISTENT TOP NAVIGATION RIBBON -->
+    <header>
+        <a href="index.html" style="text-decoration: none; color: inherit; display: inline-block;">
+            <span class="master-sign">The Piersall Collection</span>
+        </a>
+        <div class="navigation-ribbon">
+            <a href="phaleristics.html" class="nav-link-anchor" style="color: #cfad4b;">Phaleristics</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="numismatics.html" class="nav-link-anchor">Numismatics</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="fine-arts.html" class="nav-link-anchor">Fine Arts</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="musical-instruments.html" class="nav-link-anchor">Musical Instruments</a>
+        </div>
+        <p class="prelude-container">
+            A private curated archive dedicated to the preservation and historical study of international phaleristics, legacy instrumentation, and the fine arts.
+        </p>
+    </header>
+
+    <!-- MAIN EXHIBITION SURFACE -->
+    <main class="vault-container">
+        
+        <!-- ROW 1: Room Narrative Prelude -->
+        <section class="archive-narrative-block">
+            <!-- Navigation return trail for clean ergonomics -->
+            <a href="phaleristics.html" style="font-family: 'Cinzel', serif; font-size: 0.8rem; color: #cfad4b; text-decoration: none; letter-spacing: 1px; display: inline-block; margin-bottom: 15px;">&larr; Return to Phaleristics Vault</a>
+            <h1>Romanian Orders & Medals</h1>
+            <p>
+                A specialized historical registry tracking chivalric orders, bravery awards, and civil merit decorations issued by the Kingdom of Romania. This catalog indexes engineering dimensions, strike criteria, and suspension variants across distinct casting timelines, matching pieces against authentic archival type variations.
+            </p>
+        </section>
+
+        <!-- ROW 2: AUTOMATED MATRIX GRID FLOOR (CLEAN MUSIC ROOM STYLE) -->
+        <!-- Pure visual grid matrix layout floor driven natively by your spreadsheet rows -->
+        <section id="phaleristics-matrix-floor" class="coin-grid-matrix"></section>
+
+    </main>
+    <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
+    <footer>
+        &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
+    </footer>
+
+    <!-- PURE VISUAL ROMANIAN CATEGORY SORTING ENGINE -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Fetch the raw spreadsheet database file from the data folder
+            fetch('data/phaleristics.csv')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Master Phaleristics CSV database ledger could not be accessed.");
+                    }
+                    return response.text();
+                })
+                .then(csvText => {
+                    parseAndBuildRomaniaGrid(csvText);
+                })
+                .catch(error => {
+                    console.error("Romanian Gallery Engine Error:", error);
+                    document.getElementById('phaleristics-matrix-floor').innerHTML = 
+                        `<p style="color: #1c1e21; grid-column: 1/-1; text-align: center;">Romanian Vault record ledger currently unavailable.</p>`;
+                });
+        });
+
+        function parseAndBuildRomaniaGrid(text) {
+            const matrixFloor = document.getElementById('phaleristics-matrix-floor');
+            
+            // Split text lines while protecting commas locked inside Excel double quotes
+            const rows = [];
+            let currentToken = "";
+            let insideQuotes = false;
+            let currentRow = [];
+
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                let nextChar = text[i + 1];
+
+                if (char === '"') {
+                    if (insideQuotes && nextChar === '"') {
+                        currentToken += '"'; // Handles escaped quotation marks
+                        i++;
+                    } else {
+                        insideQuotes = !insideQuotes; // Toggles quote boundary tracking
+                    }
+                } else if (char === ',' && !insideQuotes) {
+                    currentRow.push(currentToken.trim());
+                    currentToken = "";
+                } else if ((char \(=== '\r' \vert{}\vert{}\) char === '\n') && !insideQuotes) {
+                    if (char \(=== '\r' &&\) nextChar === '\n') { i++; }
+                    currentRow.push(currentToken.trim());
+                    if (currentRow.length > 1 && currentRow !== "") {
+                        rows.push(currentRow);
+                    }
+                    currentToken = "";
+                    currentRow = [];
+                } else {
+                    currentToken += char;
+                }
+            }
+            if (currentToken.trim() !== "" || currentRow.length > 0) {
+                currentRow.push(currentToken.trim());
+                if (currentRow.length > 1) { rows.push(currentRow); }
+            }
+
+            if (rows.length === 0) return;
+            const headers = rows.shift(); // Strips headers out safely
+
+            // Find column index values dynamically based on Excel headers
+            const idxId = headers.findIndex(h => h.toLowerCase() === 'id');
+            const idxCountry = headers.findIndex(h => h.toLowerCase() === 'country');
+            const idxName = headers.findIndex(h => h.toLowerCase() === 'name');
+            const idxClass = headers.findIndex(h => h.toLowerCase() === 'classification');
+            const idxGrade = headers.findIndex(h => h.toLowerCase() === 'grade');
+            const idxDates = headers.findIndex(h => h.toLowerCase() === 'dates');
+
+            const idCol = idxId !== -1 ? idxId : 0;
+            const countryCol = idxCountry !== -1 ? idxCountry : 1;
+            const nameCol = idxName !== -1 ? idxName : 2;
+            const classCol = idxClass !== -1 ? idxClass : 3;
+            const gradeCol = idxGrade !== -1 ? idxGrade : 4;
+            const datesCol = idxDates !== -1 ? idxDates : 6;
+
+            // Loop through each remaining medal row to extract and route Romanian items
+            rows.forEach(dataRow => {
+                const itemId = dataRow[idCol];
+                const itemCountry = dataRow[countryCol] ? dataRow[countryCol].toLowerCase().trim() : "";
+                const itemName = dataRow[nameCol];
+                const itemClass = dataRow[classCol];
+                const itemGrade = dataRow[gradeCol];
+                const itemDates = dataRow[datesCol];
+
+                if (!itemId) return; // Skips blank rows safely
+
+                // Strictly keep ONLY items matching the Romanian country parameters
+                if (itemCountry === 'romania') {
+                    // Assembles the uniform medal card template matching your design rules
+                    const card = document.createElement('a');
+                    card.className = 'coin-specimen-card';
+                    card.href = `item-medals.html?item=${itemId}`;
+
+                    card.innerHTML = `
+                        <div class="coin-image-frame">
+                            <img src="images/medals/${itemId}-1.png" alt="${itemName}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://w3.org\' width=\'1\' height=\'1\'><rect width=\'1\' height=\'1\' fill=\'%23faf8f2\'/></svg>'">
+                        </div>
+                        <h3>${itemName}</h3>
+                        <ul class="coin-data-ledger">
+                            <li><strong>Grade:</strong> <span>${itemGrade}</span></li>
+                            <li><strong>Class:</strong> <span>${itemClass}</span></li>
+                            <li><strong>Period:</strong> <span>${itemDates}</span></li>
+                        </ul>
+                    `;
+
+                    matrixFloor.appendChild(card);
+                }
+            });
+        }
+
+        // Native scroll monitor to toggle the condensed header pane smoothly
+        window.addEventListener('scroll', function() {
+            const headerElement = document.querySelector('header');
+            if (window.scrollY > 40) {
+                headerElement.classList.add('shrunk-pane');
+            } else {
+                headerElement.classList.remove('shrunk-pane');
+            }
+        });
+    </script>
+</body>
+</html>
