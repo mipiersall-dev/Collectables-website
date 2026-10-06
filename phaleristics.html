@@ -1,28 +1,25 @@
-html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Piersall Collection | Phaleristics Portal</title>
+    <title>The Piersall Collection | Phaleristics Vault</title>
     
     <!-- Premium Google Typography Engine (VERIFIED SUBDOMAIN PATHS) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Pinyon+Script&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     
-    <!-- FIXED: Pointed directly to the freshly updated master stylesheet release version -->
-    <link rel="stylesheet" href="style.css?v=1.5"> 
+    <!-- Master design stylesheet framework -->
+    <link rel="stylesheet" href="style.css?v=1.6"> 
 </head>
-<body>
+<body class="parchment-vault-view">
 
-    <!-- THE HEADER PORTICO -->
+    <!-- PERSISTENT TOP NAVIGATION RIBBON -->
     <header>
-        <!-- The cursive title now acts as a silent home link with no color change -->
         <a href="index.html" style="text-decoration: none; color: inherit; display: inline-block;">
             <span class="master-sign">The Piersall Collection</span>
         </a>
-        
         <div class="navigation-ribbon">
             <a href="phaleristics.html" class="nav-link-anchor" style="color: #cfad4b;">Phaleristics</a>
             <span class="nav-bullet-divider">&bull;</span>
@@ -32,55 +29,141 @@ html
             <span class="nav-bullet-divider">&bull;</span>
             <a href="musical-instruments.html" class="nav-link-anchor">Musical Instruments</a>
         </div>
-        
         <p class="prelude-container">
             A private curated archive dedicated to the preservation and historical study of international phaleristics, legacy instrumentation, and the fine arts.
         </p>
     </header>
 
-    <!-- MASTER THREE-PANEL PORTAL WITH COLLAGE BACKDROP -->
-    <main class="portal-widescreen-stage">
-         <!-- MASTER THREE-PANEL PORTAL WITH STRUCTURED LAYERED IMAGES -->
-        <div class="portal-horizontal-row">
-            
-            <!-- Panel 1: Romania Gateway Link -->
-            <a href="romanian-archive.html" class="vertical-pillar-box">
-                <!-- Standard HTML image tag maps perfectly to your folder root -->
-                <img src="images/panel-texture.jpg" class="pillar-backdrop-asset" alt="Ledger Border Framework">
-                <div class="pillar-content-center">
-                    <h2>Romania</h2>
-                    <p>Click here for Romanian Orders, Decorations, and Medals</p>
-                </div>
-            </a>
+    <!-- MAIN EXHIBITION SURFACE -->
+    <main class="vault-container">
+        
+        <!-- ROW 1: Master Archival Narrative Prelude -->
+        <section class="archive-narrative-block">
+            <h1>Phaleristics Collection</h1>
+            <p>
+                An authoritative historical registry dedicated to the study of international orders of chivalry, military bravery decorations, and historical campaign medals. This archive documents certified design metrics, strike metal composition, and official suspension ribbons, tracking changes across historical mintage periods. Each specimen balances technical database indexing records against clean photographic close-ups to preserve fine engravings, enamel work, and surface patina natively.
+            </p>
+        </section>
 
-            <!-- Panel 2: United States Gateway Link -->
-            <a href="us-archive.html" class="vertical-pillar-box">
-                <img src="images/panel-texture.jpg" class="pillar-backdrop-asset" alt="Ledger Border Framework">
-                <div class="pillar-content-center">
-                    <h2>United States</h2>
-                    <p>Click here for United States Armed Forces Awards & Service Medals</p>
-                </div>
-            </a>
+        <!-- ROW 2: AUTOMATED MEDAL GRID MATRIX FLOOR (CLEAN MUSIC ROOM STYLE) -->
+        <!-- Seamless floating cards layout framework driven entirely by your master spreadsheet data -->
+        <section id="phaleristics-matrix-floor" class="coin-grid-matrix"></section>
 
-            <!-- Panel 3: Miscellaneous Gateway Link -->
-            <a href="misc-archive.html" class="vertical-pillar-box">
-                <img src="images/panel-texture.jpg" class="pillar-backdrop-asset" alt="Ledger Border Framework">
-                <div class="pillar-content-center">
-                    <h2>Miscellaneous</h2>
-                    <p>Click here for Global Orders of Chivalry & Foreign Decorations</p>
-                </div>
-            </a>
-
-        </div>
     </main>
-
-    <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
+     <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
     <footer>
         &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
     </footer>
 
-    <!-- FIXED: Re-injected the native scroll monitor engine to coordinate the shrunk-pane state -->
+    <!-- PURE VISUAL PHALERISTICS DATABASE LOADING ENGINE -->
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Fetch your raw spreadsheet database file from the data folder
+            fetch('data/phaleristics.csv')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Phaleristics database ledger could not be accessed.");
+                    }
+                    return response.text();
+                })
+                .then(csvText => {
+                    buildPhaleristicsGrid(csvText);
+                })
+                .catch(error => {
+                    console.error("Phaleristics Gallery Engine Error:", error);
+                    document.getElementById('phaleristics-matrix-floor').innerHTML = 
+                        `<p style="color: #1c1e21; grid-column: 1/-1; text-align: center;">Phaleristics vault record ledger currently unavailable.</p>`;
+                });
+        });
+
+        function buildPhaleristicsGrid(text) {
+            const matrixFloor = document.getElementById('phaleristics-matrix-floor');
+            
+            // Split text lines while protecting commas locked inside Excel double quotes
+            const rows = [];
+            let currentToken = "";
+            let insideQuotes = false;
+            let currentRow = [];
+
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                let nextChar = text[i + 1];
+
+                if (char === '"') {
+                    if (insideQuotes && nextChar === '"') {
+                        currentToken += '"'; // Handles escaped quotation marks
+                        i++;
+                    } else {
+                        insideQuotes = !insideQuotes; // Toggles quote boundary tracking
+                    }
+                } else if (char === ',' && !insideQuotes) {
+                    currentRow.push(currentToken.trim());
+                    currentToken = "";
+                } else if ((char \(=== '\r' \vert{}\vert{}\) char === '\n') && !insideQuotes) {
+                    if (char \(=== '\r' &&\) nextChar === '\n') { i++; }
+                    currentRow.push(currentToken.trim());
+                    if (currentRow.length > 1 && currentRow !== "") {
+                        rows.push(currentRow);
+                    }
+                    currentToken = "";
+                    currentRow = [];
+                } else {
+                    currentToken += char;
+                }
+            }
+            if (currentToken.trim() !== "" || currentRow.length > 0) {
+                currentRow.push(currentToken.trim());
+                if (currentRow.length > 1) { rows.push(currentRow); }
+            }
+
+            if (rows.length === 0) return;
+            const headers = rows.shift(); // Strips headers out safely
+
+            // Map header indexes dynamically based on your uploaded column names
+            const idxId = headers.findIndex(h => h.toLowerCase() === 'id');
+            const idxName = headers.findIndex(h => h.toLowerCase() === 'name');
+            const idxClass = headers.findIndex(h => h.toLowerCase() === 'classification');
+            const idxGrade = headers.findIndex(h => h.toLowerCase() === 'grade');
+            const idxDates = headers.findIndex(h => h.toLowerCase() === 'dates');
+
+            const idCol = idxId !== -1 ? idxId : 0;
+            const nameCol = idxName !== -1 ? idxName : 2;
+            const classCol = idxClass !== -1 ? idxClass : 3;
+            const gradeCol = idxGrade !== -1 ? idxGrade : 4;
+            const datesCol = idxDates !== -1 ? idxDates : 6;
+
+            // Loop through each remaining row to build floating specimen cards automatically
+            rows.forEach(dataRow => {
+                const itemId = dataRow[idCol];
+                const itemName = dataRow[nameCol];
+                const itemClass = dataRow[classCol];
+                const itemGrade = dataRow[gradeCol];
+                const itemDates = dataRow[datesCol];
+
+                if (!itemId) return; // Skips blank rows safely
+
+                const card = document.createElement('a');
+                card.className = 'coin-specimen-card'; // Inherits your global seamless card styles!
+                card.href = `item-medals.html?item=${itemId}`;
+
+                card.innerHTML = `
+                    <div class="coin-image-frame">
+                        <!-- Points directly to your isolated numerical folder asset standard -->
+                        <img src="images/medals/${itemId}-1.png" alt="${itemName}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://w3.org\' width=\'1\' height=\'1\'><rect width=\'1\' height=\'1\' fill=\'%23faf8f2\'/></svg>'">
+                    </div>
+                    <h3>${itemName}</h3>
+                    <ul class="coin-data-ledger">
+                        <li><strong>Grade:</strong> <span>${itemGrade}</span></li>
+                        <li><strong>Class:</strong> <span>${itemClass}</span></li>
+                        <li><strong>Period:</strong> <span>${itemDates}</span></li>
+                    </ul>
+                `;
+
+                matrixFloor.appendChild(card);
+            });
+        }
+
+        // Native scroll monitor to toggle the condensed header pane smoothly
         window.addEventListener('scroll', function() {
             const headerElement = document.querySelector('header');
             if (window.scrollY > 40) {
@@ -90,6 +173,5 @@ html
             }
         });
     </script>
-
 </body>
 </html>
