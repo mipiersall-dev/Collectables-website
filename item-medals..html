@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Piersall Collection | Specimen Archival Registry</title>
+
+    <!-- Premium Google Typography Engine -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!-- Master design stylesheet framework -->
+    <link rel="stylesheet" href="style.css?v=1.6">
+
+    <!-- HARDWARE-ACCELERATED MUSEUM LOUPE VIEWPORT PANELS -->
+    <style>
+        body.parchment-vault-view,
+        .vault-container {
+            background-color: #faf8f2 !important;
+        }
+        .item-specimen-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        /* Universal Museum Loupe Panning Frame */
+        .museum-loupe-frame {
+            position: relative;
+            background-color: #ffffff;
+            border: 1px solid #dcd5c1;
+            overflow: hidden;
+            cursor: zoom-in;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .museum-loupe-frame img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            transition: transform 0.1s ease-out;
+            transform-origin: center center;
+        }
+        /* Active Zoom Scale Definition */
+        .museum-loupe-frame.active img {
+            transform: scale(2.2);
+            cursor: zoom-out;
+        }
+        .item-details-panel h1 {
+            font-family: 'Cinzel', serif;
+            color: #1c1e21;
+            margin-top: 0;
+            font-size: 2.2rem;
+            border-bottom: 1px solid #dcd5c1;
+            padding-bottom: 15px;
+        }
+        .item-meta-registry {
+            margin: 20px 0;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+        }
+        .meta-entry-node {
+            padding: 10px;
+            background: #ffffff;
+            border: 1px solid #eaddca;
+        }
+        .item-historical-narrative {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            color: #2b2e33;
+            font-size: 1.05rem;
+        }
+        .item-historical-narrative p {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body class="parchment-vault-view">
+
+    <!-- PERSISTENT TOP NAVIGATION RIBBON -->
+    <header>
+        <a href="index.html" style="text-decoration: none; color: inherit; display: inline-block;">
+            <span class="master-sign">The Piersall Collection</span>
+        </a>
+        <div class="navigation-ribbon">
+            <a href="phaleristics.html" class="nav-link-anchor" style="color: #cfad4b;">Phaleristics</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="numismatics.html" class="nav-link-anchor">Numismatics</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="fine-arts.html" class="nav-link-anchor">Fine Arts</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="musical-instruments.html" class="nav-link-anchor">Musical Instruments</a>
+        </div>
+    </header>
+
+    <!-- MAIN EXHIBITION DISPLAY -->
+    <main class="vault-container">
+        <div style="max-width: 1200px; margin: 20px auto 0; padding: 0 20px;">
+            <a href="medals-romania.html" style="font-family: 'Cinzel', serif; font-size: 0.8rem; color: #cfad4b; text-decoration: none; letter-spacing: 1px;">&larr; Return to Romanian Vault Floor</a>
+        </div>
+        
+        <div class="item-specimen-layout" id="specimen-display-canvas">
+            <!-- Dynamic payload populates here -->
+        </div>
+    </main>
+
+    <!-- PERMANENT REPOSITORY FOOTER -->
+    <footer>
+        &copy; 2026 The Piersall Collection &bull; Private Chivalric Chanceries Study
+    </footer>
