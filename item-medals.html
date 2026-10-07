@@ -13,87 +13,29 @@
     <!-- Master design stylesheet framework -->
     <link rel="stylesheet" href="style.css?v=1.6">
 
-    <!-- HARDWARE-ACCELERATED MUSEUM LOUPE SCALING VIEWPORT -->
+    <!-- LIGHTENED MUSEUM IVORY OVERRIDE PANE -->
     <style>
         body.parchment-vault-view,
         .vault-container {
-            background-color: #faf8f2 !important; /* Premium Museum Ivory Base Canvas */
+            background-color: #faf8f2 !important; /* Soft, premium lightened ivory */
         }
-        .item-specimen-layout {
+        /* Unified presentation box layout matching the collection room canvas alignment */
+        .specimen-exhibition-panel {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 50px;
+            gap: 40px;
             max-width: 1200px;
-            margin: 40px auto;
+            margin: 30px auto;
             padding: 0 20px;
         }
-        /* Universal Museum Loupe Panning Box */
-        .museum-loupe-frame {
-            position: relative;
-            background-color: #ffffff;
-            border: 1px solid #dcd5c1;
-            overflow: hidden;
-            cursor: zoom-in;
-            aspect-ratio: 1 / 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-        }
-        .museum-loupe-frame img {
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain;
-            transition: transform 0.1s ease-out;
-            transform-origin: center center;
-        }
-        /* Zoom Toggle Active Frame States */
-        .museum-loupe-frame.active img {
-            transform: scale(2.2);
-            cursor: zoom-out;
-        }
-        .item-details-panel h1 {
+        /* Reverting detail elements back to the coin registry style variables */
+        .specimen-text-canvas h1 {
             font-family: 'Cinzel', serif;
             color: #1c1e21;
             margin-top: 0;
-            font-size: 2.2rem;
-            border-bottom: 2px solid #eaddca;
+            font-size: 2rem;
+            border-bottom: 1px solid #dcd5c1;
             padding-bottom: 15px;
-            letter-spacing: 0.5px;
-        }
-        .item-meta-registry {
-            margin: 25px 0;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.95rem;
-        }
-        .meta-entry-node {
-            padding: 12px 15px;
-            background: #ffffff;
-            border: 1px solid #dcd5c1;
-            color: #2b2e33;
-        }
-        .meta-entry-node strong {
-            color: #1c1e21;
-            font-family: 'Cinzel', serif;
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
-            display: inline-block;
-            margin-right: 5px;
-        }
-        .item-historical-narrative {
-            font-family: 'Inter', sans-serif;
-            line-height: 1.75;
-            color: #2b2e33;
-            font-size: 1.05rem;
-            border-top: 1px dashed #dcd5c1;
-            padding-top: 20px;
-        }
-        .item-historical-narrative p {
-            margin-bottom: 20px;
-            text-align: justify;
         }
     </style>
 </head>
@@ -115,18 +57,18 @@
         </div>
     </header>
 
-    <!-- MAIN EXHIBITION DISPLAY CONTAINER -->
+    <!-- MAIN EXHIBITION DISPLAY SURFACE -->
     <main class="vault-container">
         <div style="max-width: 1200px; margin: 20px auto 0; padding: 0 20px;">
             <a href="medals-romania.html" style="font-family: 'Cinzel', serif; font-size: 0.8rem; color: #cfad4b; text-decoration: none; letter-spacing: 1px;">&larr; Return to Romanian Vault Floor</a>
         </div>
         
-        <!-- Target matrix surface layout grid container -->
-        <div class="item-specimen-layout" id="specimen-display-canvas"></div>
+        <!-- Standardized exhibit floor container matching structural styles -->
+        <div class="specimen-exhibition-panel" id="specimen-display-canvas"></div>
     </main>
-    <!-- PERMANENT REPOSITORY FOOTER -->
+     <!-- PERMANENT REPOSITORY FOOTER -->
     <footer>
-        &copy; 2026 The Piersall Collection &bull; Private Chivalric Chanceries Study
+        &copy; 2026 The Piersall Collection &bull; Private Numismatic &amp; Antiquarian Registry
     </footer>
 
     <!-- BULLETPROOF SPECIMEN REGISTRY EXTRACTOR & PANNING ENGINE -->
@@ -185,7 +127,6 @@
 
         // Initialize Specimen Viewer Canvas
         document.addEventListener("DOMContentLoaded", function() {
-            // Extract item ID target parameter from browser URL bar window
             const urlParams = new URLSearchParams(window.location.search);
             const targetId = urlParams.get('item') ? urlParams.get('item').trim() : '';
             const canvas = document.getElementById('specimen-display-canvas');
@@ -219,8 +160,6 @@
                     };
 
                     const cell = (row, i) => (i > -1 && row[i] != null) ? row[i].trim() : '';
-                    
-                    // Search for the exact requested item record entry line match
                     const matchedRow = rows.find(r => cell(r, idx.id) === targetId);
 
                     if (!matchedRow) {
@@ -241,32 +180,34 @@
                     let descriptionHTML = '';
                     if (desc && desc !== 'N/A') {
                         descriptionHTML = desc.split('|')
-                            .map(pBlock => '<p>' + esc(pBlock.trim()) + '</p>')
+                            .map(pBlock => '<p class="vault-description-paragraph">' + esc(pBlock.trim()) + '</p>')
                             .join('');
                     }
 
-                    // Rebuilt entirely via explicit string concatenation to block any escaping bugs
+                    // Rebuilt entirely via explicit string concatenation to match the clean coin archetype style
                     let displayHTML = '';
                     
-                    // Left Pillar: Image Viewport Frame
-                    displayHTML += '<div class="museum-loupe-frame" id="loupe-zoom-viewport">';
-                    displayHTML += '<img src="' + IMAGE_FOLDER + encodeURIComponent(targetId) + IMAGE_EXT + '" alt="' + esc(name) + '" id="loupe-zoom-asset">';
+                    // Left Pillar Viewport Frame matching coin-specimen-card specs
+                    displayHTML += '<div class="coin-specimen-card" style="margin:0;">';
+                    displayHTML += '<div class="coin-image-frame" id="loupe-zoom-viewport" style="cursor: zoom-in;">';
+                    displayHTML += '<img src="' + IMAGE_FOLDER + encodeURIComponent(targetId) + IMAGE_EXT + '" alt="' + esc(name) + '" id="loupe-zoom-asset" style="max-width:90%; max-height:90%; transition: transform 0.1s ease-out; transform-origin: center center;">';
+                    displayHTML += '</div>';
                     displayHTML += '</div>';
 
-                    // Right Pillar: Text Panel Details
-                    displayHTML += '<div class="item-details-panel">';
+                    // Right Pillar Details Canvas Panel
+                    displayHTML += '<div class="specimen-text-canvas">';
                     displayHTML += '<h1>' + esc(name) + '</h1>';
-                    displayHTML += '<div class="item-meta-registry">';
+                    displayHTML += '<div class="specimen-meta-details" style="margin-bottom:20px;">';
                     
                     // N/A Conditional Suppression Checks
-                    if (country && country !== 'N/A') { displayHTML += '<div class="meta-entry-node"><strong>Country:</strong> ' + esc(country) + '</div>'; }
-                    if (dates && dates !== 'N/A') { displayHTML += '<div class="meta-entry-node"><strong>Historical Era:</strong> ' + esc(dates) + '</div>'; }
-                    if (cls && cls !== 'N/A') { displayHTML += '<div class="meta-entry-node"><strong>Classification:</strong> ' + esc(cls) + '</div>'; }
-                    if (grade && grade !== 'N/A') { displayHTML += '<div class="meta-entry-node"><strong>Archival Grade:</strong> ' + esc(grade) + '</div>'; }
-                    if (type && type !== 'N/A') { displayHTML += '<div class="meta-entry-node"><strong>Variant Type:</strong> ' + esc(type) + '</div>'; }
+                    if (country && country !== 'N/A') { displayHTML += '<div><strong>Country:</strong> ' + esc(country) + '</div>'; }
+                    if (dates && dates !== 'N/A') { displayHTML += '<div><strong>Dates:</strong> ' + esc(dates) + '</div>'; }
+                    if (cls && cls !== 'N/A') { displayHTML += '<div><strong>Class:</strong> ' + esc(cls) + '</div>'; }
+                    if (grade && grade !== 'N/A') { displayHTML += '<div><strong>Grade:</strong> ' + esc(grade) + '</div>'; }
+                    if (type && type !== 'N/A') { displayHTML += '<div><strong>Type:</strong> ' + esc(type) + '</div>'; }
                     
                     displayHTML += '</div>';
-                    displayHTML += '<div class="item-historical-narrative">' + descriptionHTML + '</div>';
+                    displayHTML += '<div class="specimen-narrative-summary" style="border-top: 1px solid #dcd5c1; padding-top:20px;">' + descriptionHTML + '</div>';
                     displayHTML += '</div>';
 
                     canvas.innerHTML = displayHTML;
