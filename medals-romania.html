@@ -1,3 +1,4 @@
+html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,9 +7,9 @@
     <title>The Piersall Collection | Romanian Orders Vault</title>
     
     <!-- Premium Google Typography Engine (VERIFIED SUBDOMAIN PATHS) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://font.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     
     <!-- Master design stylesheet framework -->
     <link rel="stylesheet" href="style.css?v=1.6"> 
@@ -21,7 +22,7 @@
             <span class="master-sign">The Piersall Collection</span>
         </a>
         <div class="navigation-ribbon">
-            <a href="phaleristics.html" class="nav-link-anchor">Phaleristics</a>
+            <a href="phaleristics.html" class="nav-link-anchor" style="color: #cfad4b;">Phaleristics</a>
             <span class="nav-bullet-divider">&bull;</span>
             <a href="numismatics.html" class="nav-link-anchor">Numismatics</a>
             <span class="nav-bullet-divider">&bull;</span>
@@ -47,7 +48,7 @@
             </p>
         </section>
 
-        <!-- ROW 2: AUTOMATED MATRIX GRID FLOOR (CLEAN UNIFORM STYLE) -->
+        <!-- ROW 2: AUTOMATED MATRIX GRID FLOOR -->
         <section id="phaleristics-matrix-floor" class="coin-grid-matrix"></section>
 
     </main>
@@ -57,9 +58,10 @@
         &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
     </footer>
 
-    <!-- DYNAMIC ENGINE MATCHING THE COIN PAGE LOGIC EXACTLY -->
+    <!-- BULLETPROOF NATIVE DATALAYER SPLITTING ENGINE -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            // Fetch your raw database file from the data folder
             fetch('data/phaleristics.csv')
                 .then(response => {
                     if (!response.ok) {
@@ -71,7 +73,7 @@
                     parseAndBuildRomaniaGrid(csvText);
                 })
                 .catch(error => {
-                    console.error("Phaleristics Engine Error:", error);
+                    console.error("Romanian Gallery Engine Error:", error);
                     document.getElementById('phaleristics-matrix-floor').innerHTML = 
                         `<p style="color: #1c1e21; grid-column: 1/-1; text-align: center;">Romanian Vault record ledger currently unavailable.</p>`;
                 });
@@ -79,56 +81,57 @@
 
         function parseAndBuildRomaniaGrid(text) {
             const matrixFloor = document.getElementById('phaleristics-matrix-floor');
-            
-            // UNIFORM COIN PARSER MACHINERY: Steps through text cleanly with zero backslash leaks
-            const rows = [];
-            let currentToken = "";
-            let insideQuotes = false;
-            let currentRow = [];
+            if (!text.trim()) return;
 
-            for (let i = 0; i < text.length; i++) {
-                let char = text[i];
-                let nextChar = text[i + 1];
+            // Safe split breaks file lines down cleanly across line breaks safely
+            const rawLines = text.split(\(/\r\)?\n/);
+            const databaseRows = [];
 
-                if (char === '"') {
-                    if (insideQuotes && nextChar === '"') {
-                        currentToken += '"';
-                        i++;
+            rawLines.forEach(line => {
+                if (!line.trim()) return;
+                
+                const parsedCells = [];
+                let activeToken = "";
+                let quotesActive = false;
+
+                // Steps through row text characters to isolate comma breaks from text strings safely
+                for (let i = 0; i < line.length; i++) {
+                    let character = line[i];
+                    let trailingChar = line[i + 1];
+
+                    if (character === '"') {
+                        if (quotesActive && trailingChar === '"') {
+                            activeToken += '"';
+                            i++;
+                        } else {
+                            quotesActive = !quotesActive;
+                        }
+                    } else if (character === ',' && !quotesActive) {
+                        parsedCells.push(activeToken.trim());
+                        activeToken = "";
                     } else {
-                        insideQuotes = !insideQuotes;
+                        activeToken += character;
                     }
-                } else if (char === ',' && !insideQuotes) {
-                    currentRow.push(currentToken.trim());
-                    currentToken = "";
-                } else if ((char \(=== '\r' \vert{}\vert{}\) char === '\n') && !insideQuotes) {
-                    if (char \(=== '\r' &&\) nextChar === '\n') { i++; }
-                    currentRow.push(currentToken.trim());
-                    if (currentRow.length > 1 && currentRow !== "") {
-                        rows.push(currentRow);
-                    }
-                    currentToken = "";
-                    currentRow = [];
-                } else {
-                    currentToken += char;
                 }
-            }
-            if (currentToken.trim() !== "" || currentRow.length > 0) {
-                currentRow.push(currentToken.trim());
-                if (currentRow.length > 1) { rows.push(currentRow); }
-            }
+                parsedCells.push(activeToken.trim());
+                
+                if (parsedCells.length > 1) {
+                    databaseRows.push(parsedCells);
+                }
+            });
 
-            if (rows.length === 0) return;
+            if (databaseRows.length === 0) return;
             
-            // Extract the header tracking row safely
-            const headers = rows.shift(); 
+            // Extract the top array header cells safely
+            const columnHeaders = databaseRows.shift(); 
 
-            // Find data column indexes dynamically based on exact Excel labels
-            const idxId = headers.findIndex(h => h.toLowerCase() === 'id');
-            const idxCountry = headers.findIndex(h => h.toLowerCase() === 'country');
-            const idxName = headers.findIndex(h => h.toLowerCase() === 'name');
-            const idxClass = headers.findIndex(h => h.toLowerCase() === 'classification');
-            const idxGrade = headers.findIndex(h => h.toLowerCase() === 'grade');
-            const idxDates = headers.findIndex(h => h.toLowerCase() === 'dates');
+            // Find data positions dynamically based on exact Excel columns
+            const idxId = columnHeaders.findIndex(h => h.toLowerCase() === 'id');
+            const idxCountry = columnHeaders.findIndex(h => h.toLowerCase() === 'country');
+            const idxName = columnHeaders.findIndex(h => h.toLowerCase() === 'name');
+            const idxClass = columnHeaders.findIndex(h => h.toLowerCase() === 'classification');
+            const idxGrade = columnHeaders.findIndex(h => h.toLowerCase() === 'grade');
+            const idxDates = columnHeaders.findIndex(h => h.toLowerCase() === 'dates');
 
             const idCol = idxId !== -1 ? idxId : 0;
             const countryCol = idxCountry !== -1 ? idxCountry : 1;
@@ -137,36 +140,35 @@
             const gradeCol = idxGrade !== -1 ? idxGrade : 4;
             const datesCol = idxDates !== -1 ? idxDates : 6;
 
-            // Route rows using the uniform coin method
-            rows.forEach(dataRow => {
-                const itemId = dataRow[idCol];
-                // Case-insensitive evaluation safely catches title casing like "Romania"
-                const itemCountry = dataRow[countryCol] ? dataRow[countryCol].toLowerCase().trim() : "";
-                const itemName = dataRow[nameCol];
-                const itemClass = dataRow[classCol];
-                const itemGrade = dataRow[gradeCol];
-                const itemDates = dataRow[datesCol];
+            // Loop through remaining medal records to populate visual grid cards
+            databaseRows.forEach(medalRow => {
+                const medalId = medalRow[idCol];
+                // Case-insensitive normalization easily reads title casing like "Romania"
+                const medalCountry = medalRow[countryCol] ? medalRow[countryCol].toLowerCase().trim() : "";
+                const medalName = medalRow[nameCol];
+                const medalClass = medalRow[classCol];
+                const medalGrade = medalRow[gradeCol];
+                const medalDates = medalRow[datesCol];
 
-                if (!itemId) return; // Skips stray blank fields safely
+                if (!medalId) return; // Ignores stray empty tracking splits safely
 
-                // UNIFORM ENGINE EVALUATION STANDARD: Reads your capitalized spreadsheet inputs cleanly
-                if (itemCountry.includes('romania')) {
+                // Safely catches your capitalized spreadsheet records cleanly
+                if (medalCountry === 'romania') {
                     const card = document.createElement('a');
                     card.className = 'coin-specimen-card';
-                    card.href = `item-medals.html?item=${itemId}`;
+                    card.href = `item-medals.html?item=${medalId}`;
 
                     card.innerHTML = `
                         <div class="coin-image-frame">
-                            <img src="images/medals/${itemId}-1.png" alt="${itemName}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://w3.org\' width=\'1\' height=\'1\'><rect width=\'1\' height=\'1\' fill=\'%23faf8f2\'/></svg>'">
+                            <img src="images/medals/${medalId}-1.png" alt="${medalName}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://w3.org\' width=\'1\' height=\'1\'><rect width=\'1\' height=\'1\' fill=\'%23faf8f2\'/></svg>'">
                         </div>
-                        <h3>${itemName}</h3>
+                        <h3>${medalName}</h3>
                         <ul class="coin-data-ledger">
-                            <li><strong>Grade:</strong> <span>${itemGrade}</span></li>
-                            <li><strong>Class:</strong> <span>${itemClass}</span></li>
-                            <li><strong>Period:</strong> <span>${itemDates}</span></li>
+                            <li><strong>Grade:</strong> <span>${medalGrade}</span></li>
+                            <li><strong>Class:</strong> <span>${medalClass}</span></li>
+                            <li><strong>Period:</strong> <span>${medalDates}</span></li>
                         </ul>
                     `;
-
                     matrixFloor.appendChild(card);
                 }
             });
