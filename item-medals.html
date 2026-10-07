@@ -6,28 +6,28 @@
     <title>The Piersall Collection | Specimen Archival Registry</title>
 
     <!-- Premium Google Typography Engine -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fontts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
     <!-- Master design stylesheet framework -->
     <link rel="stylesheet" href="style.css?v=1.6">
 
-    <!-- HARDWARE-ACCELERATED MUSEUM LOUPE VIEWPORT PANELS -->
+    <!-- HARDWARE-ACCELERATED MUSEUM LOUPE SCALING VIEWPORT -->
     <style>
         body.parchment-vault-view,
         .vault-container {
-            background-color: #faf8f2 !important;
+            background-color: #faf8f2 !important; /* Premium Museum Ivory Base Canvas */
         }
         .item-specimen-layout {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            gap: 50px;
             max-width: 1200px;
             margin: 40px auto;
             padding: 0 20px;
         }
-        /* Universal Museum Loupe Panning Frame */
+        /* Universal Museum Loupe Panning Box */
         .museum-loupe-frame {
             position: relative;
             background-color: #ffffff;
@@ -38,6 +38,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
         }
         .museum-loupe-frame img {
             max-width: 90%;
@@ -46,7 +47,7 @@
             transition: transform 0.1s ease-out;
             transform-origin: center center;
         }
-        /* Active Zoom Scale Definition */
+        /* Zoom Toggle Active Frame States */
         .museum-loupe-frame.active img {
             transform: scale(2.2);
             cursor: zoom-out;
@@ -56,11 +57,12 @@
             color: #1c1e21;
             margin-top: 0;
             font-size: 2.2rem;
-            border-bottom: 1px solid #dcd5c1;
+            border-bottom: 2px solid #eaddca;
             padding-bottom: 15px;
+            letter-spacing: 0.5px;
         }
         .item-meta-registry {
-            margin: 20px 0;
+            margin: 25px 0;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
@@ -68,18 +70,30 @@
             font-size: 0.95rem;
         }
         .meta-entry-node {
-            padding: 10px;
+            padding: 12px 15px;
             background: #ffffff;
-            border: 1px solid #eaddca;
+            border: 1px solid #dcd5c1;
+            color: #2b2e33;
+        }
+        .meta-entry-node strong {
+            color: #1c1e21;
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            margin-right: 5px;
         }
         .item-historical-narrative {
             font-family: 'Inter', sans-serif;
-            line-height: 1.7;
+            line-height: 1.75;
             color: #2b2e33;
             font-size: 1.05rem;
+            border-top: 1px dashed #dcd5c1;
+            padding-top: 20px;
         }
         .item-historical-narrative p {
             margin-bottom: 20px;
+            text-align: justify;
         }
     </style>
 </head>
@@ -101,18 +115,211 @@
         </div>
     </header>
 
-    <!-- MAIN EXHIBITION DISPLAY -->
+    <!-- MAIN EXHIBITION DISPLAY CONTAINER -->
     <main class="vault-container">
         <div style="max-width: 1200px; margin: 20px auto 0; padding: 0 20px;">
             <a href="medals-romania.html" style="font-family: 'Cinzel', serif; font-size: 0.8rem; color: #cfad4b; text-decoration: none; letter-spacing: 1px;">&larr; Return to Romanian Vault Floor</a>
         </div>
         
-        <div class="item-specimen-layout" id="specimen-display-canvas">
-            <!-- Dynamic payload populates here -->
-        </div>
+        <!-- Target matrix surface layout grid container -->
+        <div class="item-specimen-layout" id="specimen-display-canvas"></div>
     </main>
-
     <!-- PERMANENT REPOSITORY FOOTER -->
     <footer>
         &copy; 2026 The Piersall Collection &bull; Private Chivalric Chanceries Study
     </footer>
+
+    <!-- BULLETPROOF SPECIMEN REGISTRY EXTRACTOR & PANNING ENGINE -->
+    <script>
+        const CSV_PATH      = 'data/phaleristics.csv';
+        const IMAGE_FOLDER  = 'images/phaleristics/';
+        const IMAGE_EXT     = '-1.png';
+
+        // Escapes text safely to maintain parchment grid integrity
+        function esc(value) {
+            return String(value == null ? '' : value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        // Production-proven CSV parser matching your repository core loop standard
+        function parseCSV(text) {
+            text = text.replace(/^\uFEFF/, '');
+            const rows = [];
+            let row = [];
+            let field = '';
+            let inQuotes = false;
+
+            for (let i = 0; i < text.length; i++) {
+                const ch = text[i];
+                if (inQuotes) {
+                    if (ch === '"') {
+                        if (text[i + 1] === '"') { field += '"'; i++; }
+                        else { inQuotes = false; }
+                    } else {
+                        field += ch;
+                    }
+                } else if (ch === '"') {
+                    inQuotes = true;
+                } else if (ch === ',') {
+                    row.push(field);
+                    field = '';
+                } else if (ch === '\n') {
+                    row.push(field);
+                    rows.push(row);
+                    row = [];
+                    field = '';
+                } else if (ch !== '\r') {
+                    field += ch;
+                }
+            }
+            if (field !== '' || row.length > 0) {
+                row.push(field);
+                rows.push(row);
+            }
+            return rows.filter(r => r.some(cell => cell.trim() !== ''));
+        }
+
+        // Initialize Specimen Viewer Canvas
+        document.addEventListener("DOMContentLoaded", function() {
+            // Extract item ID target parameter from browser URL bar window
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetId = urlParams.get('item') ? urlParams.get('item').trim() : '';
+            const canvas = document.getElementById('specimen-display-canvas');
+
+            if (!targetId) {
+                canvas.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No specimen identifier requested.</p>';
+                return;
+            }
+
+            fetch(CSV_PATH)
+                .then(response => {
+                    if (!response.ok) throw new Error("Database ledger offline.");
+                    return response.text();
+                })
+                .then(csvText => {
+                    const rows = parseCSV(csvText);
+                    if (rows.length < 2) throw new Error("Database template empty.");
+
+                    const headers = rows.shift().map(h => h.trim().toLowerCase());
+                    const col = name => headers.indexOf(name);
+
+                    const idx = {
+                        id: col('id'),
+                        country: col('country'),
+                        name: col('name'),
+                        cls: col('classification'),
+                        grade: col('grade'),
+                        type: col('type'),
+                        dates: col('dates'),
+                        desc: col('description')
+                    };
+
+                    const cell = (row, i) => (i > -1 && row[i] != null) ? row[i].trim() : '';
+                    
+                    // Search for the exact requested item record entry line match
+                    const matchedRow = rows.find(r => cell(r, idx.id) === targetId);
+
+                    if (!matchedRow) {
+                        canvas.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Specimen records not found in repository index.</p>';
+                        return;
+                    }
+
+                    // Extract all column parameters safely
+                    const name    = cell(matchedRow, idx.name);
+                    const country = cell(matchedRow, idx.country);
+                    const cls     = cell(matchedRow, idx.cls);
+                    const grade   = cell(matchedRow, idx.grade);
+                    const type    = cell(matchedRow, idx.type);
+                    const dates   = cell(matchedRow, idx.dates);
+                    const desc    = cell(matchedRow, idx.desc);
+
+                    // Process visual paragraph divisions via the native vertical pipe standard (|)
+                    let descriptionHTML = '';
+                    if (desc && desc !== 'N/A') {
+                        descriptionHTML = desc.split('|')
+                            .map(pBlock => '<p>' + esc(pBlock.trim()) + '</p>')
+                            .join('');
+                    }
+
+                    // Rebuilt entirely via explicit string concatenation to block any escaping bugs
+                    let displayHTML = '';
+                    
+                    // Left Pillar: Image Viewport Frame
+                    displayHTML += '<div class="museum-loupe-frame" id="loupe-zoom-viewport">';
+                    displayHTML += '<img src="' + IMAGE_FOLDER + encodeURIComponent(targetId) + IMAGE_EXT + '" alt="' + esc(name) + '" id="loupe-zoom-asset">';
+                    displayHTML += '</div>';
+
+                    // Right Pillar: Text Panel Details
+                    displayHTML += '<div class="item-details-panel">';
+                    displayHTML += '<h1>' + esc(name) + '</h1>';
+                    displayHTML += '<div class="item-meta-registry">';
+                    
+                    // N/A Conditional Suppression Checks
+                    if (country && country !== 'N/A') { displayHTML += '<div class="meta-entry-node"><strong>Country:</strong> ' + esc(country) + '</div>'; }
+                    if (dates && dates !== 'N/A') { displayHTML += '<div class="meta-entry-node"><strong>Historical Era:</strong> ' + esc(dates) + '</div>'; }
+                    if (cls && cls !== 'N/A') { displayHTML += '<div class="meta-entry-node"><strong>Classification:</strong> ' + esc(cls) + '</div>'; }
+                    if (grade && grade !== 'N/A') { displayHTML += '<div class="meta-entry-node"><strong>Archival Grade:</strong> ' + esc(grade) + '</div>'; }
+                    if (type && type !== 'N/A') { displayHTML += '<div class="meta-entry-node"><strong>Variant Type:</strong> ' + esc(type) + '</div>'; }
+                    
+                    displayHTML += '</div>';
+                    displayHTML += '<div class="item-historical-narrative">' + descriptionHTML + '</div>';
+                    displayHTML += '</div>';
+
+                    canvas.innerHTML = displayHTML;
+
+                    // Bind Universal Museum Loupe Panning Engine Controls
+                    initializeMuseumLoupe();
+                })
+                .catch(error => {
+                    console.error("Specimen Loader Engine Error:", error);
+                    canvas.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Failed to pull specimen details from database mapping.</p>';
+                });
+        });
+
+        // Universal Museum Loupe Panning Zoom Engine Function
+        function initializeMuseumLoupe() {
+            const frame = document.getElementById('loupe-zoom-viewport');
+            const img = document.getElementById('loupe-zoom-asset');
+            if (!frame || !img) return;
+
+            // Activate hardware-accelerated zoom scaling on click
+            frame.addEventListener('click', () => {
+                frame.classList.toggle('active');
+                if (!frame.classList.contains('active')) {
+                    img.style.transform = '';
+                }
+            });
+
+            // Universal Desktop Hover Coordinate Tracking Loop
+            frame.addEventListener('mousemove', (e) => {
+                if (!frame.classList.contains('active')) return;
+
+                const boundingBox = frame.getBoundingClientRect();
+                
+                // Track mouse position coordinates relative to image bounding boundaries
+                const positionX = e.clientX - boundingBox.left;
+                const positionY = e.clientY - boundingBox.top;
+
+                // Transpose positions into percentages
+                const percentX = (positionX / boundingBox.width) * 100;
+                const percentY = (positionY / boundingBox.height) * 100;
+
+                // Align origin points smoothly and map to 2.2x macro magnification scale
+                img.style.transformOrigin = percentX + '% ' + percentY + '%';
+                img.style.transform = 'scale(2.2)';
+            });
+
+            // Reset matrix coordinates cleanly if cursor completely leaves viewport space
+            frame.addEventListener('mouseleave', () => {
+                frame.classList.remove('active');
+                img.style.transform = '';
+                img.style.transformOrigin = 'center center';
+            });
+        }
+    </script>
+</body>
+</html>
