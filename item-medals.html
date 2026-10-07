@@ -4,38 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Piersall Collection | Specimen Archival Registry</title>
-
-    <!-- Premium Google Typography Engine -->
+    
+    <!-- Premium Google Typography Engine (VERIFIED SUBDOMAIN PATHS) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-
+    
     <!-- Master design stylesheet framework -->
-    <link rel="stylesheet" href="style.css?v=1.6">
-
-    <!-- LIGHTENED MUSEUM IVORY OVERRIDE PANE -->
+    <link rel="stylesheet" href="style.css?v=1.6"> 
+    
+    <!-- SYSTEM WORKSPACE ACTIVE HOVER MOUSE PANNING LOUPE OVERRIDES -->
     <style>
-        body.parchment-vault-view,
-        .vault-container {
-            background-color: #faf8f2 !important; /* Soft, premium lightened ivory */
+        .main-hero-display {
+            position: relative;
+            overflow: hidden;
+            cursor: zoom-in;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
         }
-        /* Unified presentation box layout matching the collection room canvas alignment */
-        .specimen-exhibition-panel {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0 20px;
+        .main-hero-display img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+            transition: transform 0.1s ease-out;
+            transform-origin: center center;
         }
-        /* Reverting detail elements back to the coin registry style variables */
-        .specimen-text-canvas h1 {
-            font-family: 'Cinzel', serif;
-            color: #1c1e21;
-            margin-top: 0;
-            font-size: 2rem;
-            border-bottom: 1px solid #dcd5c1;
-            padding-bottom: 15px;
+        .main-hero-display.active img {
+            transform: scale(2.2);
+            cursor: zoom-out;
         }
     </style>
 </head>
@@ -55,20 +53,49 @@
             <span class="nav-bullet-divider">&bull;</span>
             <a href="musical-instruments.html" class="nav-link-anchor">Musical Instruments</a>
         </div>
+        <p class="prelude-container">
+            A private curated archive dedicated to the preservation and historical study of international phaleristics, legacy instrumentation, and the fine arts.
+        </p>
     </header>
 
-    <!-- MAIN EXHIBITION DISPLAY SURFACE -->
-    <main class="vault-container">
-        <div style="max-width: 1200px; margin: 20px auto 0; padding: 0 20px;">
-            <a href="medals-romania.html" style="font-family: 'Cinzel', serif; font-size: 0.8rem; color: #cfad4b; text-decoration: none; letter-spacing: 1px;">&larr; Return to Romanian Vault Floor</a>
-        </div>
+    <!-- DYNAMIC MEDAL SHOWCASE CONTAINER -->
+    <main class="item-showcase-container">
         
-        <!-- Standardized exhibit floor container matching structural styles -->
-        <div class="specimen-exhibition-panel" id="specimen-display-canvas"></div>
+        <!-- TOP STAGE: VISUAL MEDIA (LEFT) VS DIRECT DATA LEDGER (RIGHT) -->
+        <div class="showcase-split-stage">
+            
+            <!-- LEFT COLUMN: Large Photo Window + Underneath Bounded Asset Framework -->
+            <div class="photo-exhibition-column">
+                <div class="main-hero-display" id="loupe-zoom-viewport" style="border: 1px solid #d4cbb3 !important; aspect-ratio: 1 / 1;">
+                    <img id="medal-hero-view" src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' width='1' height='1'></svg>" alt="Active Phaleristic View">
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: Curated Left-Aligned Medal Specifications Directory -->
+            <div class="metadata-ledger-column">
+                <a href="medals-romania.html" class="category-indicator-tag" style="text-decoration: none; display: inline-block; font-family: 'Cinzel', serif; font-size: 0.8rem; color: #cfad4b; letter-spacing: 1px; margin-bottom: 10px;">
+                    Phaleristics &bull; Orders & Decorations Registry
+                </a>
+                <h2 id="medal-title" style="font-family: 'Cinzel', serif; font-size: 1.8rem; margin: 0 0 25px 0; color: #1c1e21; border-bottom: 1px solid #e5dec9; padding-bottom: 15px;">Loading Specimen Record...</h2>
+                
+                <!-- Customized Phaleristic Data Ledger Layout Matrix Row Slots -->
+                <div id="medal-specs-directory" class="specs-floating-directory" style="display: flex; flex-direction: column; gap: 12px; font-family: 'Inter', sans-serif; font-size: 0.9rem;">
+                    <!-- Rows are dynamically generated here if they are not equal to N/A -->
+                </div>
+            </div>
+
+        </div> <!-- Split stage row container closed cleanly -->
+
+        <!-- LOWER STAGE: Full-Width Visual Narrative Essays Floor -->
+        <div id="medal-essay-stage" class="historical-description-box">
+            <h2>About this Specimen</h2>
+            <!-- Paragraph blocks automatically injected via vertical pipe splitting standard here -->
+        </div>
+
     </main>
-     <!-- PERMANENT REPOSITORY FOOTER -->
+     <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
     <footer>
-        &copy; 2026 The Piersall Collection &bull; Private Numismatic &amp; Antiquarian Registry
+        &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
     </footer>
 
     <!-- BULLETPROOF SPECIMEN REGISTRY EXTRACTOR & PANNING ENGINE -->
@@ -127,12 +154,11 @@
 
         // Initialize Specimen Viewer Canvas
         document.addEventListener("DOMContentLoaded", function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const targetId = urlParams.get('item') ? urlParams.get('item').trim() : '';
-            const canvas = document.getElementById('specimen-display-canvas');
+            const urlParameters = new URLSearchParams(window.location.search);
+            const activeMedalKey = urlParameters.get('item') ? urlParameters.get('item').trim() : '';
 
-            if (!targetId) {
-                canvas.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No specimen identifier requested.</p>';
+            if (!activeMedalKey) {
+                document.getElementById('medal-title').textContent = "No Specimen Selected";
                 return;
             }
 
@@ -160,10 +186,10 @@
                     };
 
                     const cell = (row, i) => (i > -1 && row[i] != null) ? row[i].trim() : '';
-                    const matchedRow = rows.find(r => cell(r, idx.id) === targetId);
+                    const matchedRow = rows.find(r => cell(r, idx.id) === activeMedalKey);
 
                     if (!matchedRow) {
-                        canvas.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Specimen records not found in repository index.</p>';
+                        document.getElementById('medal-title').textContent = "Specimen Not Found";
                         return;
                     }
 
@@ -176,55 +202,67 @@
                     const dates   = cell(matchedRow, idx.dates);
                     const desc    = cell(matchedRow, idx.desc);
 
-                    // Process visual paragraph divisions via the native vertical pipe standard (|)
-                    let descriptionHTML = '';
+                    // 1. Populate Main Image Viewport Title
+                    document.getElementById('medal-title').textContent = name;
+
+                    // 2. Map Media Asset URL Source
+                    const heroImg = document.getElementById('medal-hero-view');
+                    heroImg.src = IMAGE_FOLDER + encodeURIComponent(activeMedalKey) + IMAGE_EXT;
+                    heroImg.alt = name;
+
+                    // 3. Build Metadata Specification Table Row Arrays
+                    const specsDirectory = document.getElementById('medal-specs-directory');
+                    let specsHTML = '';
+
+                    // Definition schema for modular row rendering items
+                    const metadataFields = [
+                        { label: "Country", value: country },
+                        { label: "Date Variety", value: dates },
+                        { label: "Classification", value: cls },
+                        { label: "Archival Grade", value: grade },
+                        { label: "Series Type", value: type }
+                    ];
+
+                    // Loop parameters checking for active values matching your N/A rule criteria
+                    metadataFields.forEach((field, index) => {
+                        if (field.value && field.value !== 'N/A') {
+                            const isLast = index === metadataFields.length - 1;
+                            const borderStyle = isLast ? '' : ' border-bottom: 1px dashed #e5dec9; padding-bottom: 8px;';
+                            
+                            specsHTML += '<div class="spec-inline-row" style="display: flex; justify-content: space-between;' + borderStyle + '">';
+                            specsHTML += '<span class="spec-label" style="font-weight: 600; color: #1c1e21;">' + esc(field.label) + '</span>';
+                            specsHTML += '<span class="spec-value" style="color: #57657a;">' + esc(field.value) + '</span>';
+                            specsHTML += '</div>';
+                        }
+                    });
+                    specsDirectory.innerHTML = specsHTML;
+
+                    // 4. Process Description Essays split down by the vertical pipe standard
+                    const essayStage = document.getElementById('medal-essay-stage');
                     if (desc && desc !== 'N/A') {
-                        descriptionHTML = desc.split('|')
-                            .map(pBlock => '<p class="vault-description-paragraph">' + esc(pBlock.trim()) + '</p>')
-                            .join('');
+                        let paragraphsHTML = '<h2>About this Specimen</h2>';
+                        const segments = desc.split('|');
+                        segments.forEach(pBlock => {
+                            paragraphsHTML += '<p class="vault-description-paragraph" style="margin-bottom: 20px; line-height: 1.75; text-align: justify; font-family: \'Inter\', sans-serif; color: #2b2e33;">' + esc(pBlock.trim()) + '</p>';
+                        });
+                        essayStage.innerHTML = paragraphsHTML;
+                    } else {
+                        essayStage.style.display = 'none';
                     }
-
-                    // Rebuilt entirely via explicit string concatenation to match the clean coin archetype style
-                    let displayHTML = '';
-                    
-                    // Left Pillar Viewport Frame matching coin-specimen-card specs
-                    displayHTML += '<div class="coin-specimen-card" style="margin:0;">';
-                    displayHTML += '<div class="coin-image-frame" id="loupe-zoom-viewport" style="cursor: zoom-in;">';
-                    displayHTML += '<img src="' + IMAGE_FOLDER + encodeURIComponent(targetId) + IMAGE_EXT + '" alt="' + esc(name) + '" id="loupe-zoom-asset" style="max-width:90%; max-height:90%; transition: transform 0.1s ease-out; transform-origin: center center;">';
-                    displayHTML += '</div>';
-                    displayHTML += '</div>';
-
-                    // Right Pillar Details Canvas Panel
-                    displayHTML += '<div class="specimen-text-canvas">';
-                    displayHTML += '<h1>' + esc(name) + '</h1>';
-                    displayHTML += '<div class="specimen-meta-details" style="margin-bottom:20px;">';
-                    
-                    // N/A Conditional Suppression Checks
-                    if (country && country !== 'N/A') { displayHTML += '<div><strong>Country:</strong> ' + esc(country) + '</div>'; }
-                    if (dates && dates !== 'N/A') { displayHTML += '<div><strong>Dates:</strong> ' + esc(dates) + '</div>'; }
-                    if (cls && cls !== 'N/A') { displayHTML += '<div><strong>Class:</strong> ' + esc(cls) + '</div>'; }
-                    if (grade && grade !== 'N/A') { displayHTML += '<div><strong>Grade:</strong> ' + esc(grade) + '</div>'; }
-                    if (type && type !== 'N/A') { displayHTML += '<div><strong>Type:</strong> ' + esc(type) + '</div>'; }
-                    
-                    displayHTML += '</div>';
-                    displayHTML += '<div class="specimen-narrative-summary" style="border-top: 1px solid #dcd5c1; padding-top:20px;">' + descriptionHTML + '</div>';
-                    displayHTML += '</div>';
-
-                    canvas.innerHTML = displayHTML;
 
                     // Bind Universal Museum Loupe Panning Engine Controls
                     initializeMuseumLoupe();
                 })
                 .catch(error => {
-                    console.error("Specimen Loader Engine Error:", error);
-                    canvas.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Failed to pull specimen details from database mapping.</p>';
+                    console.error("Specimen Showcase Loader Engine Error:", error);
+                    document.getElementById('medal-title').textContent = "Record Ledger Unavailable";
                 });
         });
 
         // Universal Museum Loupe Panning Zoom Engine Function
         function initializeMuseumLoupe() {
             const frame = document.getElementById('loupe-zoom-viewport');
-            const img = document.getElementById('loupe-zoom-asset');
+            const img = document.getElementById('medal-hero-view');
             if (!frame || !img) return;
 
             // Activate hardware-accelerated zoom scaling on click
