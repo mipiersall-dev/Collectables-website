@@ -1,4 +1,3 @@
-html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,9 +6,9 @@ html
     <title>The Piersall Collection | Romanian Orders Vault</title>
     
     <!-- Premium Google Typography Engine (VERIFIED SUBDOMAIN PATHS) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com" rel="stylesheet">
     
     <!-- Master design stylesheet framework -->
     <link rel="stylesheet" href="style.css?v=1.6"> 
@@ -52,8 +51,7 @@ html
         <section id="phaleristics-matrix-floor" class="coin-grid-matrix"></section>
 
     </main>
-
-    <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
+     <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
     <footer>
         &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
     </footer>
@@ -122,7 +120,7 @@ html
 
             if (databaseRows.length === 0) return;
             
-           // Extract the top array header cells safely
+            // Extract the top array header cells safely
             const columnHeaders = databaseRows.shift(); 
 
             // Find data positions dynamically based on exact Excel columns
@@ -138,18 +136,18 @@ html
             // Loop through remaining medal records to populate visual grid cards
             databaseRows.forEach(medalRow => {
                 const medalId = medalRow[idCol];
-                // Case-insensitive normalization cleanly reads standard proper title case values
+                // Case-insensitive normalization easily reads title casing like "Romania"
                 const medalCountry = medalRow[countryCol] ? medalRow[countryCol].toLowerCase().trim() : "";
                 const medalName = medalRow[nameCol];
                 const medalClass = medalRow[classCol];
                 const medalGrade = medalRow[gradeCol];
                 const medalType = medalRow[typeCol];
                 const medalDates = medalRow[datesCol];
-                const medalDescRaw = medalRow[descCol] ? medalRow[descCol].replace(/^"|"\$/g, '') : "";
+                const medalDescRaw = medalRow[descCol] ? medalRow[descCol] : "";
 
                 if (!medalId) return; // Ignores stray empty tracking splits safely
 
-                // Strictly evaluate target routing parameter: romania
+                // Safely catches your capitalized spreadsheet records cleanly
                 if (medalCountry === 'romania') {
                     
                     // Split visual paragraph chunks cleanly using the vertical pipe standard (|)
