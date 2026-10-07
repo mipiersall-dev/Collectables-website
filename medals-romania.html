@@ -4,14 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Piersall Collection | Romanian Orders Vault</title>
-    
+
     <!-- Premium Google Typography Engine (VERIFIED SUBDOMAIN PATHS) -->
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com" rel="stylesheet">
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
     <!-- Master design stylesheet framework -->
-    <link rel="stylesheet" href="style.css?v=1.6"> 
+    <link rel="stylesheet" href="style.css?v=1.6">
+
+    <!-- LIGHTENED MUSEUM IVORY OVERRIDE PANE -->
+    <style>
+        body.parchment-vault-view,
+        .vault-container {
+            background-color: #faf8f2 !important; /* Soft, premium lightened ivory */
+        }
+        .coin-specimen-card {
+            background-color: #ffffff !important; /* Pristine white card interior base */
+            border: 1px solid #dcd5c1 !important; /* Elegant, clean borders */
+        }
+    </style>
 </head>
 <body class="parchment-vault-view">
 
@@ -36,12 +48,12 @@
 
     <!-- MAIN EXHIBITION SURFACE -->
     <main class="vault-container">
-        
+
         <!-- ROW 1: Room Narrative Prelude -->
         <section class="archive-narrative-block">
             <!-- Navigation return trail for clean ergonomics -->
             <a href="phaleristics.html" style="font-family: 'Cinzel', serif; font-size: 0.8rem; color: #cfad4b; text-decoration: none; letter-spacing: 1px; display: inline-block; margin-bottom: 15px;">&larr; Return to Phaleristics Vault</a>
-            <h1>Romanian Orders & Medals</h1>
+            <h1>Romanian Orders &amp; Medals</h1>
             <p>
                 A specialized historical registry tracking chivalric orders, bravery awards, and civil merit decorations issued by the Kingdom of Romania. This catalog indexes engineering dimensions, strike criteria, and suspension variants across distinct casting timelines, matching pieces against authentic archival type variations.
             </p>
@@ -51,140 +63,177 @@
         <section id="phaleristics-matrix-floor" class="coin-grid-matrix"></section>
 
     </main>
-     <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
+
+    <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
     <footer>
-        &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
+        &copy; 2026 The Piersall Collection &bull; Private Numismatic &amp; Antiquarian Registry
     </footer>
 
-    <!-- BULLETPROOF NATIVE DATALAYER SPLITTING ENGINE -->
+    <!-- ROMANIAN MEDALS CATEGORY SORTING ENGINE -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Fetch your raw database file from the data folder
-            fetch('data/phaleristics.csv')
+        // ---- Settings -------------------------------------------------------
+        const CSV_PATH      = 'data/phaleristics.csv';
+        const COUNTRY       = 'romania';                 // matched case-insensitively
+        const IMAGE_FOLDER  = 'images/phaleristics/';
+        const IMAGE_EXT     = '-1.png';                 // first photo of each item: <ID>-1.png
+        const DETAIL_PAGE   = 'item-medals.html';
+
+        // ---- Helpers --------------------------------------------------------
+
+        // Escapes text so quotes, <, > and & can't break the page markup.
+        function esc(value) {
+            return String(value == null ? '' : value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        // Full CSV parser: handles quoted commas, doubled quotes (""),
+        // line breaks inside quoted cells, CRLF/LF endings, and the Excel BOM.
+        function parseCSV(text) {
+            text = text.replace(/^\uFEFF/, '');
+            const rows = [];
+            let row = [];
+            let field = '';
+            let inQuotes = false;
+
+            for (let i = 0; i < text.length; i++) {
+                const ch = text[i];
+
+                if (inQuotes) {
+                    if (ch === '"') {
+                        if (text[i + 1] === '"') { field += '"'; i++; }
+                        else { inQuotes = false; }
+                    } else {
+                        field += ch;
+                    }
+                } else if (ch === '"') {
+                    inQuotes = true;
+                } else if (ch === ',') {
+                    row.push(field);
+                    field = '';
+                } else if (ch === '\n') {
+                    row.push(field);
+                    rows.push(row);
+                    row = [];
+                    field = '';
+                } else if (ch !== '\r') {
+                    field += ch;
+                }
+            }
+            if (field !== '' || row.length > 0) {
+                row.push(field);
+                rows.push(row);
+            }
+            // Drop completely blank lines
+            return rows.filter(r => r.some(cell => cell.trim() !== ''));
+        }
+
+        // ---- Page builder ---------------------------------------------------
+
+        function buildGrid(csvText) {
+            const floor = document.getElementById('phaleristics-matrix-floor');
+            const rows = parseCSV(csvText);
+            if (rows.length < 2) {
+                floor.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No records found in the catalog file.</p>';
+                return;
+            }
+
+            const headers = rows.shift().map(h => h.trim().toLowerCase());
+            const col = name => headers.indexOf(name);
+
+            const idx = {
+                id: col('id'),
+                country: col('country'),
+                name: col('name'),
+                cls: col('classification'),
+                grade: col('grade'),
+                type: col('type'),
+                dates: col('dates')
+            };
+
+            if (idx.id === -1 || idx.country === -1 || idx.name === -1) {
+                console.error('CSV headers found:', headers);
+                throw new Error('CSV is missing a required column (ID, Country, or Name).');
+            }
+
+            const cell = (row, i) => (i > -1 && row[i] != null) ? row[i].trim() : '';
+            let shown = 0;
+
+            rows.forEach(row => {
+                const id = cell(row, idx.id);
+                if (!id) return; // Skips blank rows safely
+
+                // Keep only records whose Country matches
+                if (cell(row, idx.country).toLowerCase() !== COUNTRY) return;
+
+                const name  = cell(row, idx.name);
+                const cls   = cell(row, idx.cls);
+                const grade = cell(row, idx.grade);
+                const type  = cell(row, idx.type);
+                const dates = cell(row, idx.dates);
+
+                // Assembles the uniform specimen card template matching the coin gallery
+                const card = document.createElement('a');
+                card.className = 'coin-specimen-card';
+                card.href = `${DETAIL_PAGE}?item=${encodeURIComponent(id)}`;
+
+                card.innerHTML = `
+                    <div class="coin-image-frame">
+                        <img src="${IMAGE_FOLDER}${encodeURIComponent(id)}${IMAGE_EXT}" alt="${esc(name)}">
+                    </div>
+                    <h3>${esc(name)}</h3>
+                    <ul class="coin-data-ledger">
+                        ${dates ? `<li><strong>Dates:</strong> <span>${esc(dates)}</span></li>` : ''}
+                        ${cls   ? `<li><strong>Class:</strong> <span>${esc(cls)}</span></li>`   : ''}
+                        ${grade ? `<li><strong>Grade:</strong> <span>${esc(grade)}</span></li>` : ''}
+                        ${type  ? `<li><strong>Type:</strong> <span>${esc(type)}</span></li>`   : ''}
+                    </ul>
+                `;
+
+                // If an image is missing, hide it quietly instead of showing a broken icon.
+                const img = card.querySelector('img');
+                img.addEventListener('error', () => { img.style.visibility = 'hidden'; }, { once: true });
+
+                floor.appendChild(card);
+                shown++;
+            });
+
+            if (shown === 0) {
+                floor.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No Romanian records are listed yet.</p>';
+            }
+            console.log(`[Phaleristics Engine]: ${shown} record(s) displayed.`);
+        }
+
+        // ---- Load the CSV ---------------------------------------------------
+
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch(CSV_PATH)
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error("Master Phaleristics CSV database ledger could not be accessed.");
+                        throw new Error(`Could not load ${CSV_PATH} (HTTP ${response.status}). Check the file path and name.`);
                     }
                     return response.text();
                 })
-                .then(csvText => {
-                    parseAndBuildRomaniaGrid(csvText);
-                })
+                .then(buildGrid)
                 .catch(error => {
-                    console.error("Romanian Gallery Engine Error:", error);
-                    document.getElementById('phaleristics-matrix-floor').innerHTML = 
-                        `<p style="color: #1c1e21; grid-column: 1/-1; text-align: center;">Romanian Vault record ledger currently unavailable.</p>`;
+                    console.error('Romanian Gallery Engine Error:', error);
+                    document.getElementById('phaleristics-matrix-floor').innerHTML =
+                        '<p style="color: #1c1e21; grid-column: 1/-1; text-align: center;">Romanian Vault record ledger currently unavailable.</p>';
                 });
         });
 
-        function parseAndBuildRomaniaGrid(text) {
-            const matrixFloor = document.getElementById('phaleristics-matrix-floor');
-            if (!text.trim()) return;
-
-            // Safe split breaks file lines down cleanly across line breaks safely
-            const rawLines = text.split(\(/\r\)?\n/);
-            const databaseRows = [];
-
-            rawLines.forEach(line => {
-                if (!line.trim()) return;
-                
-                const parsedCells = [];
-                let activeToken = "";
-                let quotesActive = false;
-
-                // Steps through row text characters to isolate comma breaks from text strings safely
-                for (let i = 0; i < line.length; i++) {
-                    let character = line[i];
-                    let trailingChar = line[i + 1];
-
-                    if (character === '"') {
-                        if (quotesActive && trailingChar === '"') {
-                            activeToken += '"';
-                            i++;
-                        } else {
-                            quotesActive = !quotesActive;
-                        }
-                    } else if (character === ',' && !quotesActive) {
-                        parsedCells.push(activeToken.trim());
-                        activeToken = "";
-                    } else {
-                        activeToken += character;
-                    }
-                }
-                parsedCells.push(activeToken.trim());
-                
-                if (parsedCells.length > 1) {
-                    databaseRows.push(parsedCells);
-                }
-            });
-
-            if (databaseRows.length === 0) return;
-            
-            // Extract the top array header cells safely
-            const columnHeaders = databaseRows.shift(); 
-
-            // Find data positions dynamically based on exact Excel columns
-            const idCol = columnHeaders.findIndex(h => h.toLowerCase().trim() === 'id');
-            const countryCol = columnHeaders.findIndex(h => h.toLowerCase().trim() === 'country');
-            const nameCol = columnHeaders.findIndex(h => h.toLowerCase().trim() === 'name');
-            const classCol = columnHeaders.findIndex(h => h.toLowerCase().trim() === 'classification');
-            const gradeCol = columnHeaders.findIndex(h => h.toLowerCase().trim() === 'grade');
-            const typeCol = columnHeaders.findIndex(h => h.toLowerCase().trim() === 'type');
-            const datesCol = columnHeaders.findIndex(h => h.toLowerCase().trim() === 'dates');
-            const descCol = columnHeaders.findIndex(h => h.toLowerCase().trim() === 'description');
-
-            // Loop through remaining medal records to populate visual grid cards
-            databaseRows.forEach(medalRow => {
-                const medalId = medalRow[idCol];
-                // Case-insensitive normalization easily reads title casing like "Romania"
-                const medalCountry = medalRow[countryCol] ? medalRow[countryCol].toLowerCase().trim() : "";
-                const medalName = medalRow[nameCol];
-                const medalClass = medalRow[classCol];
-                const medalGrade = medalRow[gradeCol];
-                const medalType = medalRow[typeCol];
-                const medalDates = medalRow[datesCol];
-                const medalDescRaw = medalRow[descCol] ? medalRow[descCol] : "";
-
-                if (!medalId) return; // Ignores stray empty tracking splits safely
-
-                // Safely catches your capitalized spreadsheet records cleanly
-                if (medalCountry === 'romania') {
-                    
-                    // Split visual paragraph chunks cleanly using the vertical pipe standard (|)
-                    let paragraphsHTML = '';
-                    if (medalDescRaw) {
-                        const segments = medalDescRaw.split('|');
-                        paragraphsHTML = segments
-                            .map(segment => `<p class="vault-description-paragraph">${segment.trim()}</p>`)
-                            .join('');
-                    }
-
-                    const card = document.createElement('a');
-                    card.className = 'coin-specimen-card';
-                    card.href = `item-medals.html?item=${medalId}`;
-
-                    card.innerHTML = `
-                        <div class="coin-image-frame">
-                            <img src="images/phaleristics/${medalId}.png" alt="${medalName}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://w3.org\' width=\'1\' height=\'1\'><rect width=\'1\' height=\'1\' fill=\'%23faf8f2\'/></svg>'">
-                        </div>
-                        <div class="coin-metadata-box">
-                            <span class="specimen-dates-badge">${medalDates}</span>
-                            <h3>${medalName}</h3>
-                            <div class="specimen-meta-details">
-                                ${medalClass ? `<div><strong>Class:</strong> \${medalClass}</div>` : ''}
-                                ${medalGrade && medalGrade.trim() ? `<div><strong>Grade:</strong> \${medalGrade}</div>` : ''}
-                                ${medalType && medalType.trim() ? `<div><strong>Type:</strong> \${medalType}</div>` : ''}
-                            </div>
-                            <div class="specimen-narrative-summary">
-                                ${paragraphsHTML}
-                            </div>
-                        </div>
-                    `;
-                    matrixFloor.appendChild(card);
-                }
-            });
-            console.log("[Phaleristics Engine]: Romania vault grid population loop completed successfully.");
-        }
+        // Native scroll monitor to toggle the condensed header pane smoothly
+        window.addEventListener('scroll', function () {
+            const headerElement = document.querySelector('header');
+            if (window.scrollY > 40) {
+                headerElement.classList.add('shrunk-pane');
+            } else {
+                headerElement.classList.remove('shrunk-pane');
+            }
+        });
     </script>
 </body>
 </html>
