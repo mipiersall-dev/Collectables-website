@@ -122,56 +122,70 @@ html
 
             if (databaseRows.length === 0) return;
             
-            // Extract the top array header cells safely
+           // Extract the top array header cells safely
             const columnHeaders = databaseRows.shift(); 
 
             // Find data positions dynamically based on exact Excel columns
-            const idxId = columnHeaders.findIndex(h => h.toLowerCase() === 'id');
-            const idxCountry = columnHeaders.findIndex(h => h.toLowerCase() === 'country');
-            const idxName = columnHeaders.findIndex(h => h.toLowerCase() === 'name');
-            const idxClass = columnHeaders.findIndex(h => h.toLowerCase() === 'classification');
-            const idxGrade = columnHeaders.findIndex(h => h.toLowerCase() === 'grade');
-            const idxDates = columnHeaders.findIndex(h => h.toLowerCase() === 'dates');
-
-            const idCol = idxId !== -1 ? idxId : 0;
-            const countryCol = idxCountry !== -1 ? idxCountry : 1;
-            const nameCol = idxName !== -1 ? idxName : 2;
-            const classCol = idxClass !== -1 ? idxClass : 3;
-            const gradeCol = idxGrade !== -1 ? idxGrade : 4;
-            const datesCol = idxDates !== -1 ? idxDates : 6;
+            const idCol = columnHeaders.findIndex(h => h.toLowerCase().trim() === 'id');
+            const countryCol = columnHeaders.findIndex(h => h.toLowerCase().trim() === 'country');
+            const nameCol = columnHeaders.findIndex(h => h.toLowerCase().trim() === 'name');
+            const classCol = columnHeaders.findIndex(h => h.toLowerCase().trim() === 'classification');
+            const gradeCol = columnHeaders.findIndex(h => h.toLowerCase().trim() === 'grade');
+            const typeCol = columnHeaders.findIndex(h => h.toLowerCase().trim() === 'type');
+            const datesCol = columnHeaders.findIndex(h => h.toLowerCase().trim() === 'dates');
+            const descCol = columnHeaders.findIndex(h => h.toLowerCase().trim() === 'description');
 
             // Loop through remaining medal records to populate visual grid cards
             databaseRows.forEach(medalRow => {
                 const medalId = medalRow[idCol];
-                // Case-insensitive normalization easily reads title casing like "Romania"
+                // Case-insensitive normalization cleanly reads standard proper title case values
                 const medalCountry = medalRow[countryCol] ? medalRow[countryCol].toLowerCase().trim() : "";
                 const medalName = medalRow[nameCol];
                 const medalClass = medalRow[classCol];
                 const medalGrade = medalRow[gradeCol];
+                const medalType = medalRow[typeCol];
                 const medalDates = medalRow[datesCol];
+                const medalDescRaw = medalRow[descCol] ? medalRow[descCol].replace(/^"|"\$/g, '') : "";
 
                 if (!medalId) return; // Ignores stray empty tracking splits safely
 
-                // Safely catches your capitalized spreadsheet records cleanly
+                // Strictly evaluate target routing parameter: romania
                 if (medalCountry === 'romania') {
+                    
+                    // Split visual paragraph chunks cleanly using the vertical pipe standard (|)
+                    let paragraphsHTML = '';
+                    if (medalDescRaw) {
+                        const segments = medalDescRaw.split('|');
+                        paragraphsHTML = segments
+                            .map(segment => `<p class="vault-description-paragraph">${segment.trim()}</p>`)
+                            .join('');
+                    }
+
                     const card = document.createElement('a');
                     card.className = 'coin-specimen-card';
                     card.href = `item-medals.html?item=${medalId}`;
 
                     card.innerHTML = `
                         <div class="coin-image-frame">
-                            <img src="images/medals/${medalId}-1.png" alt="${medalName}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://w3.org\' width=\'1\' height=\'1\'><rect width=\'1\' height=\'1\' fill=\'%23faf8f2\'/></svg>'">
+                            <img src="images/phaleristics/${medalId}.png" alt="${medalName}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://w3.org\' width=\'1\' height=\'1\'><rect width=\'1\' height=\'1\' fill=\'%23faf8f2\'/></svg>'">
                         </div>
-                        <h3>${medalName}</h3>
-                        <ul class="coin-data-ledger">
-                            <li><strong>Grade:</strong> <span>${medalGrade}</span></li>
-                            <li><strong>Class:</strong> <span>${medalClass}</span></li>
-                            <li><strong>Period:</strong> <span>${medalDates}</span></li>
-                        </ul>
+                        <div class="coin-metadata-box">
+                            <span class="specimen-dates-badge">${medalDates}</span>
+                            <h3>${medalName}</h3>
+                            <div class="specimen-meta-details">
+                                ${medalClass ? `<div><strong>Class:</strong> \${medalClass}</div>` : ''}
+                                ${medalGrade && medalGrade.trim() ? `<div><strong>Grade:</strong> \${medalGrade}</div>` : ''}
+                                ${medalType && medalType.trim() ? `<div><strong>Type:</strong> \${medalType}</div>` : ''}
+                            </div>
+                            <div class="specimen-narrative-summary">
+                                ${paragraphsHTML}
+                            </div>
+                        </div>
                     `;
                     matrixFloor.appendChild(card);
                 }
             });
+            console.log("[Phaleristics Engine]: Romania vault grid population loop completed successfully.");
         }
     </script>
 </body>
