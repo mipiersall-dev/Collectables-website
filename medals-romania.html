@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,7 +21,7 @@
             <span class="master-sign">The Piersall Collection</span>
         </a>
         <div class="navigation-ribbon">
-            <a href="phaleristics.html" class="nav-link-anchor" style="color: #cfad4b;">Phaleristics</a>
+            <a href="phaleristics.html" class="nav-link-anchor">Phaleristics</a>
             <span class="nav-bullet-divider">&bull;</span>
             <a href="numismatics.html" class="nav-link-anchor">Numismatics</a>
             <span class="nav-bullet-divider">&bull;</span>
@@ -47,7 +47,7 @@
             </p>
         </section>
 
-        <!-- ROW 2: AUTOMATED MATRIX GRID FLOOR (CLEAN MUSIC ROOM STYLE) -->
+        <!-- ROW 2: AUTOMATED MATRIX GRID FLOOR -->
         <section id="phaleristics-matrix-floor" class="coin-grid-matrix"></section>
 
     </main>
@@ -57,10 +57,9 @@
         &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
     </footer>
 
-    <!-- CLEAN, EXHAUSTIVELY AUDITED CSV DATA FILTER ENGINE -->
+    <!-- CLEAN NATIVE JAVASCRIPT CSV ENGINE -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Fetch the raw master spreadsheet database file from the data folder
             fetch('data/phaleristics.csv')
                 .then(response => {
                     if (!response.ok) {
@@ -80,48 +79,47 @@
 
         function parseAndBuildRomaniaGrid(text) {
             const matrixFloor = document.getElementById('phaleristics-matrix-floor');
-            
-            // Clean split mechanism handles embedded commas inside Excel double quotes perfectly
+            if (!text.trim()) return;
+
+            // Split file content into raw lines safely
+            const lines = text.split(\(/\r\)?\n/);
             const rows = [];
-            let currentToken = "";
-            let insideQuotes = false;
-            let currentRow = [];
 
-            for (let i = 0; i < text.length; i++) {
-                let char = text[i];
-                let nextChar = text[i + 1];
+            lines.forEach(line => {
+                if (!line.trim()) return;
+                
+                const currentRow = [];
+                let currentToken = "";
+                let insideQuotes = false;
 
-                if (char === '"') {
-                    if (insideQuotes && nextChar === '"') {
-                        currentToken += '"'; // Handles escaped quotation marks
-                        i++;
+                for (let i = 0; i < line.length; i++) {
+                    let char = line[i];
+                    let nextChar = line[i + 1];
+
+                    if (char === '"') {
+                        if (insideQuotes && nextChar === '"') {
+                            currentToken += '"';
+                            i++;
+                        } else {
+                            insideQuotes = !insideQuotes;
+                        }
+                    } else if (char === ',' && !insideQuotes) {
+                        currentRow.push(currentToken.trim());
+                        currentToken = "";
                     } else {
-                        insideQuotes = !insideQuotes; // Toggles quote boundary limits
+                        currentToken += char;
                     }
-                } else if (char === ',' && !insideQuotes) {
-                    currentRow.push(currentToken.trim());
-                    currentToken = "";
-                } else if ((char \(=== '\r' \vert{}\vert{}\) char === '\n') && !insideQuotes) {
-                    if (char \(=== '\r' &&\) nextChar === '\n') { i++; }
-                    currentRow.push(currentToken.trim());
-                    if (currentRow.length > 1 && currentRow !== "") {
-                        rows.push(currentRow);
-                    }
-                    currentToken = "";
-                    currentRow = [];
-                } else {
-                    currentToken += char;
                 }
-            }
-            if (currentToken.trim() !== "" || currentRow.length > 0) {
                 currentRow.push(currentToken.trim());
-                if (currentRow.length > 1) { rows.push(currentRow); }
-            }
+                if (currentRow.length > 1) {
+                    rows.push(currentRow);
+                }
+            });
 
             if (rows.length === 0) return;
-            const headers = rows.shift(); // Drops the header tracking label row safely
+            const headers = rows.shift(); // Drop the header array cleanly
 
-            // Map data indexes dynamically based on exact Excel columns
+            // Map data columns dynamically from the spreadsheet header values
             const idxId = headers.findIndex(h => h.toLowerCase() === 'id');
             const idxCountry = headers.findIndex(h => h.toLowerCase() === 'country');
             const idxName = headers.findIndex(h => h.toLowerCase() === 'name');
@@ -136,19 +134,17 @@
             const gradeCol = idxGrade !== -1 ? idxGrade : 4;
             const datesCol = idxDates !== -1 ? idxDates : 6;
 
-            // Loop through data rows to assemble floating cards cleanly
             rows.forEach(dataRow => {
                 const itemId = dataRow[idCol];
-                // Normalizes text casing cleanly to strip out spreadsheet capitalization gaps safely
+                // Force lowercase trim to easily read capital labels like "Romania"
                 const itemCountry = dataRow[countryCol] ? dataRow[countryCol].toLowerCase().trim() : "";
                 const itemName = dataRow[nameCol];
                 const itemClass = dataRow[classCol];
                 const itemGrade = dataRow[gradeCol];
                 const itemDates = dataRow[datesCol];
 
-                if (!itemId) return; // Skips blank lines safely
+                if (!itemId) return; // Safely bypass stray empty values
 
-                // Catches all data rows marked for Romania identically regardless of capitalization
                 if (itemCountry === 'romania') {
                     const card = document.createElement('a');
                     card.className = 'coin-specimen-card';
@@ -165,21 +161,10 @@
                             <li><strong>Period:</strong> <span>${itemDates}</span></li>
                         </ul>
                     `;
-
                     matrixFloor.appendChild(card);
                 }
             });
         }
-
-        // Native scroll monitor to toggle the condensed header pane smoothly
-        window.addEventListener('scroll', function() {
-            const headerElement = document.querySelector('header');
-            if (window.scrollY > 40) {
-                headerElement.classList.add('shrunk-pane');
-            } else {
-                headerElement.classList.remove('shrunk-pane');
-            }
-        });
     </script>
 </body>
 </html>
