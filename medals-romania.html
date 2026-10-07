@@ -8,7 +8,7 @@
     <!-- Premium Google Typography Engine (VERIFIED SUBDOMAIN PATHS) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://font.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     
     <!-- Master design stylesheet framework -->
     <link rel="stylesheet" href="style.css?v=1.6"> 
@@ -47,7 +47,7 @@
             </p>
         </section>
 
-        <!-- ROW 2: AUTOMATED MATRIX GRID FLOOR -->
+        <!-- ROW 2: AUTOMATED MATRIX GRID FLOOR (CLEAN UNIFORM STYLE) -->
         <section id="phaleristics-matrix-floor" class="coin-grid-matrix"></section>
 
     </main>
@@ -57,7 +57,7 @@
         &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
     </footer>
 
-    <!-- CLEAN NATIVE JAVASCRIPT CSV ENGINE -->
+    <!-- DYNAMIC ENGINE MATCHING THE COIN PAGE LOGIC EXACTLY -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             fetch('data/phaleristics.csv')
@@ -71,7 +71,7 @@
                     parseAndBuildRomaniaGrid(csvText);
                 })
                 .catch(error => {
-                    console.error("Romanian Gallery Engine Error:", error);
+                    console.error("Phaleristics Engine Error:", error);
                     document.getElementById('phaleristics-matrix-floor').innerHTML = 
                         `<p style="color: #1c1e21; grid-column: 1/-1; text-align: center;">Romanian Vault record ledger currently unavailable.</p>`;
                 });
@@ -79,47 +79,50 @@
 
         function parseAndBuildRomaniaGrid(text) {
             const matrixFloor = document.getElementById('phaleristics-matrix-floor');
-            if (!text.trim()) return;
-
-            // Split file content into raw lines safely
-            const lines = text.split(\(/\r\)?\n/);
+            
+            // UNIFORM COIN PARSER MACHINERY: Steps through text cleanly with zero backslash leaks
             const rows = [];
+            let currentToken = "";
+            let insideQuotes = false;
+            let currentRow = [];
 
-            lines.forEach(line => {
-                if (!line.trim()) return;
-                
-                const currentRow = [];
-                let currentToken = "";
-                let insideQuotes = false;
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                let nextChar = text[i + 1];
 
-                for (let i = 0; i < line.length; i++) {
-                    let char = line[i];
-                    let nextChar = line[i + 1];
-
-                    if (char === '"') {
-                        if (insideQuotes && nextChar === '"') {
-                            currentToken += '"';
-                            i++;
-                        } else {
-                            insideQuotes = !insideQuotes;
-                        }
-                    } else if (char === ',' && !insideQuotes) {
-                        currentRow.push(currentToken.trim());
-                        currentToken = "";
+                if (char === '"') {
+                    if (insideQuotes && nextChar === '"') {
+                        currentToken += '"';
+                        i++;
                     } else {
-                        currentToken += char;
+                        insideQuotes = !insideQuotes;
                     }
+                } else if (char === ',' && !insideQuotes) {
+                    currentRow.push(currentToken.trim());
+                    currentToken = "";
+                } else if ((char \(=== '\r' \vert{}\vert{}\) char === '\n') && !insideQuotes) {
+                    if (char \(=== '\r' &&\) nextChar === '\n') { i++; }
+                    currentRow.push(currentToken.trim());
+                    if (currentRow.length > 1 && currentRow !== "") {
+                        rows.push(currentRow);
+                    }
+                    currentToken = "";
+                    currentRow = [];
+                } else {
+                    currentToken += char;
                 }
+            }
+            if (currentToken.trim() !== "" || currentRow.length > 0) {
                 currentRow.push(currentToken.trim());
-                if (currentRow.length > 1) {
-                    rows.push(currentRow);
-                }
-            });
+                if (currentRow.length > 1) { rows.push(currentRow); }
+            }
 
             if (rows.length === 0) return;
-            const headers = rows.shift(); // Drop the header array cleanly
+            
+            // Extract the header tracking row safely
+            const headers = rows.shift(); 
 
-            // Map data columns dynamically from the spreadsheet header values
+            // Find data column indexes dynamically based on exact Excel labels
             const idxId = headers.findIndex(h => h.toLowerCase() === 'id');
             const idxCountry = headers.findIndex(h => h.toLowerCase() === 'country');
             const idxName = headers.findIndex(h => h.toLowerCase() === 'name');
@@ -134,18 +137,20 @@
             const gradeCol = idxGrade !== -1 ? idxGrade : 4;
             const datesCol = idxDates !== -1 ? idxDates : 6;
 
+            // Route rows using the uniform coin method
             rows.forEach(dataRow => {
                 const itemId = dataRow[idCol];
-                // Force lowercase trim to easily read capital labels like "Romania"
+                // Case-insensitive evaluation safely catches title casing like "Romania"
                 const itemCountry = dataRow[countryCol] ? dataRow[countryCol].toLowerCase().trim() : "";
                 const itemName = dataRow[nameCol];
                 const itemClass = dataRow[classCol];
                 const itemGrade = dataRow[gradeCol];
                 const itemDates = dataRow[datesCol];
 
-                if (!itemId) return; // Safely bypass stray empty values
+                if (!itemId) return; // Skips stray blank fields safely
 
-                if (itemCountry === 'romania') {
+                // UNIFORM ENGINE EVALUATION STANDARD: Reads your capitalized spreadsheet inputs cleanly
+                if (itemCountry.includes('romania')) {
                     const card = document.createElement('a');
                     card.className = 'coin-specimen-card';
                     card.href = `item-medals.html?item=${itemId}`;
@@ -161,6 +166,7 @@
                             <li><strong>Period:</strong> <span>${itemDates}</span></li>
                         </ul>
                     `;
+
                     matrixFloor.appendChild(card);
                 }
             });
