@@ -387,7 +387,7 @@ header.shrunk-pane .prelude-container {
 .coin-image-frame img, .tile-photo-window img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     filter: brightness(100%); /* DESIGN COMPLIANCE: 100% full raw brightness asset view */
 }
 
@@ -493,7 +493,7 @@ header.shrunk-pane .prelude-container {
 .thumb-slot img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .thumb-slot.active { border: 2px solid #cfad4b; }
