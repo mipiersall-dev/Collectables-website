@@ -129,6 +129,14 @@
             return trimmed.toUpperCase() === "N/A" ? "" : trimmed;
         }
 
+        // Which listing page a record belongs to, so the "back" tag returns to the right place
+        function listingPageFor(country) {
+            const c = country.toLowerCase();
+            if (c === 'romania') return 'medals-romania.html';
+            if (c === 'united states') return 'medals-us.html';
+            return 'medals-world.html';
+        }
+
         // The CSV column is "Grouping" ("Group" also works); blank or N/A means the row is its own group
         function groupKeyOf(rec) {
             return cleanValue(rec.grouping) || cleanValue(rec.group) || cleanValue(rec.id);
@@ -249,6 +257,7 @@
 
             groupMembers = members;
             variantLabels = buildVariantLabels(members);
+            document.getElementById('back-link').href = listingPageFor(cleanValue(members[0].country));
 
             // Shared narrative: the first non-N/A description in the group, in the bottom section.
             // "|" marks a paragraph break.
