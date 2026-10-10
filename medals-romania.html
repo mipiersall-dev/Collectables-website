@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
     <!-- Master design stylesheet framework -->
-    <link rel="stylesheet" href="style.css?v=1.6">
+    <link rel="stylesheet" href="style.css?v=1.7">
 </head>
 <body class="parchment-vault-view">
 
@@ -148,6 +148,22 @@
             });
         }
 
+        // Rows that share a Grouping value collapse into one card; blank or N/A means "its own group"
+        function groupKeyOf(rec) {
+            return cleanValue(rec.grouping) || cleanValue(rec.group) || cleanValue(rec.id);
+        }
+
+        // One date range for a whole group (e.g. 1881-1947), or the shared value if they all match
+        function combinedDates(members) {
+            const all = members.map(m => cleanValue(m.dates)).filter(Boolean);
+            if (all.length === 0) return "";
+            if (new Set(all).size === 1) return all[0];
+            const years = (all.join(' ').match(/\b\d{4}\b/g) || []).map(Number);
+            if (years.length === 0) return all[0];
+            const end = all.some(d => /present/i.test(d)) ? 'Present' : Math.max(...years);
+            return `${Math.min(...years)}-${end}`;
+        }
+
         function parseAndBuildGrid(text) {
             const matrixFloor = document.getElementById('medals-matrix-floor');
             const records = parseCsvToRecords(text)
@@ -158,30 +174,48 @@
                 return;
             }
 
+            // Collapse rows into groups, keeping CSV order (first row of a group is its representative)
+            const groups = new Map();
             records.forEach(rec => {
-                const itemId = cleanValue(rec.id);
-                const itemName = cleanValue(rec.name) || itemId;
+                const key = groupKeyOf(rec).toLowerCase();
+                if (!groups.has(key)) groups.set(key, []);
+                groups.get(key).push(rec);
+            });
+
+            groups.forEach(members => {
+                const rep = members[0];
+                const groupKey = groupKeyOf(rep);
+                const repId = cleanValue(rep.id);
+                const itemName = cleanValue(rep.name) || repId;
+                const isGroup = members.length > 1;
 
                 // Ledger lines: only fields that are not empty / N/A are displayed
-                const ledgerFields = [
-                    ['Class', cleanValue(rec.classification)],
-                    ['Grade', cleanValue(rec.grade)],
-                    ['Type', cleanValue(rec.type)],
-                    ['Dates', cleanValue(rec.dates)]
-                ].filter(pair => pair[1] !== "");
+                const ledgerFields = isGroup
+                    ? [
+                        ['Class', cleanValue(rep.classification)],
+                        ['Dates', combinedDates(members)],
+                        ['Variants', String(members.length)]
+                      ]
+                    : [
+                        ['Class', cleanValue(rep.classification)],
+                        ['Grade', cleanValue(rep.grade)],
+                        ['Type', cleanValue(rep.type)],
+                        ['Dates', cleanValue(rep.dates)]
+                      ];
 
                 const ledgerHtml = ledgerFields
+                    .filter(pair => pair[1] !== "")
                     .map(pair => `<li><strong>${pair[0]}:</strong> <span>${escapeHtml(pair[1])}</span></li>`)
                     .join('');
 
                 const card = document.createElement('a');
                 card.className = 'specimen-tile-card';
-                card.href = `item-medals.html?item=${encodeURIComponent(itemId)}`;
+                card.href = `item-medals.html?item=${encodeURIComponent(groupKey)}`;
 
-                // Card photo is the first image in the set: <ID>-1.png
+                // Card photo is the first image of the group's first row: <ID>-1.png
                 card.innerHTML = `
                     <div class="tile-photo-window">
-                        <img src="${IMAGE_DIR}/${encodeURIComponent(itemId)}-1.png" alt="${escapeHtml(itemName)}" onerror="this.style.visibility='hidden'">
+                        <img src="${IMAGE_DIR}/${encodeURIComponent(repId)}-1.png" alt="${escapeHtml(itemName)}" onerror="this.style.visibility='hidden'">
                     </div>
                     <h3>${escapeHtml(itemName)}</h3>
                     <ul class="tile-data-ledger">${ledgerHtml}</ul>
