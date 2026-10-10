@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Piersall Collection | Numismatic Registry Vault</title>
-    
+    <title>The Piersall Collection | Coin Registry Vault</title>
+
     <!-- Premium Google Typography Engine (VERIFIED SUBDOMAIN PATHS) -->
-    <link rel="preconnect" href="https://fontsgoogleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    
+
     <!-- Master design stylesheet framework -->
-    <link rel="stylesheet" href="style.css?v=1.6"> 
+    <link rel="stylesheet" href="style.css?v=2.5">
 </head>
 <body class="parchment-vault-view">
 
@@ -34,105 +34,119 @@
         </p>
     </header>
 
-    <!-- DYNAMIC COIN SHOWCASE CONTAINER -->
+    <!-- DYNAMIC MEDALS SHOWCASE CONTAINER -->
     <main class="item-showcase-container">
-        
+
         <!-- TOP STAGE: VISUAL MEDIA (LEFT) VS DIRECT DATA LEDGER (RIGHT) -->
         <div class="showcase-split-stage">
-            
-            <!-- LEFT COLUMN: Large Photo Window + Underneath 4-Column Rolling Thumbnail Grid -->
+
+            <!-- LEFT COLUMN: Large Photo Window + Rolling Thumbnail Grid -->
             <div class="photo-exhibition-column">
-                <div class="main-hero-display" style="border: 1px solid #d4cbb3 !important;">
-                    <img id="coin-hero-view" src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' width='1' height='1'></svg>" alt="Active Numismatic View">
+                <div class="main-hero-display">
+                    <img id="coin-hero-view" alt="Active Coin View">
                 </div>
-                
-                <!-- AUTOMATED NUMERICAL THUMBNAIL MATRIX: Loops populate this frame dynamically -->
-                <div id="coin-thumbnail-strip" class="thumbnail-selector-strip"></div>
+
+                <!-- AUTOMATED THUMBNAIL MATRIX: script injects one button per image found -->
+                <div id="medal-thumbnail-strip" class="thumbnail-selector-strip"></div>
             </div>
 
-            <!-- RIGHT COLUMN: Curated Left-Aligned Coin Specifications Directory -->
+            <!-- RIGHT COLUMN: Coin Directory -->
             <div class="metadata-ledger-column">
-                <a href="numismatics.html" class="category-indicator-tag" style="text-decoration: none; display: inline-block; font-family: 'Cinzel', serif; font-size: 0.8rem; color: #cfad4b; letter-spacing: 1px; margin-bottom: 10px;">
-                    Numismatics &bull; Coin Cabinet Registry
+                <a href="num-us.html" id="back-link" class="category-indicator-tag" style="text-decoration: none; display: inline-block;">
+                    Numismatics &bull; Collection Registry
                 </a>
-                <h2 id="coin-title" style="font-family: 'Cinzel', serif; font-size: 1.8rem; margin: 0 0 25px 0; color: #1c1e21; border-bottom: 1px solid #e5dec9; padding-bottom: 15px;">Loading Specimen Record...</h2>
-                
-                <!-- Customized Numismatic Data Ledger Layout Matrix Row Slots -->
-                <div class="specs-floating-directory" style="display: flex; flex-direction: column; gap: 12px; font-family: 'Inter', sans-serif; font-size: 0.9rem;">
-                    <div class="spec-inline-row" style="display: flex; justify-content: space-between; border-bottom: 1px dashed #e5dec9; padding-bottom: 8px;">
-                        <span class="spec-label" style="font-weight: 600; color: #1c1e21;">Denomination</span>
-                        <span id="spec-denom" class="spec-value" style="color: #57657a;"></span>
-                    </div>
-                    <div class="spec-inline-row" style="display: flex; justify-content: space-between; border-bottom: 1px dashed #e5dec9; padding-bottom: 8px;">
-                        <span class="spec-label" style="font-weight: 600; color: #1c1e21;">Date Variety</span>
-                        <span id="spec-date" class="spec-value" style="color: #57657a;"></span>
-                    </div>
-                    <div class="spec-inline-row" style="display: flex; justify-content: space-between; border-bottom: 1px dashed #e5dec9; padding-bottom: 8px;">
-                        <span class="spec-label" style="font-weight: 600; color: #1c1e21;">Mint Mark</span>
-                        <span id="spec-mint" class="spec-value" style="color: #57657a;"></span>
-                    </div>
-                    <div class="spec-inline-row" style="display: flex; justify-content: space-between; border-bottom: 1px dashed #e5dec9; padding-bottom: 8px;">
-                        <span class="spec-label" style="font-weight: 600; color: #1c1e21;">Series Type</span>
-                        <span id="spec-type" class="spec-value" style="color: #57657a;"></span>
-                    </div>
-                    <div class="spec-inline-row" style="display: flex; justify-content: space-between; border-bottom: 1px dashed #e5dec9; padding-bottom: 8px;">
-                        <span class="spec-label" style="font-weight: 600; color: #1c1e21;">Numismatic Grade</span>
-                        <span id="spec-grade" class="spec-value" style="color: #57657a;"></span>
-                    </div>
-                    <div class="spec-inline-row" style="display: flex; justify-content: space-between; border-bottom: 1px dashed #e5dec9; padding-bottom: 8px;">
-                        <span class="spec-label" style="font-weight: 600; color: #1c1e21;">Grading Service</span>
-                        <span id="spec-service" class="spec-value" style="color: #57657a;"></span>
-                    </div>
-                    <div class="spec-inline-row" style="display: flex; justify-content: space-between; padding-bottom: 8px;">
-                        <span class="spec-label" style="font-weight: 600; color: #1c1e21;">Category</span>
-                        <span id="spec-category" class="spec-value" style="color: #57657a;"></span>
-                    </div>
-                </div>
+                <h2 id="medal-title">Loading Specimen Record...</h2>
+
+                <!-- Variant picker: label + photo buttons, shown only when several CSV rows share a Grouping -->
+                <p id="variant-label" class="variant-selector-label" style="display: none;"></p>
+                <div id="variant-selector" class="variant-selector" style="display: none;"></div>
+
+                <!-- Specification rows: rebuilt per variant; N/A and empty fields are skipped -->
+                <div id="medal-specs" class="specs-floating-directory"></div>
+
+                <!-- Per-variant notes: shown only when the Notes field has content -->
+                <div id="variant-notes" class="variant-notes-box" style="display: none;"></div>
             </div>
 
         </div> <!-- Split stage row container closed cleanly -->
-        <!-- LOWER STAGE: Full-Width Visual Narrative Essays Floor -->
-        <div id="coin-essay-stage" class="historical-description-box">
-            <h2>About this Specimen</h2>
+
+        <!-- LOWER STAGE: Full-Width Narrative Floor (shared by every variant in the group) -->
+        <div id="medal-essay-stage" class="historical-description-box">
+            <h2>About this Coin</h2>
         </div>
 
     </main>
 
     <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
     <footer>
-        &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
+        &copy; 2026 The Piersall Collection &bull; Private Numismatic &amp; Antiquarian Registry
     </footer>
 
-    <!-- AUTOMATED SINGLE-COIN CSV LOOKUP ENGINE -->
+    <!-- AUTOMATED SINGLE-ITEM ENGINE FOR MEDALS -->
     <script>
+        // Page-relative paths (no leading slash) so they work on the GitHub Pages
+        // project site: https://mipiersall-dev.github.io/Collectables-website/
+        const CSV_PATH = 'data/numismatics.csv';
+        const IMAGE_DIR = 'images/numismatics';
+        const IMAGE_EXTENSIONS = ['png', 'jpg'];   // tried in this order for each image number
+        const MAX_IMAGES = 12;                     // safety ceiling for the -1, -2, -3... scan
+
+        let groupMembers = [];        // every CSV row in the displayed group, in CSV order
+        let variantLabels = {};       // row ID -> button label
+        const imageCache = {};        // row ID -> list of discovered image URLs
+        let galleryToken = 0;         // guards against slow image scans finishing out of order
+
         document.addEventListener("DOMContentLoaded", function() {
             const urlParameters = new URLSearchParams(window.location.search);
-            const activeCoinKey = urlParameters.get('item');
+            const activeItemKey = urlParameters.get('item');
+            const requestedVariant = urlParameters.get('variant');
 
-            if (!activeCoinKey) {
-                document.getElementById('coin-title').textContent = "No Specimen Selected";
+            if (!activeItemKey) {
+                document.getElementById('medal-title').textContent = "No Specimen Selected";
                 return;
             }
 
-            // Fetch the raw master spreadsheet database file from the data folder
-            fetch('data/numismatics.csv')
+            fetch(CSV_PATH)
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error("Master Numismatic database ledger could not be accessed.");
+                        throw new Error("Master numismatics database ledger could not be accessed (HTTP " + response.status + ").");
                     }
                     return response.text();
                 })
                 .then(csvText => {
-                    processTargetCoinRecord(csvText, activeCoinKey);
+                    processTargetRecord(csvText, activeItemKey, requestedVariant);
                 })
                 .catch(error => {
-                    console.error("Coin Showcase Engine Error:", error);
-                    document.getElementById('coin-title').textContent = "Record Ledger Unavailable";
+                    console.error("Showcase Engine Error:", error);
+                    document.getElementById('medal-title').textContent = "Record Ledger Unavailable";
                 });
         });
 
-        function processTargetCoinRecord(text, searchKey) {
-            // Split text lines while protecting commas locked inside Excel double quotes
+        // Treats empty cells and "N/A" as "nothing to display"
+        function cleanValue(value) {
+            if (value === undefined || value === null) return "";
+            const trimmed = String(value).trim();
+            return trimmed.toUpperCase() === "N/A" ? "" : trimmed;
+        }
+
+        // Which listing page a record belongs to (by its Category), so the "back" tag returns to the right place
+        function listingPageFor(category) {
+            const c = category.toLowerCase();
+            if (c === 'us') return 'num-us.html';
+            if (c === 'token') return 'num-tokens.html';
+            return 'num-world.html';
+        }
+
+        // The CSV column is "Grouping" ("Group" also works); blank or N/A means the row is its own group
+        function groupKeyOf(rec) {
+            return cleanValue(rec.grouping) || cleanValue(rec.group) || cleanValue(rec.id);
+        }
+
+        // Parses CSV text into an array of objects keyed by lowercase header names.
+        // Strips the UTF-8 BOM and protects commas/newlines locked inside double quotes.
+        function parseCsvToRecords(text) {
+            if (text.charCodeAt(0) === 0xFEFF) { text = text.slice(1); }
+
             const rows = [];
             let currentToken = "";
             let insideQuotes = false;
@@ -144,7 +158,7 @@
 
                 if (char === '"') {
                     if (insideQuotes && nextChar === '"') {
-                        currentToken += '"'; // Handles escaped quotes
+                        currentToken += '"';
                         i++;
                     } else {
                         insideQuotes = !insideQuotes;
@@ -155,7 +169,7 @@
                 } else if ((char === '\r' || char === '\n') && !insideQuotes) {
                     if (char === '\r' && nextChar === '\n') { i++; }
                     currentRow.push(currentToken.trim());
-                    if (currentRow.length > 1 && currentRow !== "") {
+                    if (currentRow.length > 1 && currentRow[0] !== "") {
                         rows.push(currentRow);
                     }
                     currentToken = "";
@@ -166,113 +180,297 @@
             }
             if (currentToken.trim() !== "" || currentRow.length > 0) {
                 currentRow.push(currentToken.trim());
-                if (currentRow.length > 1) { rows.push(currentRow); }
+                if (currentRow.length > 1 && currentRow[0] !== "") { rows.push(currentRow); }
             }
 
-            if (rows.length === 0) return;
-            const headers = rows.shift(); // Strips headers out safely
+            if (rows.length === 0) return [];
+            const headers = rows.shift().map(h => h.trim().toLowerCase());
 
-            // Map spreadsheet column indexes dynamically to protect against future modifications
-            const idxId = headers.findIndex(h => h.toLowerCase() === 'id');
-            const idxCategory = headers.findIndex(h => h.toLowerCase() === 'category');
-            const idxTitle = headers.findIndex(h => h.toLowerCase() === 'title');
-            const idxDate = headers.findIndex(h => h.toLowerCase() === 'date');
-            const idxMint = headers.findIndex(h => h.toLowerCase() === 'mint');
-            const idxType = headers.findIndex(h => h.toLowerCase() === 'type');
-            const idxDenom = headers.findIndex(h => h.toLowerCase() === 'denomination');
-            const idxGrade = headers.findIndex(h => h.toLowerCase() === 'grade');
-            const idxService = headers.findIndex(h => h.toLowerCase() === 'grading service');
-            const idxAbout = headers.findIndex(h => h.toLowerCase() === 'about');
+            return rows.map(r => {
+                const record = {};
+                headers.forEach((h, idx) => { if (h) record[h] = r[idx] !== undefined ? r[idx] : ""; });
+                return record;
+            });
+        }
 
-            const idCol = idxId !== -1 ? idxId : 0;
-            const categoryCol = idxCategory !== -1 ? idxCategory : 1;
-            const titleCol = idxTitle !== -1 ? idxTitle : 2;
-            const dateCol = idxDate !== -1 ? idxDate : 3;
-            const mintCol = idxMint !== -1 ? idxMint : 4;
-            const typeCol = idxType !== -1 ? idxType : 5;
-            const denomCol = idxDenom !== -1 ? idxDenom : 6;
-            const gradeCol = idxGrade !== -1 ? idxGrade : 7;
-            const serviceCol = idxService !== -1 ? idxService : 8;
-            const aboutCol = idxAbout !== -1 ? idxAbout : 10;
+        // Tries <base>.png, then <base>.jpg; resolves with the first URL that loads, or null
+        function probeImage(basePath) {
+            return new Promise(resolve => {
+                let attempt = 0;
+                function tryNext() {
+                    if (attempt >= IMAGE_EXTENSIONS.length) { resolve(null); return; }
+                    const url = `${basePath}.${IMAGE_EXTENSIONS[attempt++]}`;
+                    const probe = new Image();
+                    probe.onload = () => resolve(url);
+                    probe.onerror = tryNext;
+                    probe.src = url;
+                }
+                tryNext();
+            });
+        }
 
-            // Find the specific row matching our unique search token key ID
-            const targetCoinRow = rows.find(r => r[idCol] === searchKey);
+        // Scans <ID>-1, <ID>-2, <ID>-3 ... and stops at the first number with no file
+        async function discoverImages(itemId) {
+            const found = [];
+            for (let n = 1; n <= MAX_IMAGES; n++) {
+                const url = await probeImage(`${IMAGE_DIR}/${encodeURIComponent(itemId)}-${n}`);
+                if (!url) break;
+                found.push(url);
+            }
+            return found;
+        }
 
-            if (targetCoinRow) {
-                const itemId = targetCoinRow[idCol];
-                const itemTitle = targetCoinRow[titleCol];
-                
-                // Inject structural metadata values directly into labeled layout slots
-                document.getElementById('coin-title').textContent = itemTitle;
-                document.getElementById('spec-denom').textContent = targetCoinRow[denomCol] || "Not Listed";
-                document.getElementById('spec-date').textContent = targetCoinRow[dateCol] || "Not Listed";
-                document.getElementById('spec-mint').textContent = targetCoinRow[mintCol] || "Not Listed";
-                document.getElementById('spec-type').textContent = targetCoinRow[typeCol] || "Not Listed";
-                document.getElementById('spec-grade').textContent = targetCoinRow[gradeCol] || "Not Listed";
-                document.getElementById('spec-service').textContent = targetCoinRow[serviceCol] || "Raw / Uncertified";
-                document.getElementById('spec-category').textContent = targetCoinRow[categoryCol] || "Unassigned";
+        // Button text for each variant: its Title; if two variants would read the same, add the Grade
+        function buildVariantLabels(members) {
+            const base = members.map(m => cleanValue(m.title) || cleanValue(m.id));
+            const labels = {};
+            members.forEach((m, idx) => {
+                const duplicated = base.filter(b => b === base[idx]).length > 1;
+                const grade = cleanValue(m.grade);
+                labels[cleanValue(m.id)] = (duplicated && grade) ? `${base[idx]} \u2013 ${grade}` : base[idx];
+            });
+            return labels;
+        }
 
-                // AUTOMATED SEQUENTIAL NUMERICAL IMAGE SCAN:
-                // Pre-populates fields 1 to 4 following the strict numerical standard
-                const coinImageList = [
-                    `images/numismatics/${itemId}-1.png`,
-                    `images/numismatics/${itemId}-2.png`,
-                    `images/numismatics/${itemId}-3.png`,
-                    `images/numismatics/${itemId}-4.png`
-                ];
+        function processTargetRecord(text, searchKey, requestedVariant) {
+            const records = parseCsvToRecords(text).filter(r => cleanValue(r.id));
+            const keyLower = searchKey.toLowerCase();
 
-                // Set initial active large display hero window frame
-                document.getElementById('coin-hero-view').src = coinImageList[0];
-                document.getElementById('coin-hero-view').alt = itemTitle;
+            // The ?item= value is normally a group key (or a standalone row's ID).
+            // An individual variant ID also works and opens its group with that variant selected.
+            let members = records.filter(r => groupKeyOf(r).toLowerCase() === keyLower);
+            let startVariantId = requestedVariant;
+            if (members.length === 0) {
+                const direct = records.find(r => cleanValue(r.id).toLowerCase() === keyLower);
+                if (direct) {
+                    members = records.filter(r => groupKeyOf(r).toLowerCase() === groupKeyOf(direct).toLowerCase());
+                    startVariantId = cleanValue(direct.id);
+                }
+            }
 
-                const thumbnailStrip = document.getElementById('coin-thumbnail-strip');
-                
-                // Dynamically construct your locked 4-wide rolling thumbnail matrix buttons
-                coinImageList.forEach((photoUrl, index) => {
-                    const button = document.createElement('button');
-                    button.className = index === 0 ? 'thumb-slot active' : 'thumb-slot';
-                    
-                    const img = document.createElement('img');
-                    img.src = photoUrl;
-                    img.alt = `Coin View Angle ${index + 1}`;
-                    
-                    // IF A SEQUENTIAL IMAGE DOES NOT EXIST IN THE REPOSITORY, HIDE THE SLOT DYNAMICALLY
-                    img.onerror = function() {
-                        button.style.display = 'none';
-                    };
+            if (members.length === 0) {
+                document.getElementById('medal-title').textContent = "Specimen Registry Record Not Found";
+                return;
+            }
 
-                    button.appendChild(img);
-                    button.onclick = function() {
-                        swapCoinPhoto(photoUrl, button);
-                    };
+            groupMembers = members;
+            variantLabels = buildVariantLabels(members);
+            document.getElementById('back-link').href = listingPageFor(cleanValue(members[0].category));
 
-                    thumbnailStrip.appendChild(button);
-                });
-
-                // Parse the narrative history log and handle multi-paragraph bar divisions (|)
-                const narrativeText = targetCoinRow[aboutCol] || "Archival collection history logs currently pending processing.";
-                const paragraphs = narrativeText.split('|');
-                const essayStage = document.getElementById('coin-essay-stage');
-
-                paragraphs.forEach(textBlock => {
+            // Shared narrative: the first non-N/A description in the group, in the bottom section.
+            // "|" marks a paragraph break. With no description at all, the whole section stays hidden.
+            const sharedDescription = members.map(m => cleanValue(m.description)).find(d => d !== "");
+            const essayStage = document.getElementById('medal-essay-stage');
+            if (sharedDescription) {
+                sharedDescription.split('|').forEach(textBlock => {
                     if (textBlock.trim() !== "") {
                         const pElement = document.createElement('p');
                         pElement.textContent = textBlock.trim();
                         essayStage.appendChild(pElement);
                     }
                 });
-
             } else {
-                document.getElementById('coin-title').textContent = "Coin Registry Record Not Found";
+                essayStage.style.display = 'none';
             }
+
+            buildVariantButtons();
+
+            const startRecord = members.find(m => cleanValue(m.id) === startVariantId) || members[0];
+            selectVariant(cleanValue(startRecord.id), false);
+        }
+
+        function buildVariantButtons() {
+            const selector = document.getElementById('variant-selector');
+            const pickerLabel = document.getElementById('variant-label');
+            if (groupMembers.length < 2) {
+                selector.style.display = 'none';
+                pickerLabel.style.display = 'none';
+                return;
+            }
+
+            pickerLabel.textContent = `Select a variant (${groupMembers.length})`;
+            pickerLabel.style.display = 'block';
+            selector.style.display = 'flex';
+
+            groupMembers.forEach(m => {
+                const id = cleanValue(m.id);
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'variant-chip';
+                button.dataset.variantId = id;
+                button.onclick = function() { selectVariant(id, true); };
+
+                // Small photo of the variant (its -1 image); stays hidden if the file does not exist yet
+                const thumb = document.createElement('img');
+                thumb.className = 'variant-chip-thumb';
+                thumb.alt = '';
+                thumb.style.display = 'none';
+
+                const text = document.createElement('span');
+                text.textContent = variantLabels[id];
+
+                button.appendChild(thumb);
+                button.appendChild(text);
+                selector.appendChild(button);
+
+                probeImage(`${IMAGE_DIR}/${encodeURIComponent(id)}-1`).then(url => {
+                    if (url) { thumb.src = url; thumb.style.display = 'block'; }
+                });
+            });
+        }
+
+        // Shows one variant: title, spec rows, notes, and its own photo set
+        function selectVariant(variantId, updateAddressBar) {
+            const rec = groupMembers.find(m => cleanValue(m.id) === variantId);
+            if (!rec) return;
+
+            const isGroup = groupMembers.length > 1;
+            const itemName = cleanValue(rec.title) || variantId;
+
+            const fullTitle = itemName;
+            document.getElementById('medal-title').textContent = fullTitle;
+            document.title = `The Piersall Collection | ${fullTitle}`;
+
+            document.querySelectorAll('.variant-chip').forEach(chip => {
+                chip.classList.toggle('active', chip.dataset.variantId === variantId);
+            });
+
+            // Specification rows: only fields that are not empty / N/A are displayed
+            const specFields = [
+                ['Date', cleanValue(rec.date)],
+                ['Mint', cleanValue(rec.mint)],
+                ['Type', cleanValue(rec.type)],
+                ['Denomination', cleanValue(rec.denomination)],
+                ['Grade', cleanValue(rec.grade)],
+                ['Grading Service', cleanValue(rec['grading service'])]
+            ].filter(pair => pair[1] !== "");
+
+            const specsContainer = document.getElementById('medal-specs');
+            specsContainer.innerHTML = '';
+            specFields.forEach(pair => {
+                const row = document.createElement('div');
+                row.className = 'spec-inline-row';
+
+                const label = document.createElement('span');
+                label.className = 'spec-label';
+                label.textContent = pair[0];
+
+                const value = document.createElement('span');
+                value.className = 'spec-value';
+                value.textContent = pair[1];
+
+                row.appendChild(label);
+                row.appendChild(value);
+                specsContainer.appendChild(row);
+            });
+
+            // Per-variant notes: hidden unless this row's Notes field has content
+            const notesBox = document.getElementById('variant-notes');
+            notesBox.innerHTML = '';
+            const noteBlocks = (cleanValue(rec.notes) || cleanValue(rec.detail)).split('|').map(t => t.trim()).filter(t => t !== "");
+            if (noteBlocks.length > 0) {
+                const heading = document.createElement('h4');
+                heading.textContent = 'Notes';
+                notesBox.appendChild(heading);
+                noteBlocks.forEach(textBlock => {
+                    const pElement = document.createElement('p');
+                    pElement.textContent = textBlock;
+                    notesBox.appendChild(pElement);
+                });
+                notesBox.style.display = 'block';
+            } else {
+                notesBox.style.display = 'none';
+            }
+
+            // Keep the address bar shareable: ?item=<group>&variant=<id>
+            if (isGroup && updateAddressBar) {
+                const url = new URL(window.location.href);
+                url.searchParams.set('variant', variantId);
+                window.history.replaceState(null, '', url);
+            }
+
+            buildGallery(variantId, itemName);
+        }
+
+        async function buildGallery(itemId, title) {
+            const token = ++galleryToken;
+            const heroWindow = document.querySelector('.main-hero-display');
+            const heroImage = document.getElementById('coin-hero-view');
+            const thumbnailStrip = document.getElementById('medal-thumbnail-strip');
+
+            // Clear whatever the previous variant left behind
+            thumbnailStrip.innerHTML = '';
+            const oldNote = document.getElementById('no-photo-note');
+            if (oldNote) oldNote.remove();
+            heroImage.removeAttribute('src');
+            heroImage.style.display = '';
+
+            if (!imageCache[itemId]) { imageCache[itemId] = await discoverImages(itemId); }
+            if (token !== galleryToken) return;   // a newer selection took over while we were scanning
+
+            const images = imageCache[itemId];
+
+            if (images.length === 0) {
+                heroImage.style.display = 'none';
+                const note = document.createElement('p');
+                note.id = 'no-photo-note';
+                note.style.cssText = 'text-align:center; padding: 40px 0; color:#6c757d;';
+                note.textContent = 'Photography forthcoming.';
+                heroWindow.appendChild(note);
+                return;
+            }
+
+            heroImage.src = images[0];
+            heroImage.alt = title;
+
+            // A single image needs no thumbnail strip
+            if (images.length === 1) return;
+
+            images.forEach((photoUrl, index) => {
+                const button = document.createElement('button');
+                button.className = index === 0 ? 'thumb-slot active' : 'thumb-slot';
+
+                const img = document.createElement('img');
+                img.src = photoUrl;
+                img.alt = `${title} \u2013 view ${index + 1}`;
+
+                button.appendChild(img);
+                button.onclick = function() { swapCoinPhoto(photoUrl, button); };
+                thumbnailStrip.appendChild(button);
+            });
         }
 
         function swapCoinPhoto(imagePath, element) {
             document.getElementById('coin-hero-view').src = imagePath;
-            const slots = document.querySelectorAll('.thumb-slot');
-            slots.forEach(slot => slot.classList.remove('active'));
+            document.querySelectorAll('.thumb-slot').forEach(slot => slot.classList.remove('active'));
             element.classList.add('active');
         }
+
+        // LOUPE PAN: while zoomed, the magnified view follows the mouse across the medal
+        document.addEventListener("DOMContentLoaded", function() {
+            const heroWindow = document.querySelector('.main-hero-display');
+            const heroImage = document.getElementById('coin-hero-view');
+            let resetTimer = null;
+
+            function trackPointer(event) {
+                const box = heroWindow.getBoundingClientRect();
+                const x = Math.min(Math.max((event.clientX - box.left) / box.width, 0), 1) * 100;
+                const y = Math.min(Math.max((event.clientY - box.top) / box.height, 0), 1) * 100;
+                heroImage.style.transformOrigin = `${x}% ${y}%`;
+            }
+
+            heroWindow.addEventListener('mouseenter', function(event) {
+                clearTimeout(resetTimer);
+                trackPointer(event);
+            });
+            heroWindow.addEventListener('mousemove', trackPointer);
+            heroWindow.addEventListener('mouseleave', function() {
+                // Wait for the zoom-out transition to finish before re-centering
+                resetTimer = setTimeout(function() {
+                    heroImage.style.transformOrigin = 'center center';
+                }, 170);
+            });
+        });
 
         // Native scroll monitor to toggle the condensed header pane smoothly
         window.addEventListener('scroll', function() {
