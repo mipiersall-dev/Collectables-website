@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
     <!-- Master design stylesheet framework -->
-    <link rel="stylesheet" href="style.css?v=1.7">
+    <link rel="stylesheet" href="style.css?v=1.8">
 </head>
 <body class="parchment-vault-view">
 
@@ -57,7 +57,8 @@
                 </a>
                 <h2 id="medal-title">Loading Specimen Record...</h2>
 
-                <!-- Variant buttons: shown only when several CSV rows share a Group -->
+                <!-- Variant picker: label + photo buttons, shown only when several CSV rows share a Grouping -->
+                <p id="variant-label" class="variant-selector-label" style="display: none;"></p>
                 <div id="variant-selector" class="variant-selector" style="display: none;"></div>
 
                 <!-- Specification rows: rebuilt per variant; N/A and empty fields are skipped -->
@@ -270,18 +271,41 @@
 
         function buildVariantButtons() {
             const selector = document.getElementById('variant-selector');
-            if (groupMembers.length < 2) { selector.style.display = 'none'; return; }
+            const pickerLabel = document.getElementById('variant-label');
+            if (groupMembers.length < 2) {
+                selector.style.display = 'none';
+                pickerLabel.style.display = 'none';
+                return;
+            }
 
+            pickerLabel.textContent = `Select a variant (${groupMembers.length})`;
+            pickerLabel.style.display = 'block';
             selector.style.display = 'flex';
+
             groupMembers.forEach(m => {
                 const id = cleanValue(m.id);
                 const button = document.createElement('button');
                 button.type = 'button';
                 button.className = 'variant-chip';
                 button.dataset.variantId = id;
-                button.textContent = variantLabels[id];
                 button.onclick = function() { selectVariant(id, true); };
+
+                // Small photo of the variant (its -1 image); stays hidden if the file does not exist yet
+                const thumb = document.createElement('img');
+                thumb.className = 'variant-chip-thumb';
+                thumb.alt = '';
+                thumb.style.display = 'none';
+
+                const text = document.createElement('span');
+                text.textContent = variantLabels[id];
+
+                button.appendChild(thumb);
+                button.appendChild(text);
                 selector.appendChild(button);
+
+                probeImage(`${IMAGE_DIR}/${encodeURIComponent(id)}-1`).then(url => {
+                    if (url) { thumb.src = url; thumb.style.display = 'block'; }
+                });
             });
         }
 

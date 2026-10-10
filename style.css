@@ -664,3 +664,86 @@ body.parchment-vault-view,
 .main-hero-display:hover #medal-hero-view {
     transform: scale(2.2);
 }
+
+/* ==========================================================================
+   THE PIERSALL COLLECTION: MEDAL VARIANT SELECTOR + PER-VARIANT NOTES
+   Used by item-medals.html when several CSV rows share a Group value.
+   ========================================================================== */
+.variant-selector-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin: 20px 0 0;
+}
+
+.variant-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 10px 0 22px;
+}
+
+.variant-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    min-width: 84px;
+    max-width: 112px;
+    padding: 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    line-height: 1.3;
+    text-align: center;
+    background: transparent;
+    color: #1c1e21;
+    border: 1px solid #cfad4b;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.variant-chip-thumb {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border: 1px solid rgba(207, 173, 75, 0.5);
+}
+
+.variant-chip:hover {
+    background: rgba(207, 173, 75, 0.18);
+    transform: translateY(-2px);
+}
+
+.variant-chip.active {
+    background: #1c1e21;
+    color: #cfad4b;
+    border-color: #1c1e21;
+}
+
+.variant-chip.active .variant-chip-thumb {
+    border-color: #cfad4b;
+}
+
+.variant-notes-box {
+    margin-top: 22px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(207, 173, 75, 0.45);
+}
+
+.variant-notes-box h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin: 0 0 8px;
+}
+
+.variant-notes-box p {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin: 0 0 10px;
+}
