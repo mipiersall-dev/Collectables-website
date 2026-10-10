@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Piersall Collection | Romanian Orders &amp; Medals</title>
+
+    <!-- Premium Google Typography Engine (VERIFIED SUBDOMAIN PATHS) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+
+    <!-- Master design stylesheet framework -->
+    <link rel="stylesheet" href="style.css?v=1.6">
+</head>
+<body class="parchment-vault-view">
+
+    <!-- PERSISTENT TOP NAVIGATION RIBBON -->
+    <header>
+        <a href="index.html" style="text-decoration: none; color: inherit; display: inline-block;">
+            <span class="master-sign">The Piersall Collection</span>
+        </a>
+        <div class="navigation-ribbon">
+            <a href="phaleristics.html" class="nav-link-anchor" style="color: #cfad4b;">Phaleristics</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="numismatics.html" class="nav-link-anchor">Numismatics</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="fine-arts.html" class="nav-link-anchor">Fine Arts</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="musical-instruments.html" class="nav-link-anchor">Musical Instruments</a>
+        </div>
+        <p class="prelude-container">
+            A private curated archive dedicated to the preservation and historical study of international phaleristics, legacy instrumentation, and the fine arts.
+        </p>
+    </header>
+
+    <!-- MAIN EXHIBITION SURFACE -->
+    <main class="vault-container">
+
+        <!-- ROW 1: Historical Narrative Block -->
+        <section class="archive-narrative-block">
+            <h1>Romanian Orders &amp; Medals</h1>
+            <p>
+                Orders, decorations, and medals of Romania from the Piersall Collection, spanning 1881 to the present day.
+            </p>
+        </section>
+
+        <!-- ROW 2: AUTOMATED MEDALS GRID MATRIX FLOOR -->
+        <!-- The script below injects one card per Romania row of data/phaleristics.csv -->
+        <section id="medals-matrix-floor" class="specimen-grid-matrix"></section>
+
+    </main>
+
+    <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
+    <footer>
+        &copy; 2026 The Piersall Collection &bull; Private Numismatic &amp; Antiquarian Registry
+    </footer>
+
+    <!-- AUTOMATED CSV GRID ENGINE FOR ROMANIAN MEDALS -->
+    <script>
+        // Page-relative paths (no leading slash) so they work on the GitHub Pages
+        // project site: https://mipiersall-dev.github.io/Collectables-website/
+        const CSV_PATH = 'data/phaleristics.csv';
+        const IMAGE_DIR = 'images/phaleristics';
+        const COUNTRY_FILTER = 'romania';
+
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch(CSV_PATH)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Phaleristics CSV database ledger could not be located (HTTP " + response.status + ").");
+                    }
+                    return response.text();
+                })
+                .then(csvText => {
+                    parseAndBuildGrid(csvText);
+                })
+                .catch(error => {
+                    console.error("Database Engine Error:", error);
+                    document.getElementById('medals-matrix-floor').innerHTML =
+                        `<p style="color: #1c1e21; grid-column: 1/-1; text-align: center;">Medals Vault record ledger currently unavailable.</p>`;
+                });
+        });
+
+        // Treats empty cells and "N/A" as "nothing to display"
+        function cleanValue(value) {
+            if (value === undefined || value === null) return "";
+            const trimmed = String(value).trim();
+            return trimmed.toUpperCase() === "N/A" ? "" : trimmed;
+        }
+
+        function escapeHtml(text) {
+            return String(text)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;");
+        }
+
+        // Parses CSV text into an array of objects keyed by lowercase header names.
+        // Strips the UTF-8 BOM and protects commas/newlines locked inside double quotes.
+        function parseCsvToRecords(text) {
+            if (text.charCodeAt(0) === 0xFEFF) { text = text.slice(1); }
+
+            const rows = [];
+            let currentToken = "";
+            let insideQuotes = false;
+            let currentRow = [];
+
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                let nextChar = text[i + 1];
+
+                if (char === '"') {
+                    if (insideQuotes && nextChar === '"') {
+                        currentToken += '"';
+                        i++;
+                    } else {
+                        insideQuotes = !insideQuotes;
+                    }
+                } else if (char === ',' && !insideQuotes) {
+                    currentRow.push(currentToken.trim());
+                    currentToken = "";
+                } else if ((char === '\r' || char === '\n') && !insideQuotes) {
+                    if (char === '\r' && nextChar === '\n') { i++; }
+                    currentRow.push(currentToken.trim());
+                    if (currentRow.length > 1 && currentRow[0] !== "") {
+                        rows.push(currentRow);
+                    }
+                    currentToken = "";
+                    currentRow = [];
+                } else {
+                    currentToken += char;
+                }
+            }
+            if (currentToken.trim() !== "" || currentRow.length > 0) {
+                currentRow.push(currentToken.trim());
+                if (currentRow.length > 1 && currentRow[0] !== "") { rows.push(currentRow); }
+            }
+
+            if (rows.length === 0) return [];
+            const headers = rows.shift().map(h => h.trim().toLowerCase());
+
+            return rows.map(r => {
+                const record = {};
+                headers.forEach((h, idx) => { if (h) record[h] = r[idx] !== undefined ? r[idx] : ""; });
+                return record;
+            });
+        }
+
+        function parseAndBuildGrid(text) {
+            const matrixFloor = document.getElementById('medals-matrix-floor');
+            const records = parseCsvToRecords(text)
+                .filter(rec => cleanValue(rec.id) && cleanValue(rec.country).toLowerCase() === COUNTRY_FILTER);
+
+            if (records.length === 0) {
+                matrixFloor.innerHTML = `<p style="color: #1c1e21; grid-column: 1/-1; text-align: center;">No Romanian records found in the ledger.</p>`;
+                return;
+            }
+
+            records.forEach(rec => {
+                const itemId = cleanValue(rec.id);
+                const itemName = cleanValue(rec.name) || itemId;
+
+                // Ledger lines: only fields that are not empty / N/A are displayed
+                const ledgerFields = [
+                    ['Class', cleanValue(rec.classification)],
+                    ['Grade', cleanValue(rec.grade)],
+                    ['Type', cleanValue(rec.type)],
+                    ['Dates', cleanValue(rec.dates)]
+                ].filter(pair => pair[1] !== "");
+
+                const ledgerHtml = ledgerFields
+                    .map(pair => `<li><strong>${pair[0]}:</strong> <span>${escapeHtml(pair[1])}</span></li>`)
+                    .join('');
+
+                const card = document.createElement('a');
+                card.className = 'specimen-tile-card';
+                card.href = `item-medals.html?item=${encodeURIComponent(itemId)}`;
+
+                // Card photo is the first image in the set: <ID>-1.png
+                card.innerHTML = `
+                    <div class="tile-photo-window">
+                        <img src="${IMAGE_DIR}/${encodeURIComponent(itemId)}-1.png" alt="${escapeHtml(itemName)}" onerror="this.style.visibility='hidden'">
+                    </div>
+                    <h3>${escapeHtml(itemName)}</h3>
+                    <ul class="tile-data-ledger">${ledgerHtml}</ul>
+                `;
+
+                matrixFloor.appendChild(card);
+            });
+        }
+
+        // Native scroll monitor to toggle the condensed header pane smoothly
+        window.addEventListener('scroll', function() {
+            const headerElement = document.querySelector('header');
+            if (window.scrollY > 40) {
+                headerElement.classList.add('shrunk-pane');
+            } else {
+                headerElement.classList.remove('shrunk-pane');
+            }
+        });
+    </script>
+
+</body>
+</html>

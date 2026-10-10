@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Piersall Collection | Medals Registry Vault</title>
+
+    <!-- Premium Google Typography Engine (VERIFIED SUBDOMAIN PATHS) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!-- Master design stylesheet framework -->
+    <link rel="stylesheet" href="style.css?v=1.6">
+</head>
+<body class="parchment-vault-view">
+
+    <!-- PERSISTENT TOP NAVIGATION RIBBON -->
+    <header>
+        <a href="index.html" style="text-decoration: none; color: inherit; display: inline-block;">
+            <span class="master-sign">The Piersall Collection</span>
+        </a>
+        <div class="navigation-ribbon">
+            <a href="phaleristics.html" class="nav-link-anchor" style="color: #cfad4b;">Phaleristics</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="numismatics.html" class="nav-link-anchor">Numismatics</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="fine-arts.html" class="nav-link-anchor">Fine Arts</a>
+            <span class="nav-bullet-divider">&bull;</span>
+            <a href="musical-instruments.html" class="nav-link-anchor">Musical Instruments</a>
+        </div>
+        <p class="prelude-container">
+            A private curated archive dedicated to the preservation and historical study of international phaleristics, legacy instrumentation, and the fine arts.
+        </p>
+    </header>
+
+    <!-- DYNAMIC MEDALS SHOWCASE CONTAINER -->
+    <main class="item-showcase-container">
+
+        <!-- TOP STAGE: VISUAL MEDIA (LEFT) VS DIRECT DATA LEDGER (RIGHT) -->
+        <div class="showcase-split-stage">
+
+            <!-- LEFT COLUMN: Large Photo Window + Rolling Thumbnail Grid -->
+            <div class="photo-exhibition-column">
+                <div class="main-hero-display">
+                    <img id="medal-hero-view" alt="Active Medal View">
+                </div>
+
+                <!-- AUTOMATED THUMBNAIL MATRIX: script injects one button per image found -->
+                <div id="medal-thumbnail-strip" class="thumbnail-selector-strip"></div>
+            </div>
+
+            <!-- RIGHT COLUMN: Medal Directory -->
+            <div class="metadata-ledger-column">
+                <a href="medals-romania.html" id="back-link" class="category-indicator-tag" style="text-decoration: none; display: inline-block;">
+                    Phaleristics &bull; Collection Registry
+                </a>
+                <h2 id="medal-title">Loading Specimen Record...</h2>
+
+                <!-- Specification rows are built by the script; N/A and empty fields are skipped -->
+                <div id="medal-specs" class="specs-floating-directory"></div>
+            </div>
+
+        </div> <!-- Split stage row container closed cleanly -->
+
+        <!-- LOWER STAGE: Full-Width Narrative Floor -->
+        <div id="medal-essay-stage" class="historical-description-box">
+            <h2>About this Medal</h2>
+        </div>
+
+    </main>
+
+    <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
+    <footer>
+        &copy; 2026 The Piersall Collection &bull; Private Numismatic &amp; Antiquarian Registry
+    </footer>
+
+    <!-- AUTOMATED SINGLE-ITEM ENGINE FOR MEDALS -->
+    <script>
+        // Page-relative paths (no leading slash) so they work on the GitHub Pages
+        // project site: https://mipiersall-dev.github.io/Collectables-website/
+        const CSV_PATH = 'data/phaleristics.csv';
+        const IMAGE_DIR = 'images/phaleristics';
+        const IMAGE_EXTENSIONS = ['png', 'jpg'];   // tried in this order for each image number
+        const MAX_IMAGES = 12;                     // safety ceiling for the -1, -2, -3... scan
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParameters = new URLSearchParams(window.location.search);
+            const activeItemKey = urlParameters.get('item');
+
+            if (!activeItemKey) {
+                document.getElementById('medal-title').textContent = "No Specimen Selected";
+                return;
+            }
+
+            fetch(CSV_PATH)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Master phaleristics database ledger could not be accessed (HTTP " + response.status + ").");
+                    }
+                    return response.text();
+                })
+                .then(csvText => {
+                    processTargetRecord(csvText, activeItemKey);
+                })
+                .catch(error => {
+                    console.error("Showcase Engine Error:", error);
+                    document.getElementById('medal-title').textContent = "Record Ledger Unavailable";
+                });
+        });
+
+        // Treats empty cells and "N/A" as "nothing to display"
+        function cleanValue(value) {
+            if (value === undefined || value === null) return "";
+            const trimmed = String(value).trim();
+            return trimmed.toUpperCase() === "N/A" ? "" : trimmed;
+        }
+
+        // Parses CSV text into an array of objects keyed by lowercase header names.
+        // Strips the UTF-8 BOM and protects commas/newlines locked inside double quotes.
+        function parseCsvToRecords(text) {
+            if (text.charCodeAt(0) === 0xFEFF) { text = text.slice(1); }
+
+            const rows = [];
+            let currentToken = "";
+            let insideQuotes = false;
+            let currentRow = [];
+
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                let nextChar = text[i + 1];
+
+                if (char === '"') {
+                    if (insideQuotes && nextChar === '"') {
+                        currentToken += '"';
+                        i++;
+                    } else {
+                        insideQuotes = !insideQuotes;
+                    }
+                } else if (char === ',' && !insideQuotes) {
+                    currentRow.push(currentToken.trim());
+                    currentToken = "";
+                } else if ((char === '\r' || char === '\n') && !insideQuotes) {
+                    if (char === '\r' && nextChar === '\n') { i++; }
+                    currentRow.push(currentToken.trim());
+                    if (currentRow.length > 1 && currentRow[0] !== "") {
+                        rows.push(currentRow);
+                    }
+                    currentToken = "";
+                    currentRow = [];
+                } else {
+                    currentToken += char;
+                }
+            }
+            if (currentToken.trim() !== "" || currentRow.length > 0) {
+                currentRow.push(currentToken.trim());
+                if (currentRow.length > 1 && currentRow[0] !== "") { rows.push(currentRow); }
+            }
+
+            if (rows.length === 0) return [];
+            const headers = rows.shift().map(h => h.trim().toLowerCase());
+
+            return rows.map(r => {
+                const record = {};
+                headers.forEach((h, idx) => { if (h) record[h] = r[idx] !== undefined ? r[idx] : ""; });
+                return record;
+            });
+        }
+
+        // Tries <base>.png, then <base>.jpg; resolves with the first URL that loads, or null
+        function probeImage(basePath) {
+            return new Promise(resolve => {
+                let attempt = 0;
+                function tryNext() {
+                    if (attempt >= IMAGE_EXTENSIONS.length) { resolve(null); return; }
+                    const url = `${basePath}.${IMAGE_EXTENSIONS[attempt++]}`;
+                    const probe = new Image();
+                    probe.onload = () => resolve(url);
+                    probe.onerror = tryNext;
+                    probe.src = url;
+                }
+                tryNext();
+            });
+        }
+
+        // Scans <ID>-1, <ID>-2, <ID>-3 ... and stops at the first number with no file
+        async function discoverImages(itemId) {
+            const found = [];
+            for (let n = 1; n <= MAX_IMAGES; n++) {
+                const url = await probeImage(`${IMAGE_DIR}/${encodeURIComponent(itemId)}-${n}`);
+                if (!url) break;
+                found.push(url);
+            }
+            return found;
+        }
+
+        function processTargetRecord(text, searchKey) {
+            const records = parseCsvToRecords(text);
+            const rec = records.find(r => cleanValue(r.id) === searchKey);
+
+            if (!rec) {
+                document.getElementById('medal-title').textContent = "Specimen Registry Record Not Found";
+                return;
+            }
+
+            const itemId = cleanValue(rec.id);
+            const itemName = cleanValue(rec.name) || itemId;
+            const itemGrade = cleanValue(rec.grade);
+
+            // Title: show the grade alongside the name when there is one
+            const fullTitle = itemGrade ? `${itemName} \u2013 ${itemGrade}` : itemName;
+            document.getElementById('medal-title').textContent = fullTitle;
+            document.title = `The Piersall Collection | ${fullTitle}`;
+
+            // Specification rows: only fields that are not empty / N/A are displayed
+            const specFields = [
+                ['Country', cleanValue(rec.country)],
+                ['Classification', cleanValue(rec.classification)],
+                ['Grade', itemGrade],
+                ['Type', cleanValue(rec.type)],
+                ['Dates', cleanValue(rec.dates)]
+            ].filter(pair => pair[1] !== "");
+
+            const specsContainer = document.getElementById('medal-specs');
+            specFields.forEach(pair => {
+                const row = document.createElement('div');
+                row.className = 'spec-inline-row';
+
+                const label = document.createElement('span');
+                label.className = 'spec-label';
+                label.textContent = pair[0];
+
+                const value = document.createElement('span');
+                value.className = 'spec-value';
+                value.textContent = pair[1];
+
+                row.appendChild(label);
+                row.appendChild(value);
+                specsContainer.appendChild(row);
+            });
+
+            // Narrative: "|" marks a paragraph break
+            const narrativeText = cleanValue(rec.description) || "Archival study history log updates pending processing.";
+            const essayStage = document.getElementById('medal-essay-stage');
+            narrativeText.split('|').forEach(textBlock => {
+                if (textBlock.trim() !== "") {
+                    const pElement = document.createElement('p');
+                    pElement.textContent = textBlock.trim();
+                    essayStage.appendChild(pElement);
+                }
+            });
+
+            // Images load last so the text appears immediately
+            buildGallery(itemId, fullTitle);
+        }
+
+        async function buildGallery(itemId, title) {
+            const heroImage = document.getElementById('medal-hero-view');
+            const thumbnailStrip = document.getElementById('medal-thumbnail-strip');
+            const images = await discoverImages(itemId);
+
+            if (images.length === 0) {
+                document.querySelector('.main-hero-display').style.cursor = 'default';
+                heroImage.style.display = 'none';
+                const note = document.createElement('p');
+                note.style.cssText = 'text-align:center; padding: 40px 0; color:#6c757d;';
+                note.textContent = 'Photography forthcoming.';
+                document.querySelector('.main-hero-display').appendChild(note);
+                return;
+            }
+
+            heroImage.src = images[0];
+            heroImage.alt = title;
+
+            // A single image needs no thumbnail strip
+            if (images.length === 1) return;
+
+            images.forEach((photoUrl, index) => {
+                const button = document.createElement('button');
+                button.className = index === 0 ? 'thumb-slot active' : 'thumb-slot';
+
+                const img = document.createElement('img');
+                img.src = photoUrl;
+                img.alt = `${title} \u2013 view ${index + 1}`;
+
+                button.appendChild(img);
+                button.onclick = function() { swapMedalPhoto(photoUrl, button); };
+                thumbnailStrip.appendChild(button);
+            });
+        }
+
+        function swapMedalPhoto(imagePath, element) {
+            document.getElementById('medal-hero-view').src = imagePath;
+            document.querySelectorAll('.thumb-slot').forEach(slot => slot.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        // LOUPE PAN: while zoomed, the magnified view follows the mouse across the medal
+        document.addEventListener("DOMContentLoaded", function() {
+            const heroWindow = document.querySelector('.main-hero-display');
+            const heroImage = document.getElementById('medal-hero-view');
+            let resetTimer = null;
+
+            function trackPointer(event) {
+                const box = heroWindow.getBoundingClientRect();
+                const x = Math.min(Math.max((event.clientX - box.left) / box.width, 0), 1) * 100;
+                const y = Math.min(Math.max((event.clientY - box.top) / box.height, 0), 1) * 100;
+                heroImage.style.transformOrigin = `${x}% ${y}%`;
+            }
+
+            heroWindow.addEventListener('mouseenter', function(event) {
+                clearTimeout(resetTimer);
+                trackPointer(event);
+            });
+            heroWindow.addEventListener('mousemove', trackPointer);
+            heroWindow.addEventListener('mouseleave', function() {
+                // Wait for the zoom-out transition to finish before re-centering
+                resetTimer = setTimeout(function() {
+                    heroImage.style.transformOrigin = 'center center';
+                }, 170);
+            });
+        });
+
+        // Native scroll monitor to toggle the condensed header pane smoothly
+        window.addEventListener('scroll', function() {
+            const headerElement = document.querySelector('header');
+            if (window.scrollY > 40) {
+                headerElement.classList.add('shrunk-pane');
+            } else {
+                headerElement.classList.remove('shrunk-pane');
+            }
+        });
+    </script>
+
+</body>
+</html>
