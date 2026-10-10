@@ -463,15 +463,15 @@ header.shrunk-pane .prelude-container {
 .main-hero-display {
     width: 100%;
     aspect-ratio: 1 / 1;
-    border: 1px solid #d4cbb3;
-    background-color: #f4eee1;
+    border: 1px solid transparent; /* Floating image: no visible frame */
+    background-color: transparent; /* Blends seamlessly into the page backdrop */
     overflow: hidden;
 }
 
 .main-hero-display img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .thumbnail-selector-strip {
@@ -483,8 +483,8 @@ header.shrunk-pane .prelude-container {
 .thumb-slot {
     flex: 1;
     aspect-ratio: 1 / 1;
-    border: 1px solid #d4cbb3;
-    background-color: #f4eee1;
+    border: 1px solid transparent; /* Floating thumbnail: no visible frame (gold border still marks the active one) */
+    background-color: transparent;
     cursor: pointer;
     padding: 0;
     overflow: hidden;
@@ -635,7 +635,7 @@ body.parchment-vault-view,
 #instrument-hero-view {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     transform-origin: center center; /* Anchors baseline zoom to dead-center */
     transition: transform 0.15s ease-out; /* Keeps the zoom gliding beautifully */
     pointer-events: none; /* Prevents image dragging from blocking mouse tracking loops */
@@ -655,7 +655,7 @@ body.parchment-vault-view,
 #medal-hero-view {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     transform-origin: center center;
     transition: transform 0.15s ease-out;
     pointer-events: none;
@@ -708,7 +708,6 @@ body.parchment-vault-view,
     width: 72px;
     height: 72px;
     object-fit: cover;
-    border: 1px solid rgba(207, 173, 75, 0.5);
 }
 
 .variant-chip:hover {
@@ -721,10 +720,6 @@ body.parchment-vault-view,
     color: #1c1e21;
     border-color: #cfad4b;
     box-shadow: inset 0 0 0 1px #cfad4b;
-}
-
-.variant-chip.active .variant-chip-thumb {
-    border-color: #cfad4b;
 }
 
 .variant-notes-box {
