@@ -219,9 +219,9 @@ header.shrunk-pane .prelude-container {
 .gallery-row.dark-room:hover h2 { color: #cfad4b; }
 .gallery-row.dark-room:hover p { color: #eae3cb; }
 
-/* ==========================================================================
+* --------------------------------------------------------------------------
    7. STEP 2 — PHALERISTICS GATEWAY LEDGER PILLARS (phaleristics.html)
-   ========================================================================== */
+   -------------------------------------------------------------------------- */
 .portal-widescreen-stage {
     max-width: 1400px;
     margin: 0 auto;
@@ -292,11 +292,8 @@ header.shrunk-pane .prelude-container {
     color: #f2efe6; /* Antique Silver-Alabaster base */
     letter-spacing: 2px;
     margin: 0 0 12px 0;
-    
     /* Dual-layered protective drop shadow to shield contrast against bright light leaks/arches */
-    text-shadow: 0px 2px 5px rgba(12, 15, 23, 0.95), 
-                 0px 4px 12px rgba(12, 15, 23, 0.7);
-                 
+    text-shadow: 0px 2px 5px rgba(12, 15, 23, 0.95), 0px 4px 12px rgba(12, 15, 23, 0.7);
     transition: color 0.25s ease;
 }
 
@@ -307,20 +304,19 @@ header.shrunk-pane .prelude-container {
     color: #f2efe6; /* Main silver-white text color matching header base */
     margin: 0;
     max-width: 280px; /* Provides expanded room for descriptions to wrap cleanly */
-    
     /* Dedicated high-contrast drop shadow protection for descriptive text rows */
     text-shadow: 0px 1px 3px rgba(12, 15, 23, 0.95);
-    
     transition: color 0.25s ease;
 }
 
 /* --- INTERACTIVE PORTAL HOVER TRANSITIONS --- */
-.vertical-pillar-box:hover .pillar-content-center h2 { 
+.vertical-pillar-box:hover .pillar-content-center h2 {
     color: #dfb86c; /* Enamel Medal Gold highlight */
 }
 
-.vertical-pillar-box:hover .pillar-content-center p { 
+.vertical-pillar-box:hover .pillar-content-center p {
     color: #f2efe6; /* Keeps the alabaster text color stable and legible on hover */
+}
 
 /* --------------------------------------------------------------------------
    8. STEP 3 — DYNAMIC ARCHIVE VAULT ROOMS (romanian-archive.html)
