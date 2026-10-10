@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
     <!-- Master design stylesheet framework -->
-    <link rel="stylesheet" href="style.css?v=1.6">
+    <link rel="stylesheet" href="style.css?v=1.7">
 </head>
 <body class="parchment-vault-view">
 
@@ -57,13 +57,19 @@
                 </a>
                 <h2 id="medal-title">Loading Specimen Record...</h2>
 
-                <!-- Specification rows are built by the script; N/A and empty fields are skipped -->
+                <!-- Variant buttons: shown only when several CSV rows share a Group -->
+                <div id="variant-selector" class="variant-selector" style="display: none;"></div>
+
+                <!-- Specification rows: rebuilt per variant; N/A and empty fields are skipped -->
                 <div id="medal-specs" class="specs-floating-directory"></div>
+
+                <!-- Per-variant notes: shown only when the Notes field has content -->
+                <div id="variant-notes" class="variant-notes-box" style="display: none;"></div>
             </div>
 
         </div> <!-- Split stage row container closed cleanly -->
 
-        <!-- LOWER STAGE: Full-Width Narrative Floor -->
+        <!-- LOWER STAGE: Full-Width Narrative Floor (shared by every variant in the group) -->
         <div id="medal-essay-stage" class="historical-description-box">
             <h2>About this Medal</h2>
         </div>
@@ -84,9 +90,15 @@
         const IMAGE_EXTENSIONS = ['png', 'jpg'];   // tried in this order for each image number
         const MAX_IMAGES = 12;                     // safety ceiling for the -1, -2, -3... scan
 
+        let groupMembers = [];        // every CSV row in the displayed group, in CSV order
+        let variantLabels = {};       // row ID -> button label
+        const imageCache = {};        // row ID -> list of discovered image URLs
+        let galleryToken = 0;         // guards against slow image scans finishing out of order
+
         document.addEventListener("DOMContentLoaded", function() {
             const urlParameters = new URLSearchParams(window.location.search);
             const activeItemKey = urlParameters.get('item');
+            const requestedVariant = urlParameters.get('variant');
 
             if (!activeItemKey) {
                 document.getElementById('medal-title').textContent = "No Specimen Selected";
@@ -101,7 +113,7 @@
                     return response.text();
                 })
                 .then(csvText => {
-                    processTargetRecord(csvText, activeItemKey);
+                    processTargetRecord(csvText, activeItemKey, requestedVariant);
                 })
                 .catch(error => {
                     console.error("Showcase Engine Error:", error);
@@ -114,6 +126,11 @@
             if (value === undefined || value === null) return "";
             const trimmed = String(value).trim();
             return trimmed.toUpperCase() === "N/A" ? "" : trimmed;
+        }
+
+        // The CSV column is "Grouping" ("Group" also works); blank or N/A means the row is its own group
+        function groupKeyOf(rec) {
+            return cleanValue(rec.grouping) || cleanValue(rec.group) || cleanValue(rec.id);
         }
 
         // Parses CSV text into an array of objects keyed by lowercase header names.
@@ -194,23 +211,98 @@
             return found;
         }
 
-        function processTargetRecord(text, searchKey) {
-            const records = parseCsvToRecords(text);
-            const rec = records.find(r => cleanValue(r.id) === searchKey);
+        // Button text for each variant: its Grade; if two variants would read the same, add the Type
+        function buildVariantLabels(members) {
+            const base = members.map(m => cleanValue(m.grade) || cleanValue(m.type) || cleanValue(m.name) || cleanValue(m.id));
+            const labels = {};
+            members.forEach((m, idx) => {
+                const duplicated = base.filter(b => b === base[idx]).length > 1;
+                const type = cleanValue(m.type);
+                labels[cleanValue(m.id)] = (duplicated && type && base[idx] !== type)
+                    ? `${base[idx]} \u2013 Type ${type}`
+                    : base[idx];
+            });
+            return labels;
+        }
 
-            if (!rec) {
+        function processTargetRecord(text, searchKey, requestedVariant) {
+            const records = parseCsvToRecords(text).filter(r => cleanValue(r.id));
+            const keyLower = searchKey.toLowerCase();
+
+            // The ?item= value is normally a group key (or a standalone row's ID).
+            // An individual variant ID also works and opens its group with that variant selected.
+            let members = records.filter(r => groupKeyOf(r).toLowerCase() === keyLower);
+            let startVariantId = requestedVariant;
+            if (members.length === 0) {
+                const direct = records.find(r => cleanValue(r.id).toLowerCase() === keyLower);
+                if (direct) {
+                    members = records.filter(r => groupKeyOf(r).toLowerCase() === groupKeyOf(direct).toLowerCase());
+                    startVariantId = cleanValue(direct.id);
+                }
+            }
+
+            if (members.length === 0) {
                 document.getElementById('medal-title').textContent = "Specimen Registry Record Not Found";
                 return;
             }
 
-            const itemId = cleanValue(rec.id);
-            const itemName = cleanValue(rec.name) || itemId;
+            groupMembers = members;
+            variantLabels = buildVariantLabels(members);
+
+            // Shared narrative: the first non-N/A description in the group, in the bottom section.
+            // "|" marks a paragraph break.
+            const sharedDescription = members.map(m => cleanValue(m.description)).find(d => d !== "")
+                || "Archival study history log updates pending processing.";
+            const essayStage = document.getElementById('medal-essay-stage');
+            sharedDescription.split('|').forEach(textBlock => {
+                if (textBlock.trim() !== "") {
+                    const pElement = document.createElement('p');
+                    pElement.textContent = textBlock.trim();
+                    essayStage.appendChild(pElement);
+                }
+            });
+
+            buildVariantButtons();
+
+            const startRecord = members.find(m => cleanValue(m.id) === startVariantId) || members[0];
+            selectVariant(cleanValue(startRecord.id), false);
+        }
+
+        function buildVariantButtons() {
+            const selector = document.getElementById('variant-selector');
+            if (groupMembers.length < 2) { selector.style.display = 'none'; return; }
+
+            selector.style.display = 'flex';
+            groupMembers.forEach(m => {
+                const id = cleanValue(m.id);
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'variant-chip';
+                button.dataset.variantId = id;
+                button.textContent = variantLabels[id];
+                button.onclick = function() { selectVariant(id, true); };
+                selector.appendChild(button);
+            });
+        }
+
+        // Shows one variant: title, spec rows, notes, and its own photo set
+        function selectVariant(variantId, updateAddressBar) {
+            const rec = groupMembers.find(m => cleanValue(m.id) === variantId);
+            if (!rec) return;
+
+            const isGroup = groupMembers.length > 1;
+            const itemName = cleanValue(rec.name) || variantId;
             const itemGrade = cleanValue(rec.grade);
 
-            // Title: show the grade alongside the name when there is one
-            const fullTitle = itemGrade ? `${itemName} \u2013 ${itemGrade}` : itemName;
+            // Groups show the shared name as the title (the buttons carry the variant);
+            // standalone items keep "Name - Grade" when a grade exists.
+            const fullTitle = (!isGroup && itemGrade) ? `${itemName} \u2013 ${itemGrade}` : itemName;
             document.getElementById('medal-title').textContent = fullTitle;
             document.title = `The Piersall Collection | ${fullTitle}`;
+
+            document.querySelectorAll('.variant-chip').forEach(chip => {
+                chip.classList.toggle('active', chip.dataset.variantId === variantId);
+            });
 
             // Specification rows: only fields that are not empty / N/A are displayed
             const specFields = [
@@ -222,6 +314,7 @@
             ].filter(pair => pair[1] !== "");
 
             const specsContainer = document.getElementById('medal-specs');
+            specsContainer.innerHTML = '';
             specFields.forEach(pair => {
                 const row = document.createElement('div');
                 row.className = 'spec-inline-row';
@@ -239,33 +332,59 @@
                 specsContainer.appendChild(row);
             });
 
-            // Narrative: "|" marks a paragraph break
-            const narrativeText = cleanValue(rec.description) || "Archival study history log updates pending processing.";
-            const essayStage = document.getElementById('medal-essay-stage');
-            narrativeText.split('|').forEach(textBlock => {
-                if (textBlock.trim() !== "") {
+            // Per-variant notes: hidden unless this row's Notes field has content
+            const notesBox = document.getElementById('variant-notes');
+            notesBox.innerHTML = '';
+            const noteBlocks = (cleanValue(rec.notes) || cleanValue(rec.detail)).split('|').map(t => t.trim()).filter(t => t !== "");
+            if (noteBlocks.length > 0) {
+                const heading = document.createElement('h4');
+                heading.textContent = 'Notes';
+                notesBox.appendChild(heading);
+                noteBlocks.forEach(textBlock => {
                     const pElement = document.createElement('p');
-                    pElement.textContent = textBlock.trim();
-                    essayStage.appendChild(pElement);
-                }
-            });
+                    pElement.textContent = textBlock;
+                    notesBox.appendChild(pElement);
+                });
+                notesBox.style.display = 'block';
+            } else {
+                notesBox.style.display = 'none';
+            }
 
-            // Images load last so the text appears immediately
-            buildGallery(itemId, fullTitle);
+            // Keep the address bar shareable: ?item=<group>&variant=<id>
+            if (isGroup && updateAddressBar) {
+                const url = new URL(window.location.href);
+                url.searchParams.set('variant', variantId);
+                window.history.replaceState(null, '', url);
+            }
+
+            buildGallery(variantId, `${itemName}${itemGrade ? ' \u2013 ' + itemGrade : ''}`);
         }
 
         async function buildGallery(itemId, title) {
+            const token = ++galleryToken;
+            const heroWindow = document.querySelector('.main-hero-display');
             const heroImage = document.getElementById('medal-hero-view');
             const thumbnailStrip = document.getElementById('medal-thumbnail-strip');
-            const images = await discoverImages(itemId);
+
+            // Clear whatever the previous variant left behind
+            thumbnailStrip.innerHTML = '';
+            const oldNote = document.getElementById('no-photo-note');
+            if (oldNote) oldNote.remove();
+            heroImage.removeAttribute('src');
+            heroImage.style.display = '';
+
+            if (!imageCache[itemId]) { imageCache[itemId] = await discoverImages(itemId); }
+            if (token !== galleryToken) return;   // a newer selection took over while we were scanning
+
+            const images = imageCache[itemId];
 
             if (images.length === 0) {
-                document.querySelector('.main-hero-display').style.cursor = 'default';
                 heroImage.style.display = 'none';
                 const note = document.createElement('p');
+                note.id = 'no-photo-note';
                 note.style.cssText = 'text-align:center; padding: 40px 0; color:#6c757d;';
                 note.textContent = 'Photography forthcoming.';
-                document.querySelector('.main-hero-display').appendChild(note);
+                heroWindow.appendChild(note);
                 return;
             }
 
