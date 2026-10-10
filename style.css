@@ -717,9 +717,10 @@ body.parchment-vault-view,
 }
 
 .variant-chip.active {
-    background: #1c1e21;
-    color: #cfad4b;
-    border-color: #1c1e21;
+    background: rgba(207, 173, 75, 0.28);
+    color: #1c1e21;
+    border-color: #cfad4b;
+    box-shadow: inset 0 0 0 1px #cfad4b;
 }
 
 .variant-chip.active .variant-chip-thumb {
