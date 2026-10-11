@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Piersall Collection | Art Gallery</title>
-    
+
     <!-- Premium Google Typography Engine (VERIFIED SUBDOMAIN PATHS) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400&display=swap" rel="stylesheet">
-    
+
     <!-- Master design stylesheet framework -->
-    <link rel="stylesheet" href="style.css?v=1.5"> 
+    <link rel="stylesheet" href="style.css?v=2.5">
 </head>
 <body class="parchment-vault-view">
 
@@ -34,35 +34,44 @@
         </p>
     </header>
 
-    <!-- MAIN EXHABICTION SURFACE -->
+    <!-- MAIN EXHIBITION SURFACE -->
     <main class="vault-container">
-        
-        <!-- ROW 1: Single Unified Historical Narrative Block -->
+
+        <!-- ROW 1: Historical Narrative Block -->
         <section class="archive-narrative-block">
             <h1>The Art Gallery</h1>
             <p>
-                A private gallery dedicated to art collction of the Piersall family.  This collection features original artwork by members of the Piersall family alongside notable local artists and traditional printmakers, tracking variations in creative medium across oils, acrylics, and watercolor sheets.
+                A private gallery dedicated to the art collection of the Piersall family. This collection features original artwork by members of the Piersall family alongside notable local artists and traditional printmakers, tracking variations in creative medium across oils, acrylics, and watercolor sheets.
             </p>
         </section>
 
         <!-- ROW 2: AUTOMATED FINE ARTS GRID MATRIX FLOOR -->
-        <!-- The automation engine will dynamically inject your Excel rows directly right here -->
+        <!-- The script below injects one card per row of data/fine-arts.csv -->
         <section id="fine-arts-matrix-floor" class="specimen-grid-matrix"></section>
 
     </main>
-     <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
+
+    <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
     <footer>
-        &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
+        &copy; 2026 The Piersall Collection &bull; Private Numismatic &amp; Antiquarian Registry
     </footer>
 
     <!-- AUTOMATED CSV GRID ENGINE FOR THE ART GALLERY -->
     <script>
+        // Page-relative paths (no leading slash) so they work on the GitHub Pages
+        // project site: https://mipiersall-dev.github.io/Collectables-website/
+        const CSV_PATH = 'data/fine-arts.csv';
+        const IMAGE_DIR = 'images/fine-arts';
+        // The whole fine arts ledger belongs on this single gallery page
+        function belongsOnThisPage(rec) {
+            return true;
+        }
+
         document.addEventListener("DOMContentLoaded", function() {
-            // Fetch your raw spreadsheet file from your repository data folder
-            fetch('data/fine-arts.csv')
+            fetch(CSV_PATH)
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error("Fine Arts CSV database ledger could not be located.");
+                        throw new Error("Phaleristics CSV database ledger could not be located (HTTP " + response.status + ").");
                     }
                     return response.text();
                 })
@@ -71,15 +80,31 @@
                 })
                 .catch(error => {
                     console.error("Database Engine Error:", error);
-                    document.getElementById('fine-arts-matrix-floor').innerHTML = 
+                    document.getElementById('fine-arts-matrix-floor').innerHTML =
                         `<p style="color: #1c1e21; grid-column: 1/-1; text-align: center;">Gallery Vault record ledger currently unavailable.</p>`;
                 });
         });
 
-        function parseAndBuildGrid(text) {
-            const matrixFloor = document.getElementById('fine-arts-matrix-floor');
-            
-            // Split text lines while protecting commas locked inside Excel double quotes
+        // Treats empty cells and "N/A" as "nothing to display"
+        function cleanValue(value) {
+            if (value === undefined || value === null) return "";
+            const trimmed = String(value).trim();
+            return trimmed.toUpperCase() === "N/A" ? "" : trimmed;
+        }
+
+        function escapeHtml(text) {
+            return String(text)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;");
+        }
+
+        // Parses CSV text into an array of objects keyed by lowercase header names.
+        // Strips the UTF-8 BOM and protects commas/newlines locked inside double quotes.
+        function parseCsvToRecords(text) {
+            if (text.charCodeAt(0) === 0xFEFF) { text = text.slice(1); }
+
             const rows = [];
             let currentToken = "";
             let insideQuotes = false;
@@ -91,10 +116,10 @@
 
                 if (char === '"') {
                     if (insideQuotes && nextChar === '"') {
-                        currentToken += '"'; // Handles escaped quotation marks
+                        currentToken += '"';
                         i++;
                     } else {
-                        insideQuotes = !insideQuotes; // Toggles quote boundary tracking
+                        insideQuotes = !insideQuotes;
                     }
                 } else if (char === ',' && !insideQuotes) {
                     currentRow.push(currentToken.trim());
@@ -111,45 +136,79 @@
                     currentToken += char;
                 }
             }
-            
-            // Flush out any remaining string data trailing at the absolute end
             if (currentToken.trim() !== "" || currentRow.length > 0) {
                 currentRow.push(currentToken.trim());
-                if (currentRow.length > 1) { rows.push(currentRow); }
+                if (currentRow.length > 1 && currentRow[0] !== "") { rows.push(currentRow); }
             }
 
-            // Extract the headers row (Row 0) out of the data pool array
-            if (rows.length === 0) return;
-            const headers = rows.shift(); // Drops the "ID,Title,Artist..." label row safely
+            if (rows.length === 0) return [];
+            const headers = rows.shift().map(h => h.trim().toLowerCase());
 
-            // Loop through each remaining data row to construct your display tiles automatically
-            rows.forEach(dataRow => {
-                // Excel columns mapping index tracking:
-                // 0:ID, 1:Title, 2:Artist, 3:Medium, 4:Base, 5:Frame, 6:Year, 7:Dimensions, 8:About
-                const itemId = dataRow[0];
-                const itemTitle = dataRow[1];
-                const itemArtist = dataRow[2];
-                const itemMedium = dataRow[3];
-                const itemYear = dataRow[6];
+            return rows.map(r => {
+                const record = {};
+                headers.forEach((h, idx) => { if (h) record[h] = r[idx] !== undefined ? r[idx] : ""; });
+                return record;
+            });
+        }
 
-                if (!itemId) return; // Skips any accidental blank structural lines cleanly
+        // Rows that share a Grouping value collapse into one card; blank or N/A means "its own group"
+        function groupKeyOf(rec) {
+            return cleanValue(rec.grouping) || cleanValue(rec.group) || cleanValue(rec.id);
+        }
 
-                // Assembles the uniform museum card template dynamically on the fly
+        function parseAndBuildGrid(text) {
+            const matrixFloor = document.getElementById('fine-arts-matrix-floor');
+            const records = parseCsvToRecords(text)
+                .filter(rec => cleanValue(rec.id) && belongsOnThisPage(rec));
+
+            if (records.length === 0) {
+                matrixFloor.innerHTML = `<p style="color: #1c1e21; grid-column: 1/-1; text-align: center;">No artwork found in the ledger yet.</p>`;
+                return;
+            }
+
+            // Collapse rows into groups, keeping CSV order (first row of a group is its representative)
+            const groups = new Map();
+            records.forEach(rec => {
+                const key = groupKeyOf(rec).toLowerCase();
+                if (!groups.has(key)) groups.set(key, []);
+                groups.get(key).push(rec);
+            });
+
+            groups.forEach(members => {
+                const rep = members[0];
+                const groupKey = groupKeyOf(rep);
+                const repId = cleanValue(rep.id);
+                const itemName = cleanValue(rep.title) || repId;
+                const isGroup = members.length > 1;
+
+                // Ledger lines: only fields that are not empty / N/A are displayed
+                const ledgerFields = isGroup
+                    ? [
+                        ['Artist', cleanValue(rep.artist)],
+                        ['Variants', String(members.length)]
+                      ]
+                    : [
+                        ['Artist', cleanValue(rep.artist)],
+                        ['Medium', cleanValue(rep.medium)],
+                        ['Year', cleanValue(rep.year)]
+                      ];
+
+                const ledgerHtml = ledgerFields
+                    .filter(pair => pair[1] !== "")
+                    .map(pair => `<li><strong>${pair[0]}:</strong> <span>${escapeHtml(pair[1])}</span></li>`)
+                    .join('');
+
                 const card = document.createElement('a');
                 card.className = 'specimen-tile-card';
-                card.href = `item-arts.html?item=${itemId}`; // Routes underscores safely to the address query
+                card.href = `item-arts.html?item=${encodeURIComponent(groupKey)}`;
 
+                // Card photo is the first image of the group's first row: <ID>-1.png
                 card.innerHTML = `
                     <div class="tile-photo-window">
-                        <!-- Points directly to your isolated fine arts image directory folder asset -->
-                        <img src="images/fine-arts/${itemId}-f.png" alt="${itemTitle}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://w3.org\' width=\'1\' height=\'1\'><rect width=\'1\' height=\'1\' fill=\'%23f4eee1\'/></svg>'">
+                        <img src="${IMAGE_DIR}/${encodeURIComponent(repId)}-1.png" alt="${escapeHtml(itemName)}" onerror="this.style.visibility='hidden'">
                     </div>
-                    <h3>${itemTitle}</h3>
-                    <ul class="tile-data-ledger">
-                        <li><strong>Artist:</strong> <span>${itemArtist}</span></li>
-                        <li><strong>Medium:</strong> <span>${itemMedium}</span></li>
-                        <li><strong>Year:</strong> <span>${itemYear}</span></li>
-                    </ul>
+                    <h3>${escapeHtml(itemName)}</h3>
+                    <ul class="tile-data-ledger">${ledgerHtml}</ul>
                 `;
 
                 matrixFloor.appendChild(card);
