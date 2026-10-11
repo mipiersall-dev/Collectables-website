@@ -3,21 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Piersall Collection | Instrument Vault Archive</title>
-    
+    <title>The Piersall Collection | Musical Instruments</title>
+
     <!-- Premium Google Typography Engine (VERIFIED SUBDOMAIN PATHS) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    
-    <!-- FIXED: Pointed directly to the freshly updated master stylesheet version -->
-    <link rel="stylesheet" href="style.css?v=1.5"> 
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+
+    <!-- Master design stylesheet framework -->
+    <link rel="stylesheet" href="style.css?v=2.5">
 </head>
 <body class="parchment-vault-view">
 
-    <!-- PERSISTENT TOP NAVIGATION RIBBON (SEAMLESS MODE) -->
+    <!-- PERSISTENT TOP NAVIGATION RIBBON -->
     <header>
-        <!-- Silent home link with no color change -->
         <a href="index.html" style="text-decoration: none; color: inherit; display: inline-block;">
             <span class="master-sign">The Piersall Collection</span>
         </a>
@@ -35,121 +34,192 @@
         </p>
     </header>
 
-    <!-- MAIN TWO-ROW ARCHIVE EXHIBITION SURFACE -->
+    <!-- MAIN EXHIBITION SURFACE -->
     <main class="vault-container">
-        
-        <!-- ROW 1: Single Unified Historical & Generational Narrative Block -->
+
+        <!-- ROW 1: Historical Narrative Block -->
         <section class="archive-narrative-block">
-            <h1>The Music Room</h1>
+            <h1>Musical Instruments</h1>
             <p>
-                A curated survey of historical acoustic luthiery, string designs, and legacy instrumentation. Beyond their technical engineering, these objects represent a living generational bond—built from a family's shared love of music, where father and son grew up playing together on these very instruments. This archive preserves both the physical craftsmanship of these legacy stringed art forms and the timeless resonance of the songs passed down between them.
+                Guitars and other musical instruments from the Piersall Collection, including acoustic, classical, and custom electric instruments.
             </p>
         </section>
 
-        <!-- ROW 2: Symmetrical 8-Instrument Widescreen Matrix (2 Rows of 4 Tiles) -->
-        <!-- FIXED: Class name matched to the master 4-column display matrix rules -->
-        <section class="specimen-grid-matrix">
-            
-            <!-- Instrument Tile 1: Mapped to your dynamic template engine -->
-            <a href="item-instruments.html?item=Jackson Warrior" class="specimen-tile-card">
-                <div class="tile-photo-window">
-                    <img src="images/warrior-f.png" alt="Jackson Warrior Electric">
-                </div>
-                <h3>Jackson Warrior</h3>
-                <!-- Optional placeholder inline spec directory layout, matches your ledger structure -->
-                <ul class="tile-data-ledger">
-                    <li><strong>Type:</strong> <span>Electric</span></li>
-                </ul>
-            </a>
+        <!-- ROW 2: AUTOMATED INSTRUMENT GRID MATRIX FLOOR -->
+        <!-- The script below injects one card per row of data/instruments.csv -->
+        <section id="instruments-matrix-floor" class="specimen-grid-matrix"></section>
 
-            <!-- Instrument Tile 2 -->
-            <a href="item-instruments.html?item=Seagull_Entourage_Rustic" class="specimen-tile-card">
-                <div class="tile-photo-window">
-                    <img src="images/seagull-f.png" alt="Instrument Entry 2">
-                </div>
-                <h3>Seagull Entourage Rustic</h3>
-                <ul class="tile-data-ledger">
-                    <li><strong>Type:</strong> <span>Acoustic</span></li>
-                </ul>
-            </a>
-
-            <!-- Instrument Tile 3 -->
-            <a href="item-instruments.html?item=pacifica" class="specimen-tile-card">
-                <div class="tile-photo-window">
-                    <img src="images/pacifica-f.png" alt="Instrument Entry 3">
-                </div>
-                <h3>Yamaha Pacifica</h3>
-                <ul class="tile-data-ledger">
-                    <li><strong>Type:</strong> <span>Electric</span></li>
-                </ul>
-            </a>
-
-            <!-- Instrument Tile 4 -->
-            <a href="item-instruments.html?item=F335" class="specimen-tile-card">
-                <div class="tile-photo-window">
-                    <img src="images/f335-f.png" alt="Instrument Entry 4">
-                </div>
-                <h3>Yamaha F335</h3>
-                <ul class="tile-data-ledger">
-                    <li><strong>Type:</strong> <span>Acoustic Dreadnaught</span></li>
-                    
-                </ul>
-            </a>
-
-            <!-- Instrument Tile 5 -->
-            <a href="item-instruments.html?item=G55A" class="specimen-tile-card">
-                <div class="tile-photo-window">
-                    <img src="images/g55a-f.png" alt="Instrument Entry 5">
-                </div>
-                <h3>Yamaha G-55A</h3>
-                <ul class="tile-data-ledger">
-                    <li><strong>Type:</strong> <span>Classical</span></li>
-                </ul>
-            </a>
-
-            <!-- Instrument Tile 6 -->
-            <a href="item-instruments.html?item=squire" class="specimen-tile-card">
-                <div class="tile-photo-window">
-                    <img src="images/squire-f.png" alt="Instrument Entry 6">
-                </div>
-                <h3>Fender Stratocaster</h3>
-                <ul class="tile-data-ledger">
-                    <li><strong>Type:</strong> <span>Electric/Special Purpose</span></li>
-                </ul>
-            </a>
-
-            <!-- Instrument Tile 7 -->
-            <a href="item-instruments.html?item=CG151S" class="specimen-tile-card">
-                <div class="tile-photo-window">
-                    <img src="images/cg151s-f.png" alt="Instrument Entry 7">
-                </div>
-                <h3>Yamaha CG-151S</h3>
-                <ul class="tile-data-ledger">
-                    <li><strong>Type:</strong> <span>Classical</span></li>
-                </ul>
-            </a>
-
-            <!-- Instrument Tile 8 -->
-            <a href="item-instruments.html?item=deluze" class="specimen-tile-card">
-                <div class="tile-photo-window">
-                    <img src="images/deluze-f.png" alt="Instrument Entry 8">
-                </div>
-                <h3>DeLuze Orphean</h3>
-                <ul class="tile-data-ledger">
-                    <li><strong>Type:</strong> <span>Custom Electric</span></li>
-                </ul>
-            </a>
-
-        </section>
     </main>
 
     <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
     <footer>
-        &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
+        &copy; 2026 The Piersall Collection &bull; Private Numismatic &amp; Antiquarian Registry
     </footer>
 
-    <!-- Lightweight native scroll monitor to toggle the condensed header pane -->
+    <!-- AUTOMATED CSV GRID ENGINE FOR MUSICAL INSTRUMENTS -->
     <script>
+        // Page-relative paths (no leading slash) so they work on the GitHub Pages
+        // project site: https://mipiersall-dev.github.io/Collectables-website/
+        const CSV_PATH = 'data/instruments.csv';
+        const IMAGE_DIR = 'images/instruments';
+        // The whole instrument ledger belongs on this single gallery page
+        function belongsOnThisPage(rec) {
+            return true;
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch(CSV_PATH)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Phaleristics CSV database ledger could not be located (HTTP " + response.status + ").");
+                    }
+                    return response.text();
+                })
+                .then(csvText => {
+                    parseAndBuildGrid(csvText);
+                })
+                .catch(error => {
+                    console.error("Database Engine Error:", error);
+                    document.getElementById('instruments-matrix-floor').innerHTML =
+                        `<p style="color: #1c1e21; grid-column: 1/-1; text-align: center;">Instrument Vault record ledger currently unavailable.</p>`;
+                });
+        });
+
+        // Treats empty cells and "N/A" as "nothing to display"
+        function cleanValue(value) {
+            if (value === undefined || value === null) return "";
+            const trimmed = String(value).trim();
+            return trimmed.toUpperCase() === "N/A" ? "" : trimmed;
+        }
+
+        function escapeHtml(text) {
+            return String(text)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;");
+        }
+
+        // Display name for an instrument: Brand + Model
+        function titleOf(rec) {
+            return [cleanValue(rec.brand), cleanValue(rec.model)].filter(Boolean).join(' ');
+        }
+
+        // Parses CSV text into an array of objects keyed by lowercase header names.
+        // Strips the UTF-8 BOM and protects commas/newlines locked inside double quotes.
+        function parseCsvToRecords(text) {
+            if (text.charCodeAt(0) === 0xFEFF) { text = text.slice(1); }
+
+            const rows = [];
+            let currentToken = "";
+            let insideQuotes = false;
+            let currentRow = [];
+
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                let nextChar = text[i + 1];
+
+                if (char === '"') {
+                    if (insideQuotes && nextChar === '"') {
+                        currentToken += '"';
+                        i++;
+                    } else {
+                        insideQuotes = !insideQuotes;
+                    }
+                } else if (char === ',' && !insideQuotes) {
+                    currentRow.push(currentToken.trim());
+                    currentToken = "";
+                } else if ((char === '\r' || char === '\n') && !insideQuotes) {
+                    if (char === '\r' && nextChar === '\n') { i++; }
+                    currentRow.push(currentToken.trim());
+                    if (currentRow.length > 1 && currentRow[0] !== "") {
+                        rows.push(currentRow);
+                    }
+                    currentToken = "";
+                    currentRow = [];
+                } else {
+                    currentToken += char;
+                }
+            }
+            if (currentToken.trim() !== "" || currentRow.length > 0) {
+                currentRow.push(currentToken.trim());
+                if (currentRow.length > 1 && currentRow[0] !== "") { rows.push(currentRow); }
+            }
+
+            if (rows.length === 0) return [];
+            const headers = rows.shift().map(h => h.trim().toLowerCase());
+
+            return rows.map(r => {
+                const record = {};
+                headers.forEach((h, idx) => { if (h) record[h] = r[idx] !== undefined ? r[idx] : ""; });
+                return record;
+            });
+        }
+
+        // Rows that share a Grouping value collapse into one card; blank or N/A means "its own group"
+        function groupKeyOf(rec) {
+            return cleanValue(rec.grouping) || cleanValue(rec.group) || cleanValue(rec.id);
+        }
+
+        function parseAndBuildGrid(text) {
+            const matrixFloor = document.getElementById('instruments-matrix-floor');
+            const records = parseCsvToRecords(text)
+                .filter(rec => cleanValue(rec.id) && belongsOnThisPage(rec));
+
+            if (records.length === 0) {
+                matrixFloor.innerHTML = `<p style="color: #1c1e21; grid-column: 1/-1; text-align: center;">No instruments found in the ledger yet.</p>`;
+                return;
+            }
+
+            // Collapse rows into groups, keeping CSV order (first row of a group is its representative)
+            const groups = new Map();
+            records.forEach(rec => {
+                const key = groupKeyOf(rec).toLowerCase();
+                if (!groups.has(key)) groups.set(key, []);
+                groups.get(key).push(rec);
+            });
+
+            groups.forEach(members => {
+                const rep = members[0];
+                const groupKey = groupKeyOf(rep);
+                const repId = cleanValue(rep.id);
+                const itemName = titleOf(rep) || repId;
+                const isGroup = members.length > 1;
+
+                // Ledger lines: only fields that are not empty / N/A are displayed
+                const ledgerFields = isGroup
+                    ? [
+                        ['Type', cleanValue(rep.type)],
+                        ['Variants', String(members.length)]
+                      ]
+                    : [
+                        ['Type', cleanValue(rep.type)],
+                        ['Finish', cleanValue(rep.finish)]
+                      ];
+
+                const ledgerHtml = ledgerFields
+                    .filter(pair => pair[1] !== "")
+                    .map(pair => `<li><strong>${pair[0]}:</strong> <span>${escapeHtml(pair[1])}</span></li>`)
+                    .join('');
+
+                const card = document.createElement('a');
+                card.className = 'specimen-tile-card';
+                card.href = `item-instruments.html?item=${encodeURIComponent(groupKey)}`;
+
+                // Card photo is the first image of the group's first row: <ID>-1.png
+                card.innerHTML = `
+                    <div class="tile-photo-window">
+                        <img src="${IMAGE_DIR}/${encodeURIComponent(repId)}-1.png" alt="${escapeHtml(itemName)}" onerror="this.style.visibility='hidden'">
+                    </div>
+                    <h3>${escapeHtml(itemName)}</h3>
+                    <ul class="tile-data-ledger">${ledgerHtml}</ul>
+                `;
+
+                matrixFloor.appendChild(card);
+            });
+        }
+
+        // Native scroll monitor to toggle the condensed header pane smoothly
         window.addEventListener('scroll', function() {
             const headerElement = document.querySelector('header');
             if (window.scrollY > 40) {

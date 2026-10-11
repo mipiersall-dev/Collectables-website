@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Piersall Collection | Instrument Vault Registry</title>
-    
+    <title>The Piersall Collection | Instrument Registry Vault</title>
+
     <!-- Premium Google Typography Engine (VERIFIED SUBDOMAIN PATHS) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Pinyon+Script&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    
+
     <!-- Master design stylesheet framework -->
-    <link rel="stylesheet" href="style.css?v=1.5"> 
+    <link rel="stylesheet" href="style.css?v=2.5">
 </head>
 <body class="parchment-vault-view">
 
@@ -34,122 +34,446 @@
         </p>
     </header>
 
-    <!-- DYNAMIC INSTRUMENT SHOWCASE CONTAINER -->
+    <!-- DYNAMIC MEDALS SHOWCASE CONTAINER -->
     <main class="item-showcase-container">
-        
+
         <!-- TOP STAGE: VISUAL MEDIA (LEFT) VS DIRECT DATA LEDGER (RIGHT) -->
         <div class="showcase-split-stage">
-            
-            <!-- LEFT COLUMN: Image Window + Underneath Thumbnail Strip -->
+
+            <!-- LEFT COLUMN: Large Photo Window + Rolling Thumbnail Grid -->
             <div class="photo-exhibition-column">
                 <div class="main-hero-display">
-                    <img id="guitar-hero-view" src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' width='1' height='1'></svg>" alt="Active Instrument View">
+                    <img id="instrument-hero-view" alt="Active Instrument View">
                 </div>
-                
-                <div class="thumbnail-selector-strip">
-                    <button id="thumb-g1" class="thumb-slot active" onclick="swapGuitarPhoto(this.querySelector('img').src, this)">
-                        <img id="thumb-img-1" src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' width='1' height='1'></svg>" alt="Front View">
-                    </button>
-                    <button id="thumb-g2" class="thumb-slot" onclick="swapGuitarPhoto(this.querySelector('img').src, this)">
-                        <img id="thumb-img-2" src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' width='1' height='1'></svg>" alt="Back View">
-                    </button>
-                    <button id="thumb-g3" class="thumb-slot" onclick="swapGuitarPhoto(this.querySelector('img').src, this)">
-                        <img id="thumb-img-3" src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' width='1' height='1'></svg>" alt="Angled/Headstock View">
-                    </button>
-                    <div class="thumb-slot empty-placeholder"></div>
-                </div>
+
+                <!-- AUTOMATED THUMBNAIL MATRIX: script injects one button per image found -->
+                <div id="medal-thumbnail-strip" class="thumbnail-selector-strip"></div>
             </div>
 
-            <!-- RIGHT COLUMN: Tailored Left-Aligned Instrument Directory -->
+            <!-- RIGHT COLUMN: Instrument Directory -->
             <div class="metadata-ledger-column">
-                <a href="musical-instruments.html" class="category-indicator-tag" style="text-decoration: none; display: inline-block;">
-                    Instruments &bull; Music Room
+                <a href="musical-instruments.html" id="back-link" class="category-indicator-tag" style="text-decoration: none; display: inline-block;">
+                    Musical Instruments &bull; Collection Registry
                 </a>
-                <h2 id="guitar-title"></h2>
-                
-                <!-- Customized Guitar Specific Specifications Matrix -->
-                <div class="specs-floating-directory">
-                    <div class="spec-inline-row">
-                        <span class="spec-label">Brand</span>
-                        <span id="spec-brand" class="spec-value"></span>
-                    </div>
-                    <div class="spec-inline-row">
-                        <span class="spec-label">Model</span>
-                        <span id="spec-model" class="spec-value"></span>
-                    </div>
-                    <div class="spec-inline-row">
-                        <span class="spec-label">Type</span>
-                        <span id="spec-type" class="spec-value"></span>
-                    </div>
-                    <div class="spec-inline-row">
-                        <span class="spec-label">Finish</span>
-                        <span id="spec-finish" class="spec-value"></span>
-                    </div>
-                    <div class="spec-inline-row">
-                        <span class="spec-label">Hardware</span>
-                        <span id="spec-hardware" class="spec-value"></span>
-                    </div>
-                </div>
+                <h2 id="medal-title">Loading Specimen Record...</h2>
+
+                <!-- Variant picker: label + photo buttons, shown only when several CSV rows share a Grouping -->
+                <p id="variant-label" class="variant-selector-label" style="display: none;"></p>
+                <div id="variant-selector" class="variant-selector" style="display: none;"></div>
+
+                <!-- Specification rows: rebuilt per variant; N/A and empty fields are skipped -->
+                <div id="medal-specs" class="specs-floating-directory"></div>
+
+                <!-- Per-variant notes: shown only when the Notes field has content -->
+                <div id="variant-notes" class="variant-notes-box" style="display: none;"></div>
             </div>
-        </div> <!-- FIXED: Closures sealed perfectly here to stabilize split views -->
-               <!-- LOWER STAGE: Full-Width Luthier Narrative Essays -->
-        <div id="guitar-essay-stage" class="historical-description-box">
-            <h2>About this Model</h2>
+
+        </div> <!-- Split stage row container closed cleanly -->
+
+        <!-- LOWER STAGE: Full-Width Narrative Floor (shared by every variant in the group) -->
+        <div id="medal-essay-stage" class="historical-description-box">
+            <h2>About this Instrument</h2>
         </div>
 
     </main>
 
     <!-- PERMANENT MUSEUM REPOSITORY FOOTER -->
     <footer>
-        &copy; 2026 The Piersall Collection &bull; Private Numismatic & Antiquarian Registry
+        &copy; 2026 The Piersall Collection &bull; Private Numismatic &amp; Antiquarian Registry
     </footer>
 
-    <!-- INJECTS YOUR DECOUPLED INSTRUMENTS DATABASE MODULE -->
-    <script src="data-instruments.js"></script>
-
-    <!-- SPECIALIZED GUITAR DATA INJECTION ENGINE -->
+    <!-- AUTOMATED SINGLE-ITEM ENGINE FOR MEDALS -->
     <script>
-        const urlParameters = new URLSearchParams(window.location.search);
-        const instrumentKey = urlParameters.get('item');
+        // Page-relative paths (no leading slash) so they work on the GitHub Pages
+        // project site: https://mipiersall-dev.github.io/Collectables-website/
+        const CSV_PATH = 'data/instruments.csv';
+        const IMAGE_DIR = 'images/instruments';
+        const IMAGE_EXTENSIONS = ['png', 'jpg'];   // tried in this order for each image number
+        const MAX_IMAGES = 12;                     // safety ceiling for the -1, -2, -3... scan
 
-        // Maps directly to the decoupled INSTRUMENTS_DATA global array object
-        const guitarData = INSTRUMENTS_DATA[instrumentKey];
+        let groupMembers = [];        // every CSV row in the displayed group, in CSV order
+        let variantLabels = {};       // row ID -> button label
+        const imageCache = {};        // row ID -> list of discovered image URLs
+        let galleryToken = 0;         // guards against slow image scans finishing out of order
 
-        if (guitarData) {
-            document.getElementById('guitar-title').textContent = guitarData.title;
-            
-            // Mapping your exact lowercase guitar database parameters to the slots
-            document.getElementById('spec-brand').textContent = guitarData.specs.brand;
-            document.getElementById('spec-model').textContent = guitarData.specs.model;
-            document.getElementById('spec-type').textContent = guitarData.specs.type;
-            document.getElementById('spec-finish').textContent = guitarData.specs.finish;
-            document.getElementById('spec-hardware').textContent = guitarData.specs.hardware;
-            
-            // Load custom photography files dynamically into hero and thumbnail slots
-            document.getElementById('guitar-hero-view').src = guitarData.photos.obverse;
-            document.getElementById('thumb-img-1').src = guitarData.photos.obverse;
-            document.getElementById('thumb-img-2').src = guitarData.photos.reverse;
-            document.getElementById('thumb-img-3').src = guitarData.photos.angled;
-            
-            // Build the multi-paragraph history text block
-            const essayStage = document.getElementById('guitar-essay-stage');
-            guitarData.description.forEach(paragraphText => {
-                const paragraphElement = document.createElement('p');
-                paragraphElement.textContent = paragraphText;
-                essayStage.appendChild(paragraphElement);
-            });
-        } else {
-            document.getElementById('guitar-title').textContent = "Instrument Record Not Found";
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParameters = new URLSearchParams(window.location.search);
+            const activeItemKey = urlParameters.get('item');
+            const requestedVariant = urlParameters.get('variant');
+
+            if (!activeItemKey) {
+                document.getElementById('medal-title').textContent = "No Specimen Selected";
+                return;
+            }
+
+            fetch(CSV_PATH)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Master instruments database ledger could not be accessed (HTTP " + response.status + ").");
+                    }
+                    return response.text();
+                })
+                .then(csvText => {
+                    processTargetRecord(csvText, activeItemKey, requestedVariant);
+                })
+                .catch(error => {
+                    console.error("Showcase Engine Error:", error);
+                    document.getElementById('medal-title').textContent = "Record Ledger Unavailable";
+                });
+        });
+
+        // Treats empty cells and "N/A" as "nothing to display"
+        function cleanValue(value) {
+            if (value === undefined || value === null) return "";
+            const trimmed = String(value).trim();
+            return trimmed.toUpperCase() === "N/A" ? "" : trimmed;
         }
 
-        function swapGuitarPhoto(imagePath, element) {
-            document.getElementById('guitar-hero-view').src = imagePath;
-            const slots = document.querySelectorAll('.thumb-slot');
-            slots.forEach(slot => slot.classList.remove('active'));
+        // Every instrument record returns to the single instruments page
+        function listingPageFor() {
+            return 'musical-instruments.html';
+        }
+
+        // The CSV column is "Grouping" ("Group" also works); blank or N/A means the row is its own group
+        function groupKeyOf(rec) {
+            return cleanValue(rec.grouping) || cleanValue(rec.group) || cleanValue(rec.id);
+        }
+
+        // Display name for an instrument: Brand + Model
+        function titleOf(rec) {
+            return [cleanValue(rec.brand), cleanValue(rec.model)].filter(Boolean).join(' ');
+        }
+
+        // Parses CSV text into an array of objects keyed by lowercase header names.
+        // Strips the UTF-8 BOM and protects commas/newlines locked inside double quotes.
+        function parseCsvToRecords(text) {
+            if (text.charCodeAt(0) === 0xFEFF) { text = text.slice(1); }
+
+            const rows = [];
+            let currentToken = "";
+            let insideQuotes = false;
+            let currentRow = [];
+
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                let nextChar = text[i + 1];
+
+                if (char === '"') {
+                    if (insideQuotes && nextChar === '"') {
+                        currentToken += '"';
+                        i++;
+                    } else {
+                        insideQuotes = !insideQuotes;
+                    }
+                } else if (char === ',' && !insideQuotes) {
+                    currentRow.push(currentToken.trim());
+                    currentToken = "";
+                } else if ((char === '\r' || char === '\n') && !insideQuotes) {
+                    if (char === '\r' && nextChar === '\n') { i++; }
+                    currentRow.push(currentToken.trim());
+                    if (currentRow.length > 1 && currentRow[0] !== "") {
+                        rows.push(currentRow);
+                    }
+                    currentToken = "";
+                    currentRow = [];
+                } else {
+                    currentToken += char;
+                }
+            }
+            if (currentToken.trim() !== "" || currentRow.length > 0) {
+                currentRow.push(currentToken.trim());
+                if (currentRow.length > 1 && currentRow[0] !== "") { rows.push(currentRow); }
+            }
+
+            if (rows.length === 0) return [];
+            const headers = rows.shift().map(h => h.trim().toLowerCase());
+
+            return rows.map(r => {
+                const record = {};
+                headers.forEach((h, idx) => { if (h) record[h] = r[idx] !== undefined ? r[idx] : ""; });
+                return record;
+            });
+        }
+
+        // Tries <base>.png, then <base>.jpg; resolves with the first URL that loads, or null
+        function probeImage(basePath) {
+            return new Promise(resolve => {
+                let attempt = 0;
+                function tryNext() {
+                    if (attempt >= IMAGE_EXTENSIONS.length) { resolve(null); return; }
+                    const url = `${basePath}.${IMAGE_EXTENSIONS[attempt++]}`;
+                    const probe = new Image();
+                    probe.onload = () => resolve(url);
+                    probe.onerror = tryNext;
+                    probe.src = url;
+                }
+                tryNext();
+            });
+        }
+
+        // Scans <ID>-1, <ID>-2, <ID>-3 ... and stops at the first number with no file
+        async function discoverImages(itemId) {
+            const found = [];
+            for (let n = 1; n <= MAX_IMAGES; n++) {
+                const url = await probeImage(`${IMAGE_DIR}/${encodeURIComponent(itemId)}-${n}`);
+                if (!url) break;
+                found.push(url);
+            }
+            return found;
+        }
+
+        // Button text for each variant: its Title; if two variants would read the same, add the Finish
+        function buildVariantLabels(members) {
+            const base = members.map(m => titleOf(m) || cleanValue(m.id));
+            const labels = {};
+            members.forEach((m, idx) => {
+                const duplicated = base.filter(b => b === base[idx]).length > 1;
+                const finish = cleanValue(m.finish);
+                labels[cleanValue(m.id)] = (duplicated && finish) ? `${base[idx]} \u2013 ${finish}` : base[idx];
+            });
+            return labels;
+        }
+
+        function processTargetRecord(text, searchKey, requestedVariant) {
+            const records = parseCsvToRecords(text).filter(r => cleanValue(r.id));
+            const keyLower = searchKey.toLowerCase();
+
+            // The ?item= value is normally a group key (or a standalone row's ID).
+            // An individual variant ID also works and opens its group with that variant selected.
+            let members = records.filter(r => groupKeyOf(r).toLowerCase() === keyLower);
+            let startVariantId = requestedVariant;
+            if (members.length === 0) {
+                const direct = records.find(r => cleanValue(r.id).toLowerCase() === keyLower);
+                if (direct) {
+                    members = records.filter(r => groupKeyOf(r).toLowerCase() === groupKeyOf(direct).toLowerCase());
+                    startVariantId = cleanValue(direct.id);
+                }
+            }
+
+            if (members.length === 0) {
+                document.getElementById('medal-title').textContent = "Specimen Registry Record Not Found";
+                return;
+            }
+
+            groupMembers = members;
+            variantLabels = buildVariantLabels(members);
+            document.getElementById('back-link').href = listingPageFor();
+
+            // Shared narrative: the first non-N/A description in the group, in the bottom section.
+            // "|" marks a paragraph break. With no description at all, the whole section stays hidden.
+            const sharedDescription = members.map(m => cleanValue(m.description)).find(d => d !== "");
+            const essayStage = document.getElementById('medal-essay-stage');
+            if (sharedDescription) {
+                sharedDescription.split('|').forEach(textBlock => {
+                    if (textBlock.trim() !== "") {
+                        const pElement = document.createElement('p');
+                        pElement.textContent = textBlock.trim();
+                        essayStage.appendChild(pElement);
+                    }
+                });
+            } else {
+                essayStage.style.display = 'none';
+            }
+
+            buildVariantButtons();
+
+            const startRecord = members.find(m => cleanValue(m.id) === startVariantId) || members[0];
+            selectVariant(cleanValue(startRecord.id), false);
+        }
+
+        function buildVariantButtons() {
+            const selector = document.getElementById('variant-selector');
+            const pickerLabel = document.getElementById('variant-label');
+            if (groupMembers.length < 2) {
+                selector.style.display = 'none';
+                pickerLabel.style.display = 'none';
+                return;
+            }
+
+            pickerLabel.textContent = `Select a variant (${groupMembers.length})`;
+            pickerLabel.style.display = 'block';
+            selector.style.display = 'flex';
+
+            groupMembers.forEach(m => {
+                const id = cleanValue(m.id);
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'variant-chip';
+                button.dataset.variantId = id;
+                button.onclick = function() { selectVariant(id, true); };
+
+                // Small photo of the variant (its -1 image); stays hidden if the file does not exist yet
+                const thumb = document.createElement('img');
+                thumb.className = 'variant-chip-thumb';
+                thumb.alt = '';
+                thumb.style.display = 'none';
+
+                const text = document.createElement('span');
+                text.textContent = variantLabels[id];
+
+                button.appendChild(thumb);
+                button.appendChild(text);
+                selector.appendChild(button);
+
+                probeImage(`${IMAGE_DIR}/${encodeURIComponent(id)}-1`).then(url => {
+                    if (url) { thumb.src = url; thumb.style.display = 'block'; }
+                });
+            });
+        }
+
+        // Shows one variant: title, spec rows, notes, and its own photo set
+        function selectVariant(variantId, updateAddressBar) {
+            const rec = groupMembers.find(m => cleanValue(m.id) === variantId);
+            if (!rec) return;
+
+            const isGroup = groupMembers.length > 1;
+            const itemName = titleOf(rec) || variantId;
+
+            const fullTitle = itemName;
+            document.getElementById('medal-title').textContent = fullTitle;
+            document.title = `The Piersall Collection | ${fullTitle}`;
+
+            document.querySelectorAll('.variant-chip').forEach(chip => {
+                chip.classList.toggle('active', chip.dataset.variantId === variantId);
+            });
+
+            // Specification rows: only fields that are not empty / N/A are displayed
+            const specFields = [
+                ['Brand', cleanValue(rec.brand)],
+                ['Model', cleanValue(rec.model)],
+                ['Type', cleanValue(rec.type)],
+                ['Finish', cleanValue(rec.finish)],
+                ['Hardware', cleanValue(rec.hardware)]
+            ].filter(pair => pair[1] !== "");
+
+            const specsContainer = document.getElementById('medal-specs');
+            specsContainer.innerHTML = '';
+            specFields.forEach(pair => {
+                const row = document.createElement('div');
+                row.className = 'spec-inline-row';
+
+                const label = document.createElement('span');
+                label.className = 'spec-label';
+                label.textContent = pair[0];
+
+                const value = document.createElement('span');
+                value.className = 'spec-value';
+                value.textContent = pair[1];
+
+                row.appendChild(label);
+                row.appendChild(value);
+                specsContainer.appendChild(row);
+            });
+
+            // Per-variant notes: hidden unless this row's Notes field has content
+            const notesBox = document.getElementById('variant-notes');
+            notesBox.innerHTML = '';
+            const noteBlocks = (cleanValue(rec.notes) || cleanValue(rec.detail)).split('|').map(t => t.trim()).filter(t => t !== "");
+            if (noteBlocks.length > 0) {
+                const heading = document.createElement('h4');
+                heading.textContent = 'Notes';
+                notesBox.appendChild(heading);
+                noteBlocks.forEach(textBlock => {
+                    const pElement = document.createElement('p');
+                    pElement.textContent = textBlock;
+                    notesBox.appendChild(pElement);
+                });
+                notesBox.style.display = 'block';
+            } else {
+                notesBox.style.display = 'none';
+            }
+
+            // Keep the address bar shareable: ?item=<group>&variant=<id>
+            if (isGroup && updateAddressBar) {
+                const url = new URL(window.location.href);
+                url.searchParams.set('variant', variantId);
+                window.history.replaceState(null, '', url);
+            }
+
+            buildGallery(variantId, itemName);
+        }
+
+        async function buildGallery(itemId, title) {
+            const token = ++galleryToken;
+            const heroWindow = document.querySelector('.main-hero-display');
+            const heroImage = document.getElementById('instrument-hero-view');
+            const thumbnailStrip = document.getElementById('medal-thumbnail-strip');
+
+            // Clear whatever the previous variant left behind
+            thumbnailStrip.innerHTML = '';
+            const oldNote = document.getElementById('no-photo-note');
+            if (oldNote) oldNote.remove();
+            heroImage.removeAttribute('src');
+            heroImage.style.display = '';
+
+            if (!imageCache[itemId]) { imageCache[itemId] = await discoverImages(itemId); }
+            if (token !== galleryToken) return;   // a newer selection took over while we were scanning
+
+            const images = imageCache[itemId];
+
+            if (images.length === 0) {
+                heroImage.style.display = 'none';
+                const note = document.createElement('p');
+                note.id = 'no-photo-note';
+                note.style.cssText = 'text-align:center; padding: 40px 0; color:#6c757d;';
+                note.textContent = 'Photography forthcoming.';
+                heroWindow.appendChild(note);
+                return;
+            }
+
+            heroImage.src = images[0];
+            heroImage.alt = title;
+
+            // A single image needs no thumbnail strip
+            if (images.length === 1) return;
+
+            images.forEach((photoUrl, index) => {
+                const button = document.createElement('button');
+                button.className = index === 0 ? 'thumb-slot active' : 'thumb-slot';
+
+                const img = document.createElement('img');
+                img.src = photoUrl;
+                img.alt = `${title} \u2013 view ${index + 1}`;
+
+                button.appendChild(img);
+                button.onclick = function() { swapInstrumentPhoto(photoUrl, button); };
+                thumbnailStrip.appendChild(button);
+            });
+        }
+
+        function swapInstrumentPhoto(imagePath, element) {
+            document.getElementById('instrument-hero-view').src = imagePath;
+            document.querySelectorAll('.thumb-slot').forEach(slot => slot.classList.remove('active'));
             element.classList.add('active');
         }
 
-        // Native scroll monitor to toggle the condensed header pane
+        // LOUPE PAN: while zoomed, the magnified view follows the mouse across the medal
+        document.addEventListener("DOMContentLoaded", function() {
+            const heroWindow = document.querySelector('.main-hero-display');
+            const heroImage = document.getElementById('instrument-hero-view');
+            let resetTimer = null;
+
+            function trackPointer(event) {
+                const box = heroWindow.getBoundingClientRect();
+                const x = Math.min(Math.max((event.clientX - box.left) / box.width, 0), 1) * 100;
+                const y = Math.min(Math.max((event.clientY - box.top) / box.height, 0), 1) * 100;
+                heroImage.style.transformOrigin = `${x}% ${y}%`;
+            }
+
+            heroWindow.addEventListener('mouseenter', function(event) {
+                clearTimeout(resetTimer);
+                trackPointer(event);
+            });
+            heroWindow.addEventListener('mousemove', trackPointer);
+            heroWindow.addEventListener('mouseleave', function() {
+                // Wait for the zoom-out transition to finish before re-centering
+                resetTimer = setTimeout(function() {
+                    heroImage.style.transformOrigin = 'center center';
+                }, 170);
+            });
+        });
+
+        // Native scroll monitor to toggle the condensed header pane smoothly
         window.addEventListener('scroll', function() {
             const headerElement = document.querySelector('header');
             if (window.scrollY > 40) {
