@@ -41,6 +41,10 @@ p, span, li, td, th, div, a, button, .spec-label, .spec-value {
 header {
     text-align: center;
     background-color: #111315; /* DESIGN COMPLIANCE: Pure dark matte charcoal canvas. Zero gradients. */
+    background-image: url('images/header.jpg');
+    background-size: cover;
+    background-position: center 20%;
+    background-repeat: no-repeat;
     border-bottom: 1px solid #1c1f24;
     
     position: fixed;
