@@ -161,12 +161,12 @@ header.shrunk-pane .prelude-container {
 }
 
 .gallery-row.light-room {
-    background-color: #eae3cb; /* Historic Museum Ivory Parchment Vault Floor */
+    background-color: #faf8f2; /* Historic Museum Ivory Parchment Vault Floor */
     border-bottom: 1px solid #d4cbb3;
 }
 
 .gallery-row.light-room:hover {
-    background-color: #e2dac0;
+    background-color: #f2eee2;
 }
 
 .gallery-row.dark-room {
